@@ -1,0 +1,62 @@
+% This adds a  reader to the thesis  titlepage
+% Usage:   \reader{Mr. Eyes}{Professional Peeper}
+% Jeff Tang  1/9/92
+
+\newbox\@titlereader %	\newbox\@abstractreader
+
+\def\reader#1#2{\setbox\@titlereader\vbox
+  {\unvbox\@titlereader \vskip 10pt% plus 1fil minus 1fil
+  \def\baselinestretch{1}\normalsize
+  \signature{Read by}{#1 \\ #2 \\ Thesis Reader}}
+%  \setbox\@abstractreader\vbox{\unvbox\@abstractreader
+%  \vskip\baselineskip \def\baselinestretch{1}\@normalsize
+%  \par\noindent Thesis Reader: #1 \\ Title: #2}
+}
+\def\director#1#2{\gdef\@directorname{#1}\gdef\@directortitle{#2}}
+
+%% This following bit added to keep from having to edit
+%% mitthesis.sty.  Laura Baldwin 10/21/97
+
+\def\maketitle{\begin{titlepage}
+\normalsize
+{\def\baselinestretch{1.0}\large\bf \choosecase{\@title} \par}
+\def\baselinestretch{1.5}
+by\par
+{\normalsize \choosecase{\@author}}
+\par
+\@prevdegrees
+\par
+\choosecase{Submitted to the} \choosecase{\@department} \\
+\choosecase{in partial fulfillment of the requirements for the}
+\choosecase{\@degreeword}
+\choosecase{of}
+\par
+\choosecase{\@degree}
+\par
+at the
+\par\MIT\par
+\@degreemonth\ \@degreeyear
+\par
+\@copyrightnotice
+\par
+\vskip 3\baselineskip
+%\signature{Author}{\@department \\ \@thesisdate}
+\signature{Author}{Engineering Systems Division \\ Department of Electrical Engineering and Computer Science
+ \\ \@thesisdate}
+\par
+\vfill
+\vskip 20pt
+\unvbox\@titlesupervisor
+\par
+\vskip 20pt
+\vfill
+\unvbox\@titlereader
+\par
+\vfill
+\vskip 20pt
+\signature{Accepted by}{\@chairmanname \\ \@chairmantitle}
+\vfill
+\vskip 20pt
+\signature{Accepted by}{\@directorname \\ \@directortitle}
+\end{titlepage}}
+
