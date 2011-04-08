@@ -1,0 +1,303 @@
+\chapter{Background}
+
+\section{Routing and Internet Operations}
+
+\emph{NOTE: The following background is provided as a guide to the reader in order to discuss and articulate a number of the technical features of Internet routing and operations that are crucial to understanding this thesis, and which are relied upon extensively in the approach used to answer/analyze the thesis question. Advanced readers may wish to move forward to the following chapters on coordinating Internet operations and the CIDR Report, which contain much more specific background information relevant to the specific topic of this thesis.}
+
+Interdomain routing (IDR) is essential to both the concept and operation of the Internet as a "network of networks". IDR enables the multitude of privately owned and operated networks that exist around the world to connect and exchange reachability information, which in turn enables a host connected in one network to contact another host connected to any other network. In the context of today's Internet, IDR is used to establish the topological location of blocks of network-layer identifiers---IP addresses---as well as routes to these blocks. This information allows routers within each network to send traffic destined for other networks in the appropriate "direction" in order to reach that network. The set of possible routes available for traffic from a network will be constrained by connectivity to other networks, as well as the commercial interests of Internet service providers who desire to route traffic to earn revenue or reduce costs.
+
+This chapter begins with a broad overview of some of the fundamental aspects of IDR and the provision of Internet service from both a technical and a commercial perspective. From this foundation, the specific details of the Internet routing table and the protocol, BGP, used to establish it are discussed. Finally, commonly-used Internet operations activities that utilize BGP and thus affect the routing table are discussed.
+
+\subsection{Interdomain Routing}
+
+The interconnection of diverse networks was the fundamental design goal of the Internet \cite{Design Philosophies of the DARPA Internet Protocols}. While this goal prompted a number of design decisions that have resulted in the Internet as we know it today, the Internet's system of interdomain routing is one of the key operational elements of realizing this goal.
+
+Routing generally refers to the process by which paths to specific destinations are determined, as well as the forwarding of incoming packets along the the previously-determined best path towards their ultimate destination. Each router need not know the entire path to every other destination on the network; the router simply passes the packet along to the next hop that has indicated that it knows the way to the destination. In this context, a route can be considered abstractly as a claim that the router announcing a route knows of a path that should deliver a message to a given destination, and is willing to deliver it to the next closest point in the path that it knows of.
+
+Routing takes place at two scopes in networks today. First, \emph{intradomain} routing takes place within networks, the boundaries of which are typically demarcated by infrastructure ownership or policy (i.e. a business or campus network). Routes are typically established using dynamic interior routing protocols such as RIP, OSPF, ISIS, etc. The goals of interior routing are mainly to establish network-wide reachability efficiently, with little concern about the path taken. The presence of a route simply means that a link is up and can carry traffic. Operators may adjust metrics for links to balance traffic flow across networks, but there aren't many other concerns about which parts of the network know about or utilize which routes.
+
+The second scope is between networks, such as the multitude of networks that interconnect to make the Internet. Unlike intradomain routing, \emph{interdomain} routing is focused on exchanging reachability information between various networks that are owned and operated with different policies and objectives. While reachability is still an important concern, other concerns relate to routing policy---the expression of desired behavior for network traffic. Routing policy is typically motivated by business concerns ultimately related to the carriage of traffic. In the context of interdomain routing, the exchange of routing information with another domain indicates a willingness to carry traffic to the route's destination. Thus, control of route announcements is important for business reasons. Routing policy objectives also include selective route advertisement in order to control traffic flow, as well as finer-grained capabilities to govern where traffic enters and exits a given network.
+
+On the Internet, interdomain routing information is exchanged between \emph{autonomous systems} or ASes. These represent domains of consistent routing policy \cite{RFC1930}, and typically consist of a single organization's network, though complex network designs sometimes organize an organization's networks into multiple ASes for various reasons. Each AS is identified by a unique number, an AS Number, assigned to it by the IANA or the appropriate Regional Internet Registry. These identifiers are used as short-hand operational handles to refer to networks: MIT holds AS number 3, and AT\&T's north american backbone is often referred to as "AS 7018".
+
+With the notion of a routes and autonomous systems defined, we can consider that the Internet abstractly as a directed graph with ASes as vertices and edges representing the willingness to carry traffic (according to the routes) for adjacent ASes. Let us now consider what the incentives are for ASes to interconnect, and the types of relationships this forms between networks as a result.
+
+The value that comes from interconnecting networks is a sort of network effect---like other forms of communication, the Internet's value increases as the number of hosts reachable via the Internet increases. It is a long standing tradition on the Internet for pairs of networks that receive mutual benefit from interconnecting to do so without charging the other for the traffic sent. This practice is known as peering, and the pair of connecting networks would be considered to have a peer relationship. Peering is effective when the interconnecting networks derive similar benefits from the interconnection and when they are directly adjacent, but this is not often the case in the Internet. Unlike the case where peers gain benefit from connecting and providing access to each others users/customers, peers don't benefit when they carry traffic between two other peer ASes connected to it---what's known as providing \emph{transit} for those two networks. A different approach is required for networks that don't connect directly but that still wish to reach each other via the Internet.
+
+Generally speaking, there are two ways for an autonomous system to receive routes that enable them to access the rest of the networks that compose the Internet. First, ASes may pay the other networks that they connect with to carry traffic to and from the rest of the Internet on the AS' behalf. Payment makes the carrying of traffic for others beneficial to interconnecting networks in cases where it normally wasn't in the previous discussion of peering. In these cases, the paying AS is a transit \emph{customer} of their upstream networks. Alternately, an AS operator can build its own network to have sufficient geographic breadth and presence in order to directly connect to other networks. This is a capital-intensive operation and so these networks are usually operated as businesses---network service \emph{providers}---to provide connectivity to other networks seeking connectivity to the Internet.
+
+Each autonomous system is free to interconnect and exchange routing information with other networks as they choose, and many have their own unique policies in this regard. However, the generally-accepted logic is that routing policy is a rational decision-making process with the goal of maximizing income/minimizing payment. This can be distilled into a simple set of ordered preferences for selecting routes within a given AS. To reach a given prefix from a given AS, routes are preferred in the following order of availability:
+
+\begin{enumerate}
+    \item{Prefer a customer's route, as this allows the AS to charge the customer for this traffic.}
+    \item{If a customer route is not available, prefer a peer's route as this allows the AS to send the traffic without charge.}
+    \item{If a customer or peer route is not available, use the upstream provider's route. This is the route of last resort, as the AS must pay its provider for this traffic.}
+\end{enumerate}
+
+The upstream provider route is usually installed as a "default" route, which means it matches any prefix that the AS doesn't have specific routing information about on the assumption that the upstream provider has better connectivity to other networks than the AS. This is a reasonable assumption, especially for smaller networks at the edge of the Internet, and necessarily true for those that obtain connectivity from a single provider.
+
+There is a small group of networks that are sufficiently large that they achieve reachability to all other Internet networks by using customer and peer routes. These networks are large providers that have many customers of their own, and who would never be customers of other large networks, resulting in peering relationships with their other large counterparts in order to reach the rest of the Internet. These networks do not have a default route, and are thus collectively known as the default-free zone (DFZ). The DFZ represents the "core" of the Internet, and its members have the most complete view of the Internet and play a significant role in Internet routing.
+
+\subsection{The Border Gateway Protocol}
+
+The Border Gateway Protocol (BGP) is the standard interdomain routing protocol that runs between networks to achieve Internet connectivity. The BGP specification defines a protocol for exchanging reachability information between autonomous systems, as well as an algorithm for selecting paths and means for expressing routing policy based on path advertisement and selection.
+
+BGP operates as a bilateral session established between two BGP-speaking routers in adjacent autonomous systems. Once the session is established, network layer reachability information---IP address prefixes---that are known to each router is transmitted to the other AS' router, along with attributes corresponding to the prefixes, such as the origin, as-path, or the IP address of the next hop router for packets destined for that prefix. The routes advertised to ones neighbors may either originate from with the AS (for customers, infrastructure) or be from  other neighbors that one agrees to provide connectivity for. As the paths to prefixes change (such as when a link comes up or goes down), or as new prefixes are advertised or become unreachable, update messages are sent advertising or withdrawing routes accordingly. As route updates are received, the router updates its routing information base and may select and advertise a new best path based on this change in information.
+
+A BGP route announcement might look like the following:
+
+\fbox{figure of route announcement}
+\begin{verbatim}
+	route-views>show ip bgp 18.0.0.0/8
+	BGP routing table entry for 18.0.0.0/8, version 5243
+	Paths: (38 available, best #34, table Default-IP-Routing-Table)
+	...
+	  16150 3549 1239 3
+	    217.75.96.60 from 217.75.96.60 (217.75.96.60)
+	      Origin IGP, metric 0, localpref 100, valid, external
+	      Community: 3549:2773 3549:31208 16150:63392 16150:65321 16150:65326
+	...
+\end{verbatim}
+
+The AS-PATH feature of BGP is a distinguishing characteristic of the protocol and one of the most relevant characteristics of the protocol for the purposes of this thesis. It is constructed as announcements are received and reannounced by autonomous systems providing transit to each other. Each AS who announces a route appends their AS number to the AS-PATH of the prefix. This serves to provide loop prevention, as BGP speakers ignore routes with their own AS in their AS-PATH. The AS-PATH also serves as a source of topological information, identifying the AS that first announced the prefix---the origin AS---as well as the vantage point AS and the ASes in between. In the case of the AS-PATH from the announcement above, we can see that the prefix was originated by MIT (AS 3), observed by Phonera (AS 16150) and transited by MIT's upstream provider Sprint (AS 1239) and intermediate provider Global Crossing (AS 3549). By observing the AS-PATH information contained in a diverse set of routing tables, such as is visible from Route Views \cite{http://www.routeviews.org}, a great deal of information about connectivity and topology can be gleaned.
+
+While generally not relevant to this discussion, BGP has a decision-making algorithm and tie-breaking procedure to use in consistently selecting the best path to a given prefix. What is perhaps important to note is that for forwarding traffic (as opposed to route selection), the most specific prefix that matches a given IP address will always take precedence. This is necessary to allow for subnetting, but is also what facilitates route hijacking.
+
+Finally, routing policy can be controlled and expressed in a few ways with BGP. First, route advertisements incoming from neighbors may be filtered to ensure that the routes accepted into ones routing table agree with business and operational practices. Similarly, outgoing route advertisements to other neighbors may be filtered to ensure that internal routing policy is maintained (such as not providing transit to peers). Finally, operators may tag their outbound route announcements with "BGP communities". These are generally provider-specific attributes that affect the way providers will treat route announcements, such as prepending their AS-PATHs or only announcing them to part of their network. There are only a few well-known community attributes that are defined in RFCs, including the NO-EXPORT attribute which should instruct a peer to not share (export) the prefix with any of its neighbors.
+
+\subsection{The Internet Routing Table}
+
+The Internet routing table is where global Internet reachability information is collected and maintained by each autonomous system. Each AS will construct their routing table based on the connectivity with their neighbors and their own routing policy objectives. The Internet routing table can be constructed in a number of ways, including the manual configuration of routes by a router operator, but it is most commonly constructed by running BGP with one's neighbors to exchange reachability information.
+
+While it's commonly referred to as "the" Internet routing table or the "global" routing table, there is no canonical definition of the routing table. Each AS will have it's own unique view of the Internet through its routing table because of that AS' unique position in the topology of the Internet. The AS' own policy requirements, as well as the routing policies of its neighbors will also affect the set of routes that it observes relative to other vantage points on the Internet. However, most ASes will have a roughly similar view of the Internet.
+
+The Internet routing table is implemented as two sets of related data in most routers and as used by most networks. The main table of Internet routing information in an interdomain router is more precisely defined in the BGP specification \cite{BGP RFC} as the routing information base (RIB). Many routers also maintain a forwarding information base (FIB). All feasible routes received over all BGP sessions are stored in the router's RIB and remain there unless updated or withdrawn at a later time. Because the RIB may contain multiple possible routes for a given destination, it cannot be used directly for forwarding packets. Instead, the BGP path selection algorithm is run over the RIB to select the best path for each prefix. These best paths are then installed in the FIB where they are then used to forward packets to neighboring networks in order to reach their final destination. These best paths are also exported to any peers and customers of the AS, after filtering to enforce routing policy.
+
+The FIB is typically a more compact version of the best paths in the RIB, and resembles a lookup table within each AS' border router that is used to determine the path along which incoming packets should be forwarded in order to reach their destination as specified in the IP packet header. An excerpt of what a routing table might look like is shown below:
+
+\begin{tabular}{c | c | c}
+    prefix & next\_hop & interface \\
+    \hline
+    ... & ... & ... \\
+    10.0.0.0/8  & 192.168.10.1   & eth0 \\
+	10.1.0.0/14 & 172.16.120.200 & eth1 \\
+	10.2.1.0/24 & 172.16.120.204 & eth1 \\
+    ... & ... & ...
+\end{tabular}
+
+For each incoming packet, the router searches the table for the longest, or most specific prefix, that matches the destination address and forwards the packet to the router specified by the address in the "next hop" column of the table. In the example above, a packet destined to 10.1.2.3 would be forwarded to the router at 172.16.120.200.
+
+The resources within routers that are used to store the RIB and FIB and execute the BGP route selection algorithm are generally finite and fixed by the design of a given Internet router. The RIB in a routers' route processor DRAM, and the route processor CPU executes the BGP path selection algorithm on receiving a BGP update message from a peer. These routes are then installed in the FIB which is copied to high speed lookup memory (often content-addressable memory) associated with special packet forwarding processors on router linecards \cite{}. Given these limits, the scalability of the Internet is constrained to some degree by how its growth affects the size of the Internet routing table. The upper ceiling on router memory limits the absolute growth of the routing table in terms of the number of routes it can maintain. Each entry in a router's routing table memory is often coloquially referred to as a "slot". While this memory limitation is less of a problem in modern routers with multi-gigabyte memories and multi-million route capacities, this was a significant problem in early routers as the Internet began growing quickly in the early 1990s, with routers failing or behaving unusually as the routing table consumed all available memory. In contrast, router CPU utilization poses less of an absolute limit on routing table growth, but does cause other challenges. As the size of the routing table grows, the amount of data required to be processed for a large routing update or BGP session startup/reset has become significant. It is apparently not unusual for this initial router startup process to take tens of minutes \cite{NANOG RAS inconvenient prefix} before routes are exchanged with peers and connectivity is fully established. More generally, as the time required for processing routing updates increases, the time for routes to converge after a BGP update will also increase, resulting in poor performance and potential partial loss of Internet connectivity during transient network failures.
+
+Concerns over the stability and scalability of Internet routing has made the growth of the routing table a topic of interest for at least the past two decades. A plot of the routing table over this time is shown below:
+
+\fbox{figure plot from Geoff Huston, etc., of total prefixes over time.}
+
+Its growth seems to be of less concern now given advances in router architecture and the continued performance improvement in semiconductor components keeping pace with Moore's Law \cite{Davie, Huston}. Interestingly, however, Tony Li claims that the growth of the routing table has forced router architects to make suboptimal design decisions about other aspects of router behavior in order to keep pace with this growth.
+
+\subsection{Routing Policy And BGP Network Operations}
+
+At its simplest and most efficient, the Internet routing table should contain one entry per autonomous system. Given that there are approximately 40,000 autonomous sytems visible on the Internet today, this would be a small and compact routing table, similar to that of the mid-late 1990s. However, the routing table cannot be made that simple for a number of reasons. The needs-based allocation policies used by RIRs \cite{RFC2050} to allocate blocks of IP addresses to end-user organizations results in fragmentation of IP address blocks and allocation of non-contiguous blocks to organizations as they receive new addresses over time. Such blocks cannot be announced from a single prefix, and so multiple routing table slots must be consumed to allocate each disjoint block allocated to an organization. Beyond fragmentation, most cases of increased consumption of routing table slots are the result of implementing routing policy for traffic incoming to a particular AS using the mechanisms available in BGP. A number of these mechanisms are discussed in turn below.
+
+Control of routing policy for traffic exiting an AS is relatively straightforward---the AS operator simply needs to express and adjust their preferences for which route of those that they receive from their peers, customers, and providers should be selected for carrying that traffic to the specified prefix/destination. In contrast, managing routing policy for traffic entering an AS is much more difficult because selection of the best path for traffic originating from all other networks is dependent on factors such as AS-PATH length, etc. that the receiving AS lacks control over.
+
+Many of the operational requirements of network service providers today regarding control over inbound traffic are not directly faciliated by explicit BGP features. Indeed, BGP provides only one "knobs" that an AS operator can adjust to influence its adjacent peers' path selection: the relatively limited multi-exit discriminator (MED) attribute \cite{O'Reilly BGP book?}. To achieve desired routing policy in more advanced situations such as multihoming and traffic engineering, operators must implement routing policy using other aspects of the BGP protocol. By understanding how the BGP path selection algorithm works and assuming that most peers follow the standard algorithm, an operator can implement more effective and fine-grained routing policy.
+
+It is important to note that in general, each of these behaviors allows an AS to obtain private benefit by imposing a public cost against all other participants in the global routing system. To announce a multi-homed or traffic engineered network, which provides benefit to the operator initiating that behavior by allowing them to better manage their network, they necessarily add extra routes to the routing table of every network operator that collects a full routing table from their peers.
+
+\paragraph{Multihoming}
+
+Multihoming refers to the connection of a network to the Internet by more than one upstream provider. This is typically motivated by a desire for reliability, such that one will have network connectivity even in the event of a failure or misconfiguration on the part of an upstream provider. A basic approach to establishing connectivity for a multihomed AS would be to announce all of the AS' prefixes to all of the AS' upstream providers (sometimes referred to as anycasting). Depending on one's view of the Internet, a slot in RIB may be consumed for each of these announcements (i.e. for each of the upstream providers).
+
+This will achieve the goal of multihoming, but may result in an imbalance of traffic between upstream links as distant ASes select the path to take based on factors that the origin AS likely doesn't have control over, such as the AS-PATH length. This can pose a problem if the AS' primary link is inexpensive and the backup link is expensive. The typical approach used to solve this problem is called AS-PATH prepending, where an AS will artificially lengthen their AS-PATH as observed by certain (i.e. high cost) providers in order to make specific links less attractive. Other issues regarding balance over links may arise, and these are best handled by the general class of behavior called traffic engineering.
+
+\paragraph{Traffic Engineering}
+
+Traffic engineering is the term for balancing traffic across network links to avoid runninoverloading links and allowing capacity for bursts, etc.
+
+BGP network operations that affect the Internet routing table
+       - poor advertisements
+       - multihoming and traffic engineering
+	- anycast
+	- path prepending
+	- cut-outs/more-specifics
+       - hijacking prevention
+       - prefix length filtering (and impacts on reachability therein)
+
+\paragraph{Prefix Hijacking Prevention}
+
+Prefix hijacking is the announcement of an IP address block by a network other than the legitimate owner of an address block. This can sometimes result from configuration errors \cite{Pakistan-Youtube} but can also be an intentional attack against a network \cite{DEFCON prefix hijack}. These attacks are particularly effective because routes with the longest matching prefix are selected, allowing the most specific prefix to "win" the traffic, even if its path is less optimal. To guard against the hijacking of address blocks, particularly for critical infrastructure such as authoritative name servers, some providers announce parts of their address blocks with the most specific prefix possible that they expect will be successfully pass global route filtering policy. This typically leads to the advertisement of /24 blocks for critical infrastructure. An example of which is show below, for Google's DNS servers, which are advertised as a /24 cut out of a /19 block.
+
+\begin{verbatim}
+	$ dig google.com NS
+
+	;; QUESTION SECTION:
+	;google.com.			IN	NS
+
+	;; ANSWER SECTION:
+	google.com.		283561	IN	NS	ns1.google.com.
+	...
+
+	;; ADDITIONAL SECTION:
+	ns1.google.com.		297490	IN	A	216.239.32.10
+	...
+
+	route-views>sh ip bgp 216.239.32.10
+	BGP routing table entry for 216.239.32.0/24, version 360859
+	...
+
+	route-views>sh ip bgp 216.239.32.0/24 shorter-prefixes
+	...
+	   Network          Next Hop            Metric LocPrf Weight Path
+	*  216.239.32.0/19  194.85.102.33                          0 3277 15169 i
+	...
+\end{verbatim}
+
+\section{The CIDR Report and CIDR-ization of the Internet}
+
+\subsection{Classless Interdomain Routing}
+
+In contrast with individual end hosts which are fully identified by an IP address, there is also the need to refer to networks---collections of IP addresses which are connected together in a way that they are all reached by the same link.
+
+\fbox{this is probably important to mention---the fact that the reason you define networks are to allow the abstraction in routing such that routers don't need to keep track of every end host.}
+
+End hosts/devices connected to an IP network are fully identified by their IP address, which contains both the network address and the subnetwork address of that machine on the given network. The differentiation between the network and the subnetwork is given by partitioning the 32-bit IP address into a network part and subnet part, as shown in the figure below.
+
+The original specification of the Internet Protocol implicitly encoded the size of the network in the first octet of the network address itself. Three classes were available: A, for large networks ($2^{24}$ hosts), B, for mid-sized networks ($2^{16}$ hosts), and C for small networks ($2^{8}$ hosts). Networks with the following first octet were assumed to be members of the class and thus be of that size. The distribution between A, B, and C networks was assumed by the protocol developers.
+
+	\fbox{table of address blocks and allocations}
+
+\begin{tabular}{ c | c | c | l }
+    \textsc{Class} & \textsc{Address Range} & \textsc{Hosts/Network} & \textsc{Networks/Class} \\
+    \hline
+	A & 0.0.0.0--127.0.0.0         & $2^{24}$ & $2^{7}$ (128)               \\
+	B & 128.0.0.0--191.255.0.0     & $2^{16}$ & $2^{14}$ (16384)            \\
+	C & 192.0.0.0--223.255.255.0   & $2^{8}$  & $2^{21}$ (2097152)          \\
+	D & 224.0.0.0--239.255.255.255 & \multicolumn{2}{l}{(224/4): multicast} \\
+	E & 240.0.0.0--255.255.255.255 & \multicolumn{2}{l}{(240/4): experimental}
+\end{tabular}
+
+Assignment to permit use of these addresses by organizations was performed by the IANA, and addresses were allocated on a basis of justified need. Large organizations (like MIT, Ford, etc.) typically planned to, or were assumed to have large networks and many hosts, and so were granted class A addresses. Organizations that were somewhere in the middle would be granted a class B, and organizations expecting to have less than 254 hosts would get a class C. As networks grew, they would often be assigned new blocks rather than trading up to a larger block size---this was particularly frequent in the class C space. This issue of granting new class C blocks was also exacerbated by the realization that the class B block was the most commonly needed network size, yet was under-allocated compared to class C networks. As ASes with class C blocks needed to grow, they were allocated multiple class C blocks to conserve class B blocks.
+
+Like all address blocks, each block allocated to a given AS needed to be announced to the Internet via the interdomain routing protocol, EGP and later BGP, in order to exchange traffic with other networks. Thus, each block occupied a slot in the routing table. As time wore on, particularly with the commercialization of the Internet and the transition from a single backbone to multiple backbones, the routing table began to grow to the point that it was causing problems with DFZ provider routers, particularly with hitting the ceiling of available DRAM in their routers, resulting in router failures and abnormal routing behavior \cite{tony li conversation}.
+
+	\fbox{figure from cidr/big-internet working group}
+
+The solution that was ultimately proposed to deal with this was route aggregation---the announcement of a single route that only occupied one routing table slot but covered multiple network blocks. Originally called supernetting \cite{RFC1338}, this was implemented by explicitly specifying the size of the network that was to be announced, and relaxing the previously hard boundaries specifying class A, B, and C. The deprecation of network address classes resulted in the final name of this effort, Classless Interdomain Routing, or CIDR. This was specified by the IETF in RFC 1519. Under CIDR, networks of any size could be announced, and these networks were now specified as a prefix and an explicit prefix length, typically specified in the format a.b.c.d/x. The prefix is the most significant bits of the network address that specify the network itself, and the length is the position of the partition between the network number and the subnetwork, implying the size of the subnetwork.
+
+	\fbox{table showing translation from classful to classless addresses}
+
+CIDR enabled aggregation of prefixes by combining multiple adjacent prefixes into larger networks. Route aggregation is the announcement of routes in a way that provides the same reachability as before aggregation while requiring fewer route announcements to do so. Take for example the case of announcing the block of addresses from 192.168.0.0--192.168.255.255. This could be announced with a single route (192.168.0.0/16), two routes (192.168.0.0/17, 192.168.128.0/17) or even 256 routes (192.168.0.0/24, 192.168.1.0/24, ..., 192.168.255.0/24). If these multiple prefixes are all originated by the same AS and carried to the greater Internet by the same providers, then then they provide the same connectivity and routing policy while consuming 1, 2, or 256 slots in the routing table. Thus, it is most efficient to announce address blocks as aggregated as possible.
+
+	\fbox{figure of the different ways of announcing 192.168.0.0}
+
+Determining how to announce blocks in aggregate can be done one of two ways. Adjacent, non-overlapping blocks issued by an RIR, such as the classful blocks allocated before CIDR, can be aggregated into a more specific covering prefix that is a synthetic announcement not corresponding to an RIR allocation. The other approach is to announce a less specific covering prefix that corresponds to all, or a larger part of, the classless block of addresses allocated by the RIR. In both cases, the more specific prefixes can then be withdrawn, achieving a net reduction in prefixes announced. An example of each of these approaches is shown below:
+
+	\fbox{figure showing prefixes being aggregated into larger blocks by 1) synthesizing cover of adjacent blocks, and 2) announcing cover over small blocks}
+
+With the specification of classless network addresses codified in the CIDR standard, the Border Gateway Protocol was updated to support this new method of representing networks in the context of network reachability information. The new version, version 4, of the protocol, sometimes referred to as BGP-4, was specified in YEARXXX, RFCYYYY.
+
+The deployment of BGP4 required software and sometimes hardware upgrades to routers. BGP4-speaking routers were not compatible with BGP3-speaking routers, as the previous version of the protocol didn't support CIDR. This required some routers to speak both BGP4 and BGP3 to respective neighbors during the transition period to BGP4. Nevertheless, the transition was relatively quick in Internet time, taking about 2 years (according to Tony Li) and strongly motivated by the relief in stress from routing table growth that many network operators had been facing.
+
+Even with the deployment of BGP4-speaking routers, aggregation did not automatically occur by the agency of software running on the routers. Instead, network operators needed to determine that their assigned address blocks were aggregable and then announce these aggregates "by hand". This did not always occur, especially for operators and a community that was used to speaking in terms of classful addresses. Thus, even with the necessary condition of BGP4 routers deployed, the potential savings through aggregation was not realized until network operators acted explicitly to reduce their route advertisements and the number of routing table slots they were consuming. It was this realization that drove the creation of the CIDR Report in the mid-1990s.
+
+\subsection{The CIDR Report}
+
+The CIDR report presents a summary of interesting routing table behavior related to routing table growth. The report contains a number of sections which have varied slightly over time, but it has always contained an overall summary of the size of the routing table over the past week, as well as the \emph{aggregation report}, which is of greatest interest for this thesis. The CIDR report is published via email every Friday to the major mailing lists that network operators participate in, including NANOG and similar lists in regions outside of North America. An excerpt of a recent CIDR Report is shown below:
+
+	\fbox{figure CIDR report excerpt}
+
+With each week's CIDR report, the aggregation report identifies the 30 ASes announcing the most aggregable routes, thus consuming slots in the global routing table that are unnecessary for the expression of routing policy. For the purposes of the aggregation report, an aggregable route is a route whose withdrawal would not cause a change in routing policy from the observer's (the CIDR Report host's) BGP vantage point.
+
+Elements of the CIDR Report, and in particular the aggregation report, date back to approximately 1994-1995 when it was implemented by Cisco Systems employee Tony Bates. Bates was a member of the IETF's CIDR Deployment (CIDRD) working group, and the report was conceived to educate and motivate networks about the the transition to from classful to CIDR-aggregated route announcements with the advent of BGP4. The earliest reports available on the Internet date back to 1994, when it was referred to as the "Top 10" report \cite{ftp://ftp.ietf.org/ietf-online-proceedings/94jul/area.and.wg.reports/ops/cidrd/cidrd.bates.slides.ps}.
+
+In mid-1996 the CIDRD group wound down \cite{ftp://ftp.ietf.org/ietf/cidrd/cidrd-minutes-96jun.txt}, and Tony transitioned the report to the NANOG mailing list. The first report still accessible on the Internet, collected from the NANOG mailing list archives \cite{URL...} dates from September 1996, when the report was briefly called the "Top-50" report. The report was soon renamed the CIDR Report and was issued weekly until August 2002 when responsiblity for the report was transferred to Geoff Huston of APNIC \cite{http://www.merit.edu/mail.archives/nanog/2002-08/msg00847.html}. The CIDR Report is still published every Friday (North American time zones) and has maintained a remarkably similar format over the 14 years where it can be observed on the NANOG mailing list.
+
+\subsection{Implementation of the Aggregation Report}
+
+The purpose of the aggregation report is to identify ASes announcing routes that could be more efficiently announced via aggregated route announcements without altering expressed routing policy. In the specific context of the CIDR Report, routing policy is simplified to mean inter-AS connectivity, captured via the AS-PATH for a given prefix. This is important for multihoming and some forms of traffic engineering, where it's necessary to announce more specific prefixes in addition to the covering prefix to allow traffic to be spread across multiple upstream providers instead of just taking the best route to the covering prefix. Without considering the fact that there is variation in one or more upstream ASes in the AS-PATH, these prefixes would be considered deaggregated even though they must be announced this way to achieve the desired routing policy.
+
+Given this desire to respect routing policy, the aggregation report considers a prefix aggregable with another prefix if and only if the AS-PATHs match exactly. Aggregates are sought out using what appear to be two approaches in the aggregation report. \footnote{Note that I have received some form of source from Geoff Huston but it's difficult to interpret, so this is inferred based on my reading of the general and especially the detailed report for a single AS \cite{http://www.cidr-report.org/cgi-bin/as-report?as=AS6389&view=2.0}} First, more specific prefixes announced under a convering prefixes are checked for AS-PATH matches. If the paths match, the more specific prefix is withdrawn. An example of this behavior can be found in figure x.z. Second, the routing table is searched from more-specific to less-specific prefixes for adjacent prefixes with the same AS-PATH that can can be combined into a 1-bit less specific covering prefix, allowing the two more specific prefixes to be withdrawn. An example of this was shown earlier in figure x.y. The aggregation report also apparently aggregates across an adjacent "hole", or unannounced block, if there is no prefix below it. While this generally makes sense, it is potentially over-optimistic in that it doesn't consider RIR block allocations and the holes that may result from a block being allocated but unadvertised.
+
+The number of advertised, aggregated, and withdrawn prefixes are totaled against the AS originating each of the prefixes, and these figures are exported to generate the CIDR Report, examples of which are shown below:
+
+	\fbox{figure exceprt of detailed and general (emailed) cidr reports}
+
+In these figures, 'current' or 'netsnow' refers to the total number of prefixes currently announced by the AS. 'withdrawn' refers to the number of prefixes that were able to be withdrawn after maximum aggregation. 'aggregated' refers to synthesized aggregate prefixes created by covering two adjacent prefixes. 'announced' or 'netsaggr' refers to total number of prefixes announced by the AS after maximum aggregation, and 'reduced' or 'netgain' refers to the total number of prefixes saved by the aggregation process; in other words, reduced is current less announced.
+
+The source of routing and (implicit) topology information in this case is from a provider's routing. This source/vantage point has varied over time, originally being measured from Xara.net, who had a connection to MAE East. This changed for a brief time to RouteViews before finally settling on APNIC R\&D who receives routing tables from ASX and AXY. In the case of APNIC and likely before then, the best path according to the router's BGP algorithm was selected for the analysis of a given prefix. This shouldn't generally be a problem, though potential cases such as the one below will result in a false deaggregation being claimed due to filtering, etc. on the part of one ISP.
+
+\begin{verbatim}
+	(example from email to geoff huston)
+
+	Let's say peer A (AS 30) sees:
+
+	10.0.0.0/8      30 20 10
+	10.0.0.0/9      30 20 10
+	10.128.0.0/9    30 20 10
+
+	and peer B (AS 40) sees:
+
+	10.0.0.0/8      40 10
+	10.0.0.0/9      40 30 20 10
+	10.128.0.0/9    40 30 20 10
+
+	If you were to consider both peer's views, then you could aggregate 10/8's
+	more specifics according to peer A but not according to peer B, and I was
+	wondering how your algorithm decided whether 10/8's more specifics were
+	aggregable for the CIDR report?
+
+	In the case where you use the router's best path for a given prefix
+	which is what it sounds like from your answer to my question about MOAS
+	prefixes, I assume you might see something like this for the above
+	prefixes:
+
+	10.0.0.0/8      40 10
+	10.0.0.0/9      30 20 10
+	10.128.0.0/9    30 20 10
+\end{verbatim}
+
+As noted in the previous section about BGP network operations, a number of routing policy objectives are implemented via BGP using different aspects of the protocol. Some of these are visible via the AS-PATH, while others are not. Thus, the CIDR Report may not perfectly avoid altering intentional routing policy that's not captured via the AS-PATH.
+
+Other potential problems include the fact that the provider of the view for the CIDR Report may present a slightly different view than they export---i.e. they send their unfiltered RIB best paths, which may result in the use of non-operational routes for generating the CIDR Report. Similarly, while the attribution of behavior to the origin AS generally makes sense, it's conceivable that route leaks/etc. may be caused by peers or upstream providers that do not obey BGP communities/no-export/etc. or who send this information to the CIDR Report vantage point in spite of it being filtered for actual operations. (Somehow explain that I expect Geoff Huston is competent enough to have a "good view" of the routing table, but that these are dilemmas regardless due to BGP) These and other potential dilemmas regarding the measurement and ground truth of interdomain routing behavior are discussed in the later discussion chapter.
+
+NOTE: Geoff's policy of aggregating holes should prevent gaming (if only people cared enough to game the system) by advertising non-adjacent blocks
+
+\subsection{Characteristics of the Aggregation Report}
+
+(maybe this should go in the analysis?)
+- distribution of ASes on the CIDR Report/aggregation report
+- stratification of the report
+- (total prefixes on cidr report/total prefixes in routing table), over time
+
+\section{Coordinating Internet Operations}
+
+Organizing and coordinating the Internet
+       - historical note: originally some central coordination as an
+         ARPA project, but still meritocratic and flat
+       - ultimately little regulation, which means that "code is law"
+         and people who control infrastructure can vote with their
+         feet to varying extents
+       - actors at play/with interests in the Internet space: vendors,
+         operators, business users, consumer users,
+         academics/researchers, governments, etc.
+       - evolution of formal coordination of unique and high-value
+         resources: ICANN, RIRs, etc.
+       - evolution of information coordination of technical standards
+         and best practices: IAB/IETF/IRTF, vendors roles in this, etc.
+       - least formal coordination at the operations level — can even
+         get to the point of "backdoor" communications (IRC, etc.)
+         between ISPs to keep things running or to solve major problems
+       - these are somewhat gathered in Internet operations community
+
+Internet operator communities
+       - NANOG is the canonical example, formed out of the NSFNET's
+         regional techs mailing list
+       - Other communities exist in various geographic regions —
+         shared language, culture, and ability to meet is important,
+         ad while Internet transcends geography to some degree these
+         still can't be ignored
+       - Typically provide a mailing list that carries a sizable
+         contingent even though many more read than post, as well as
+         meetings and other ways to share clue and communicate,
+         network, make business deals/connections, etc.
