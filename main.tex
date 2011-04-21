@@ -19,6 +19,7 @@
 \documentclass[12pt,twoside,letterpaper]{mitthesis}
 \usepackage{reader}
 \usepackage{lgrind}
+\usepackage{url}
 \pagestyle{plain}
 
 %% This bit allows you to either specify only the files which you wish to
@@ -31,12 +32,14 @@ process all files:}
 \ifx\files\all \typeout{Including all files.} \else \typeout{Including only \files.} \includeonly{\files} \fi
 
 \begin{document}
+\raggedbottom
 
 \include{cover}
 \pagestyle{plain}
 \include{contents}
 %\include{ch1-intro}
 \include{ch2-background}
+\include{ch3-method}
 %\appendix
 %\include{appa}
 %\include{appb}
