@@ -129,7 +129,7 @@ BGP network operations that affect the Internet routing table
 Prefix hijacking is the announcement of an IP address block by a network other than the legitimate owner of an address block. This can sometimes result from configuration errors \cite{Pakistan-Youtube} but can also be an intentional attack against a network \cite{DEFCON prefix hijack}. These attacks are particularly effective because routes with the longest matching prefix are selected, allowing the most specific prefix to "win" the traffic, even if its path is less optimal. To guard against the hijacking of address blocks, particularly for critical infrastructure such as authoritative name servers, some providers announce parts of their address blocks with the most specific prefix possible that they expect will be successfully pass global route filtering policy. This typically leads to the advertisement of /24 blocks for critical infrastructure. An example of which is show below, for Google's DNS servers, which are advertised as a /24 cut out of a /19 block.
 
 \begin{verbatim}
-	$ dig google.com NS
+	>dig google.com NS
 
 	;; QUESTION SECTION:
 	;google.com.			IN	NS
@@ -224,6 +224,8 @@ The number of advertised, aggregated, and withdrawn prefixes are totaled against
 	\fbox{figure exceprt of detailed and general (emailed) cidr reports}
 
 In these figures, 'current' or 'netsnow' refers to the total number of prefixes currently announced by the AS. 'withdrawn' refers to the number of prefixes that were able to be withdrawn after maximum aggregation. 'aggregated' refers to synthesized aggregate prefixes created by covering two adjacent prefixes. 'announced' or 'netsaggr' refers to total number of prefixes announced by the AS after maximum aggregation, and 'reduced' or 'netgain' refers to the total number of prefixes saved by the aggregation process; in other words, reduced is current less announced.
+
+\fbox{mention how rank on CIDR Report is determined, and that the top 30 are all that are included}
 
 The source of routing and (implicit) topology information in this case is from a provider's routing. This source/vantage point has varied over time, originally being measured from Xara.net, who had a connection to MAE East. This changed for a brief time to RouteViews before finally settling on APNIC R\&D who receives routing tables from ASX and AXY. In the case of APNIC and likely before then, the best path according to the router's BGP algorithm was selected for the analysis of a given prefix. This shouldn't generally be a problem, though potential cases such as the one below will result in a false deaggregation being claimed due to filtering, etc. on the part of one ISP.
 
