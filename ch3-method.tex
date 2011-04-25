@@ -202,15 +202,25 @@ After all of the RIB's routes are processed, the counts of aggregable routes att
 
 \section{Analyzing the Aggregation Report}
 
+
+
 % Handling gaps in the data
 %    continue them until the end of the gap
 % Extract data from CIDR report according to intitial selection criteria
 % Define and determine appearances from CIDR Report data
-%    **NOT** four weeks on the report
+%    **NOT** four weeks on the report -- whooops
 %    maximum gap of 8 weeks -- avoid multiple appearances
 %    also remove overlap by amalgamating appearances that start within two years of eachotehr
 % Select control group candidates and establish ``appearances'' within the control group
+%    minimum
 % For both the treatment and control group, measure behavior at various time intervals out from the initial appearaance
+
+
+% valdiity notes
+% - look at CDF of population elligible to be control
+% cidr report overall behavior notes
+% -> SELECT * FROM get_cumulative_ecr_asns();
+% -> SELECT * FROM cumulative_gcr_as_counts;
 
 
 %////////////////////////////////////////////////////////////////////////
@@ -246,7 +256,7 @@ After all of the RIB's routes are processed, the counts of aggregable routes att
 %		- all appearances on the cidr report
 %		- no appearance/randomly selected control
 %		- appearances that actually had behavior changes observed
-%	- slice by date (NOT by rank on CIDR report, and by netsnow)
+%	- slice by date (NOT by rank on CIDR report), and by netsnow
 %
 %- Variance in views of data from different peers
 %- for different origin ASes that appear on the CIDR Report
