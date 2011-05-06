@@ -16,11 +16,14 @@
 %% Page Intentionally Left Blank'', use the ``leftblank'' option, as
 %% above.
 
-\documentclass[12pt,twoside,letterpaper]{mitthesis}
+% singlespace
+
+\documentclass[12pt,twoside,letterpaper,singlespace]{mitthesis}
 \usepackage{reader}
 \usepackage{lgrind}
-\usepackage{url}
+\usepackage[pdfborder={0 0 0}]{hyperref}
 \usepackage{times}
+\usepackage{ocr}
 \usepackage{graphicx}
 \pagestyle{plain}
 
@@ -28,17 +31,19 @@
 %% process, or `all' to process all files which you \include.
 %% Krishna Sethuraman (1990).
 
-\typein [\files]{Enter file names to process, (chap1,chap2 ...), or `all' to
-process all files:}
-\def\all{all}
-\ifx\files\all \typeout{Including all files.} \else \typeout{Including only \files.} \includeonly{\files} \fi
+%\typein [\files]{Enter file names to process, (chap1,chap2 ...), or `all' to
+%process all files:}
+%\def\all{all}
+%\ifx\files\all \typeout{Including all files.} \else \typeout{Including only \files.} \includeonly{\files} \fi
 
 \begin{document}
 \raggedbottom
 
 \include{cover}
 \pagestyle{plain}
-\include{contents}
+\begin{singlespace}
+    \include{contents}
+\end{singlespace}
 \include{ch1-intro}
 \include{ch2-background}
 \include{ch3-method}
@@ -46,9 +51,9 @@ process all files:}
 \include{ch5-discussion}
 \include{ch6-relwork}
 \include{ch7-conclusion}
-%\appendix
-%\include{appa}
+\appendix
+\include{apA-opensource}
 %\include{appb}
-%\include{biblio}
+\include{biblio}
 \end{document}
 
