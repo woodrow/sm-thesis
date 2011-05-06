@@ -1,4 +1,31 @@
 \chapter{CIDR Report Analysis and Observations}
+\label{chap:analysis}
+
+\section{Characteristics of the CIDR Report}
+
+\begin{figure}
+    \includegraphics[width=6in]{figures/cumulative_asn_counts.pdf}
+    \caption{A cumulative count of the unique ASes that have appeared on the CIDR Report and compared to the unique ASes visible in the routing table at the same moment.}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=6in]{figures/viz_sample.jpg}
+    \caption{Visualization sample.}
+\end{figure}
+
+\section{Analysis of AS behavior after appearing on the CIDR Report}
+
+blah blah blah blah
+
+\begin{figure}
+    \includegraphics[width=6in]{figures/single_as.pdf}
+    \caption{Measurement methodology explanation (AS 3602).}
+\end{figure}
+
+
+\subsection{Implementation Accuracy}
+
+blah blah blah blah
 
 \begin{figure}
     \includegraphics[width=6in]{figures/data_avail.pdf}
@@ -20,21 +47,22 @@
     \caption{The number and first rank of ASes in the treatment group (top 30) of the ACR that are not in the treatment group of the GCR over time.}
 \end{figure}
 
-\begin{figure}
-    \includegraphics[width=6in]{figures/single_as.pdf}
-    \caption{Measurement methodology explanation (AS 3602).}
-\end{figure}
+\fbox{plot deaggregation factor too -- 1 / (1 - aggfrac) or total/(total-aggregable)!!}
 
-\begin{figure}
-    \includegraphics[width=6in]{figures/cumulative_asn_counts.pdf}
-    \caption{A cumulative count of the unique ASes that have appeared on the CIDR Report and compared to the unique ASes visible in the routing table at the same moment.}
-\end{figure}
+\subsection{Interpretation}
 
-\begin{figure}
-    \includegraphics[width=6in]{figures/viz_sample.jpg}
-    \caption{Visualization sample.}
-\end{figure}
+In spite of seeing aggregation behavior relative to the control, the total number of routes in the routing table does not drop over time, suggesting that old people are replaced by new ``bad guys'' or new entrants. Cittadini's study suggests that the proportion of ``bad guys'' remains the same over time (the people that would show up on the CIDR Report), suggesting the rolling-over bad guy theory.
 
+OR. The table just grew less quickly than it otherwise could have, but we can't examine the counterfactual world...?
+
+Rolling-over bad guy theory would be supported by the rate of growth of new ASes on teh CIDR report?
+
+Arthur suggests looking at the fraction (# of /24s / # of prefixes in the routing table) per AS or for the entire routing table, over time
+
+What do Cittadini's observations mean for my analysis of the later repport where people are far more deaggregated
+
+\subsection{Validity}
+It was an oversight that I didn't measure behavior of ASes before their appearance on the CIDR Reprot. However, because appearance is determined based on netgain behavior means this is likely as not as huge a challenge to validity as I expected. I still need to be concerned that appearance didn't occur because someone else got less bad, but in such a case one's aggregation fraction would be at best flat, not decreasing to start (or they should've appeared earlier).
 
 
 
