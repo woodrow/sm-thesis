@@ -18,13 +18,18 @@
 
 % singlespace
 
-\documentclass[12pt,twoside,letterpaper,singlespace]{mitthesis}
+\documentclass[12pt,twoside,letterpaper]{mitthesis}
 \usepackage{reader}
 \usepackage{lgrind}
 \usepackage[pdfborder={0 0 0}]{hyperref}
 \usepackage{times}
-\usepackage{ocr}
 \usepackage{graphicx}
+\usepackage{listings}
+\usepackage{fix-cm}
+\usepackage[loose]{subfigure}
+\usepackage{color}
+\usepackage{footnote}
+
 \pagestyle{plain}
 
 %% This bit allows you to either specify only the files which you wish to
@@ -53,6 +58,7 @@
 \include{ch7-conclusion}
 \appendix
 \include{apA-opensource}
+\include{apB-cidr_reports}
 %\include{appb}
 \include{biblio}
 \end{document}
