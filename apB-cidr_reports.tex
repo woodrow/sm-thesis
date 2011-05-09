@@ -1,0 +1,204 @@
+\chapter{Sample CIDR Reports}
+\label{chap:cidr_reports}
+
+\section{Emailed CIDR Report}
+\lstset{basicstyle=\scriptsize\ttfamily\fontsize{9.5}{9.5}\selectfont}
+\begin{lstlisting}[frame=trl]
+This report has been generated at Fri Nov 12 21:11:47 2010 AEST.
+The report analyses the BGP Routing Table of AS2.0 router
+and generates a report on aggregation potential within the table.
+
+Check http://www.cidr-report.org for a current version of this report.
+
+Recent Table History
+        Date      Prefixes    CIDR Agg
+        05-11-10    337795      206264
+        06-11-10    337843      206672
+        07-11-10    338022      206620
+        08-11-10    338060      207433
+        09-11-10    339052      207760
+        10-11-10    339893      207903
+        11-11-10    340203      208173
+        12-11-10    340330      208528
+
+
+AS Summary
+         35919  Number of ASes in routing system
+         15316  Number of ASes announcing only one prefix
+          4556  Largest number of prefixes announced by an AS
+                AS4323 : TWTC - tw telecom holdings, inc.
+      101649920  Largest address span announced by an AS (/32s)
+                AS4134 : CHINANET-BACKBONE No.31,Jin-rong Street
+
+
+Aggregation Summary
+The algorithm used in this report proposes aggregation only
+when there is a precise match using the AS path, so as
+to preserve traffic transit policies. Aggregation is also
+proposed across non-advertised address space ('holes').
+
+ --- 12Nov10 ---
+ASnum    NetsNow NetsAggr  NetGain   % Gain   Description
+
+Table     340755   208585   132170    38.8%   All ASes
+
+AS6389      3751      407     3344    89.1%   BELLSOUTH-NET-BLK -
+                                               BellSouth.net Inc.
+AS4323      4556     1679     2877    63.1%   TWTC - tw telecom holdings,
+                                               inc.
+AS6503      2001      433     1568    78.4%   Axtel, S.A.B. de C.V.
+AS19262     1780      316     1464    82.2%   VZGNI-TRANSIT - Verizon Online
+                                               LLC
+AS4766      1728      575     1153    66.7%   KIXS-AS-KR Korea Telecom
+AS17488     1360      272     1088    80.0%   HATHWAY-NET-AP Hathway IP Over
+                                               Cable Internet
+AS22773     1242      164     1078    86.8%   ASN-CXA-ALL-CCI-22773-RDC -
+                                               Cox Communications Inc.
+AS4755      1385      403      982    70.9%   TATACOMM-AS TATA
+                                               Communications formerly VSNL
+                                               is Leading ISP
+AS18566     1091      158      933    85.5%   COVAD - Covad Communications
+                                               Co.
+AS24560     1056      201      855    81.0%   AIRTELBROADBAND-AS-AP Bharti
+                                               Airtel Ltd., Telemedia
+                                               Services
+AS10620     1333      523      810    60.8%   Telmex Colombia S.A.
+AS33363     1560      784      776    49.7%   BHN-TAMPA - BRIGHT HOUSE
+                                               NETWORKS, LLC
+AS18101      905      138      767    84.8%   RELIANCE-COMMUNICATIONS-IN
+                                               Reliance Communications
+                                               Ltd.DAKC MUMBAI
+AS7545      1438      698      740    51.5%   TPG-INTERNET-AP TPG Internet
+                                               Pty Ltd
+AS28573     1167      514      653    56.0%   NET Servicos de Comunicao S.A.
+AS8452      1073      434      639    59.6%   TE-AS TE-AS
+AS4808       922      287      635    68.9%   CHINA169-BJ CNCGROUP IP
+                                               network China169 Beijing
+                                               Province Network
+AS8151      1345      721      624    46.4%   Uninet S.A. de C.V.
+AS17676      640       66      574    89.7%   GIGAINFRA Softbank BB Corp.
+AS7303       826      256      570    69.0%   Telecom Argentina S.A.
+AS22047      563       31      532    94.5%   VTR BANDA ANCHA S.A.
+AS3356      1191      690      501    42.1%   LEVEL3 Level 3 Communications
+AS7552       642      141      501    78.0%   VIETEL-AS-AP Vietel
+                                               Corporation
+AS9443       571       76      495    86.7%   INTERNETPRIMUS-AS-AP Primus
+                                               Telecommunications
+AS1785      1799     1320      479    26.6%   AS-PAETEC-NET - PaeTec
+                                               Communications, Inc.
+AS14420      571      100      471    82.5%   CORPORACION NACIONAL DE
+                                               TELECOMUNICACIONES - CNT EP
+AS4780       713      243      470    65.9%   SEEDNET Digital United Inc.
+AS4804       540       76      464    85.9%   MPX-AS Microplex PTY LTD
+AS36992      650      189      461    70.9%   ETISALAT-MISR
+AS6478      1392      932      460    33.0%   ATT-INTERNET3 - AT&T Services,
+                                               Inc.
+
+Total      39791    12827    26964    67.8%   Top 30 total
+
+
+Possible Bogus Routes
+\end{lstlisting}
+\begin{center}
+\emph{\ldots list of bogons removed \ldots}
+\end{center}
+\begin{lstlisting}[frame=brl]
+Please see http://www.cidr-report.org for the full report
+
+------------------------------------
+Copies of this report are mailed to:
+  nanog at merit.edu
+  eof-list at ripe.net
+  apops at apops.net
+  routing-wg at ripe.net
+  afnog at afnog.org
+\end{lstlisting}
+
+\clearpage
+\section{Detailed CIDR Report}
+\lstset{basicstyle=\scriptsize\ttfamily\fontsize{7}{7}\selectfont}
+\begin{lstlisting}[frame=trl]
+Aggregation Report: Aggregation using AS prepended PATH
+
+Report prepared at Sat, 13 Nov 2010 04:11:55 UTC+1000, using data obtained within AS0.6447
+
+The report may include routes internal to AS0.6447, and may also include routes
+that are accepted from adjacent AS's and marked "NO EXPORT". The report also
+does not take into account conditions local to each origin AS in terms of policy
+or traffic engineering requirements. As an aggregation guide, this report is a
+very approximate guide at best.
+
+AS list, ordered by net reduction in advertisements
+
+AS            AS Name                                      Current  Wthdw  Aggte  Annce Redctn       %
+              Routing Table                                 347822 174358  29764 203228 144594  41.57%
+AS6389        BELLSOUTH-NET-BLK - BellSouth.net Inc.          3755   3526     53    282   3473  92.49%
+AS4323        TWTC - tw telecom holdings, inc.                4555   3501    461   1515   3040  66.74%
+AS19262       VZGNI-TRANSIT - Verizon Online LLC              1782   1643    144    283   1499  84.12%
+AS4538        ERX-CERNET-BKB China Education and Research N   1670   1428     44    286   1384  82.87%
+AS6503        Axtel, S.A.B. de C.V.                           2003   1534    258    727   1276  63.70%
+AS4766        KIXS-AS-KR Korea Telecom                        1866   1315    122    673   1193  63.93%
+AS22773       ASN-CXA-ALL-CCI-22773-RDC - Cox Communication   1243   1184     10     69   1174  94.45%
+AS4755        TATACOMM-AS TATA Communications formerly VSNL   1383   1196     29    216   1167  84.38%
+AS17488       HATHWAY-NET-AP Hathway IP Over Cable Internet   1360   1210    151    301   1059  77.87%
+AS6478        ATT-INTERNET3 - AT&T Services, Inc.             1392   1225    174    341   1051  75.50%
+AS1785        AS-PAETEC-NET - PaeTec Communications, Inc.     1799   1146    106    759   1040  57.81%
+AS28573       NET Servicos de Comunicao S.A.                  1182    948    103    337    845  71.49%
+AS33363       BHN-TAMPA - BRIGHT HOUSE NETWORKS, LLC          1560   1015    234    779    781  50.06%
+AS20115       CHARTER-NET-HKY-NC - Charter Communications     1552    991    216    777    775  49.94%
+AS24560       AIRTELBROADBAND-AS-AP Bharti Airtel Ltd., Tel   1056    860     92    288    768  72.73%
+AS18101       RELIANCE-COMMUNICATIONS-IN Reliance Communica    905    813     46    138    767  84.75%
+AS10620       Telmex Colombia S.A.                            1333    963    207    577    756  56.71%
+AS8151        Uninet S.A. de C.V.                             1351    933    212    630    721  53.37%
+AS3356        LEVEL3 Level 3 Communications                   1204    744     31    491    713  59.22%
+AS7303        Telecom Argentina S.A.                           826    776     71    121    705  85.35%
+AS11492       CABLEONE - CABLE ONE, INC.                      1256    778    111    589    667  53.11%
+AS8452        TE-AS TE-AS                                     1073    846    184    411    662  61.70%
+AS4808        CHINA169-BJ CNCGROUP IP network China169 Beij    948    720     59    287    661  69.73%
+AS18566       COVAD - Covad Communications Co.                1091    651     26    466    625  57.29%
+AS7545        TPG-INTERNET-AP TPG Internet Pty Ltd            1436    823    221    834    602  41.92%
+AS855         CANET-ASN-4 - Bell Aliant Regional Communicat    628    586     11     53    575  91.56%
+AS17676       GIGAINFRA Softbank BB Corp.                      640    576      3     67    573  89.53%
+AS4780        SEEDNET Digital United Inc.                      718    574     32    176    542  75.49%
+AS7552        VIETEL-AS-AP Vietel Corporation                  642    583     44    103    539  83.96%
+\end{lstlisting}
+\begin{center}
+\emph{\ldots middle of list (35743 lines) omitted \ldots}
+\end{center}
+\begin{lstlisting}[frame=brl]
+AS3.644       COLOBRIDGE-AS Colobridge gmbh                      1      0      0      1      0   0.00%
+AS3.641       TASJIL-PRODUCTION-AS tasjil art production an      1      0      0      1      0   0.00%
+AS3.643       TEREWENKO-AS FOP TERESHCHENKO OLEKSANDR TROHU      1      0      0      1      0   0.00%
+AS3.647       VSESVIT-AS ZAT Televizijni kabelni merezhi Vs      1      0      0      1      0   0.00%
+AS3.650       SCB-AS LLC ICB "Sovcombank"                        1      0      0      1      0   0.00%
+AS3.648       METALLINVEST-AS Metallinvest LLC                   1      0      0      1      0   0.00%
+AS3.651       OPTIVERA jsc company optivera                      1      0      0      1      0   0.00%
+AS3.654       AMBIT-ASN AMBIT SYSTEMY INFORMATYCZNE BOGDAN       1      0      0      1      0   0.00%
+AS3.656       LUXTELECOM Luxembourg Telecom S.A.                 1      0      0      1      0   0.00%
+AS3.662       VIVICOM-AS VIVICOM Polska Dariusz Latecki          1      0      0      1      0   0.00%
+AS3.676       INVITELSK Invitel International SK&CZ              2      0      0      2      0   0.00%
+AS3.672       NVT-AS Closed Joint Stock Company NOVOTEL          1      0      0      1      0   0.00%
+AS3.668       TE-AS LLC "Telecom-express"                        1      0      0      1      0   0.00%
+AS3.665       OGK4-AS OJSC OGK-4                                 1      0      0      1      0   0.00%
+AS3.666       SSM-GLIWICE-AS Slaska Siec Metropolitalna sp.      1      0      0      1      0   0.00%
+AS3.667       ASLINKTELECOMNN Link Telecom NN Ltd.               1      0      0      1      0   0.00%
+AS3.670       GOLTA-NETWORKS FOP Getman Valentyn Borysovych      1      0      0      1      0   0.00%
+AS3.671       WIZJANET WizjaNet Pawel Strykowski Marcin Tom      1      0      0      1      0   0.00%
+AS3.674       WGMAST Wood Group Management Services Ltd          1      0      0      1      0   0.00%
+AS3.682       ATWORKS-AS @Works SRL                              1      0      0      1      0   0.00%
+AS3.677       SOFTNET-PL-AS SoftNet Sp. z o.o.                   1      0      0      1      0   0.00%
+AS3.683       EN-TO-TRE-HJEMMESIDE-AS 123hjemmeside ApS          1      0      0      1      0   0.00%
+AS3.699       BRUMOVICE_NET Jiri Strohalm PE                     1      0      0      1      0   0.00%
+AS3.710       HARDCOM-AS HardCom Sp. z o.o.                      2      0      0      2      0   0.00%
+AS3.702       JUTRA FUH JUTRA Artur Kujawski                     1      0      0      1      0   0.00%
+AS3.707       ASRPK Rostovskaya proizvoditelnaya kompaniya       1      0      0      1      0   0.00%
+AS3.715       B-AND-P-FUND-SERVICE-AB B & P Fund service AB      1      0      0      1      0   0.00%
+AS3.731       FAKTA-AS Karlstrom & Dahlstrand AB                 1      0      0      1      0   0.00%
+AS3.719       LETYTA-AS STRYI ISP AS                             1      0      0      1      0   0.00%
+AS3.727       FREEBIT PE Sukhomlin Vitaliy Leonidovich           1      0      0      1      0   0.00%
+\end{lstlisting}
+
+
+
+%\clearpage
+%\newpage
