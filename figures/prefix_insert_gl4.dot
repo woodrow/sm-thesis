@@ -1,0 +1,36 @@
+strict graph {
+	graph [ordering=out, margin=0, ratio=expand, size="6,2.5"];
+	node [label="\N"];
+	graph [bb="0,0,551,324"];
+	"10.0.0.0/8" [label="10.0.0.0/8", shape=box, fontname=Arial, penwidth=2, pos="270,306", width="1.1111", height="0.5"];
+	"10.0.0.0/9" [label="10.0.0.0/9", shape=box, fontname=Arial, style=dashed, pos="210,234", width="1.1111", height="0.5"];
+	"10.128.0.0/9" [label="10.128.0.0/9", shape=box, fontname=Arial, style=dashed, pos="330,234", width="1.3611", height="0.5"];
+	"10.0.0.0/10" [label="10.0.0.0/10", shape=box, fontname=Arial, penwidth=2, pos="99,162", width="1.2222", height="0.5"];
+	"10.64.0.0/10" [label="10.64.0.0/10", shape=none, fontname=Arial, fontcolor=grey50, pos="210,162", width="1.3611", height="0.5"];
+	"10.128.0.0/10" [label="10.128.0.0/10", shape=box, fontname=Arial, penwidth=2, pos="330,162", width="1.4722", height="0.5"];
+	"10.192.0.0/10" [label="10.192.0.0/10", shape=none, fontname=Arial, fontcolor=grey50, pos="454,162", width="1.4722", height="0.5"];
+	"10.0.0.0/11" [label="10.0.0.0/11", shape=none, fontname=Arial, fontcolor=grey50, pos="44,90", width="1.2222", height="0.5"];
+	"10.32.0.0/11" [label="10.32.0.0/11", shape=box, fontname=Arial, style=dashed, pos="154,90", width="1.3333", height="0.5"];
+	"10.128.0.0/11" [label="10.128.0.0/11", shape=none, fontname=Arial, fontcolor=grey50, pos="273,90", width="1.4444", height="0.5"];
+	"10.160.0.0/11" [label="10.160.0.0/11", shape=box, fontname=Arial, style=dashed, pos="475,90", width="1.4444", height="0.5"];
+	"10.32.0.0/12" [label="10.32.0.0/12", shape=none, fontname=Arial, fontcolor=grey50, pos="87,18", width="1.3611", height="0.5"];
+	"10.48.0.0/12" [label="10.48.0.0/12", shape=box, fontname=Arial, penwidth=2, pos="203,18", width="1.3611", height="0.5"];
+	"10.160.0.0/12" [label="10.160.0.0/12", shape=none, fontname="Arial", fontcolor=grey50, pos="374,18", width="1.4722", height="0.5"];
+	"10.176.0.0/12" [label="10.176.0.0/12", shape=none, fontname=Arial, fontcolor=grey50, pos="498,18", width="1.4722", height="0.5"];
+	cursor [label=cursor, shape=none, fontname="Arial Bold", fontcolor=red, pos="475,150", width="0.86111", height="0.5"];
+	"10.0.0.0/8" -- "10.0.0.0/9" [penwidth=2, pos="254.86,287.83 245.83,277 234.41,263.29 225.34,252.41"];
+	"10.0.0.0/8" -- "10.128.0.0/9" [penwidth=2, pos="285.14,287.83 294.17,277 305.59,263.29 314.66,252.41"];
+	"10.0.0.0/9" -- "10.0.0.0/10" [penwidth=2, pos="181.99,215.83 165.16,204.92 143.83,191.08 127,180.16"];
+	"10.0.0.0/9" -- "10.64.0.0/10" [style=dashed, pos="210,215.83 210,205 210,191.29 210,180.41"];
+	"10.128.0.0/9" -- "10.128.0.0/10" [penwidth=2, pos="330,215.83 330,205 330,191.29 330,180.41"];
+	"10.128.0.0/9" -- "10.192.0.0/10" [style=dashed, pos="361.29,215.83 380.09,204.92 403.92,191.08 422.72,180.16"];
+	"10.0.0.0/10" -- "10.0.0.0/11" [style=dashed, pos="85.121,143.83 76.847,133 66.372,119.29 58.066,108.41"];
+	"10.0.0.0/10" -- "10.32.0.0/11" [penwidth=2, pos="112.88,143.83 121.15,133 131.63,119.29 139.93,108.41"];
+	"10.128.0.0/10" -- "10.128.0.0/11" [style=dashed, pos="315.62,143.83 307.04,133 296.19,119.29 287.58,108.41"];
+	"10.128.0.0/10" -- "10.160.0.0/11" [penwidth=2, pos="366.59,143.83 388.65,132.88 416.66,118.97 438.67,108.04"];
+	"10.32.0.0/11" -- "10.32.0.0/12" [style=dashed, pos="137.09,71.831 127.01,61 114.25,47.288 104.13,36.413"];
+	"10.32.0.0/11" -- "10.48.0.0/12" [penwidth=2, pos="166.36,71.831 173.74,61 183.07,47.288 190.47,36.413"];
+	"10.160.0.0/11" -- "10.160.0.0/12" [label="0", fontcolor=red, fontname="Arial Bold", style=dashed, pos="449.51,71.831 434.2,60.917 414.79,47.076 399.48,36.163"];
+	"10.160.0.0/11" -- "10.176.0.0/12" [label="1", fontcolor=red, fontname="Arial Bold", style=dashed, pos="480.8,71.831 484.26,61 488.64,47.288 492.12,36.413"];
+	cursor -- "10.160.0.0/11" [dir=forward, arrowhead=normal, color=red, pendwidth=2];
+}

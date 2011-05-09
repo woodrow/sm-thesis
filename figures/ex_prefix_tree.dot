@@ -1,0 +1,43 @@
+strict graph {
+    ordering=out;
+    margin=0;
+    ratio="expand";
+    size="6,2.5";
+    "10.0.0.0/8" [label="10.0.0.0/8\nAS_PATH-1, AS_PATH-2", shape=box, fontname="Arial", penwidth=2];
+
+    "10.0.0.0/9" [label="10.0.0.0/9", shape=box, fontname="Arial", style=dashed];
+    "10.0.0.0/8" -- "10.0.0.0/9" [penwidth=2];
+    "10.128.0.0/9" [label="10.128.0.0/9", shape=box, fontname="Arial", style=dashed];
+    "10.0.0.0/8" -- "10.128.0.0/9" [penwidth=2];
+
+    "10.0.0.0/10" [label="10.0.0.0/10\nAS_PATH-1", shape=box, fontname="Arial", penwidth=2];
+    "10.0.0.0/9" -- "10.0.0.0/10" [penwidth=2];
+/*
+    "10.64.0.0/10" [label="10.64.0.0/10", shape=box, fontname="Arial", style=invis];
+*/
+    "10.64.0.0/10" [label="10.64.0.0/10", shape=none, fontname="Arial", fontcolor=grey50];
+    "10.0.0.0/9" -- "10.64.0.0/10" [style=dashed];
+    "10.128.0.0/10" [label="10.128.0.0/10\nAS_PATH-2", shape=box, fontname="Arial", penwidth=2];
+    "10.128.0.0/9" -- "10.128.0.0/10" [penwidth=2];
+/*
+    "10.192.0.0/10" [label="10.192.0.0/10", shape=box, fontname="Arial", style=invis];
+*/
+    "10.192.0.0/10" [label="10.192.0.0/10", shape=none, fontname="Arial", fontcolor=grey50];
+    "10.128.0.0/9" -- "10.192.0.0/10" [style=dashed];
+
+/*
+    "10.0.0.0/11" [label="10.0.0.0/11", shape=box, fontname="Arial", style=invis];
+*/
+    "10.0.0.0/11" [label="10.0.0.0/11", shape=none, fontname="Arial", fontcolor=grey50];
+    "10.0.0.0/10" -- "10.0.0.0/11" [style=dashed];
+    "10.32.0.0/11" [label="10.32.0.0/11", shape=box, fontname="Arial", style=dashed];
+    "10.0.0.0/10" -- "10.32.0.0/11" [penwidth=2];
+
+/*
+    "10.32.0.0/12" [label="10.32.0.0/12", shape=box, fontname="Arial", style=invis];
+*/
+    "10.32.0.0/12" [label="10.32.0.0/12", shape=none, fontname="Arial", fontcolor=grey50];
+    "10.32.0.0/11" -- "10.32.0.0/12" [style=dashed];
+    "10.48.0.0/12" [label="10.48.0.0/12\nAS_PATH-2", shape=box, fontname="Arial", penwidth=2];
+    "10.32.0.0/11" -- "10.48.0.0/12" [penwidth=2];
+};

@@ -1,0 +1,29 @@
+strict graph {
+	graph [ordering=out, margin=0, nodesep="0.5", ranksep="0.5", size="6,1", outputorder="edgesfirst"];
+	node [label="\N"];
+	graph [bb="0,0,371,108"];
+	fake2 [style=invis, pos="49,90", width="0.86111", height="0.5"];
+	3 [label="AS 3", shape=oval, fontname=Arial, penwidth=2, pos="322,18", width="0.88889", height="0.5"];
+	1239 [label="AS 1239", shape=oval, fontname=Arial, penwidth=2, pos="322,90", width="1.3611", height="0.5"];
+	3549 [label="AS 3549", shape=oval, fontname=Arial, penwidth=2, pos="188,90", width="1.3611", height="0.5"];
+	16150 [label="AS 16150", shape=oval, fontname=Arial, penwidth=2, pos="188,18", width="1.5", height="0.5"];
+	6447 [label="AS 6447", shape=oval, fontname=Arial, penwidth=2, pos="49,18", width="1.3611", height="0.5"];
+
+	30 [label="", shape=point, pos="342,25", width="0", height="0", color="green"];
+	12390 [label="", shape=point, pos="342,80", width="0", height="0", color="green"];
+	35490 [label="", shape=point, pos="170,80", width="0", height="0", color="green"];
+	161500 [label="", shape=point, pos="170,30", width="0", height="0", color="green"];
+	64470 [label="", shape=point, pos="50,30", width="0", height="0", color="green"];
+
+	"30" -- "12390" [penwidth=4, color="red", dir=forward, arrowhead=normal, arrowsize=1.5];
+	"12390" -- "35490" [penwidth=4, color="red", dir=forward, arrowhead=normal, arrowsize=1.5];
+	"35490" -- "161500" [penwidth=4, color="red", dir=forward, arrowhead=normal, arrowsize=1.5];
+	"161500" -- "64470" [penwidth=4, style=solid, color="red", dir=forward, arrowhead=normal, arrowsize=1.5];
+
+	3549 -- 16150 [penwidth=2, dir=back, arrowhead=normal, pos="s,188,71.831 188,61.573 188,53.108 188,44.059 188,36.413"];
+	1239 -- 3 [penwidth=2, dir=back, arrowhead=normal, pos="s,322,71.831 322,61.573 322,53.108 322,44.059 322,36.413"];
+	16150 -- 6447 [penwidth=2, style=dashed, constraint=false, pos="133.94,18 122.01,18 110.07,18 98.139,18"];
+	3549 -- 1239 [penwidth=2, constraint=false, pos="237.2,90 249.13,90 261.05,90 272.98,90"];
+	fake2 -- 6447 [style=invis, pos="49,71.831 49,61 49,47.288 49,36.413"];
+
+}

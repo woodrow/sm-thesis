@@ -1,0 +1,15 @@
+strict graph {
+	graph [ordering=out, margin=0, nodesep=0.5, ranksep=0.5, size="6,1"];
+	"fake2" [style=invis];
+	"3" [label="AS 3", shape=oval, fontname=Arial, penwidth=2];
+	"1239" [label="AS 1239", shape=oval, fontname=Arial, penwidth=2];
+	"3549" [label="AS 3549", shape=oval, fontname=Arial, penwidth=2];
+	"16150" [label="AS 16150", shape=oval, fontname=Arial, penwidth=2];
+	"6447" [label="AS 6447", shape=oval, fontname=Arial, penwidth=2];
+
+	"3549" -- "16150" [penwidth=2, dir=back, arrowhead=normal];
+	"1239" -- "3" [penwidth=2, dir=back, arrowhead=normal];
+    "16150" -- "6447" [penwidth=2, style=dashed, constraint=false];
+	"3549" -- "1239" [penwidth=2, constraint=false];
+    "fake2" -- "6447" [style=invis];
+}
