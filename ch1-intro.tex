@@ -17,11 +17,11 @@ While invisible to most Internet users, interdomain routing is one of the fundam
 In the face of continued growth, the interdomain routing system used by Internet networks faces scalability limits stemming from its design and operation that can limit the ability of network service providers to build and operate networks efficiently. The size and growth rate of the Internet routing table, and specifically the number of prefixes in the table, is one of the major sources of potential scaling issues \cite{rfc4984}. There are a number of causes for this growth, including the addition of new customers and networks in response to increased Internet demand and use, as well as network engineering and the expression of routing policy for existing networks. As shown in Figure \ref{fig:huston_table_plot}, the Internet routing table has grown at a super-linear, sometimes exponential, rate over time \cite{Huston:2001bs}.
 
 \begin{figure}[h]
-\begin{centering}
+\begin{center}
     \includegraphics[width=5in]{static_figures/huston_table_plot.png}
     \caption[Growth of the Internet (DFZ) routing table, 1994-present]{Growth of the Internet (DFZ) routing table, 1994-present \cite{6447-table-report}.}
     \label{fig:huston_table_plot}
-\end{centering}
+\end{center}
 \end{figure}
 
 % Some claim that engineering efforts -- Moore's law and etc -- make this a non-issue. others claim that the lack of feedback means that this issue lies in wait, and may come back to be problematic
@@ -36,11 +36,12 @@ Table growth causes engineering trade-offs to be made by router vendors \cite{Li
 
 % the theoretical\footnote{or even the more reasonable upper bound of $O(k\,2^{24})$ prefixes based on current RIR and operator policies} upper bound of $O(k\,2^{32})$ prefixes (where $k$ is a constant representing the number peers one connects to) is orders of magnitude beyond the capacity of any current router
 \begin{figure}
-\begin{centering}
-    \includegraphics[width=5in]{static_figures/li_router_scalability.pdf}
-    \caption[Normalized growth factors of the Internet routing table relative to Moore's Law]{Normalized growth factors of the Internet routing table relative to Moore's Law and other desirable engineering objectives, semiconductor chip cost and routing protocol convergence time, from 1999-2007 \cite{Li:2006cr}.}
+\begin{center}
+    \includegraphics[width=6in]{static_figures/li_relgrowth.pdf}
+    \vspace{-2em}\\
+    \caption[Normalized growth factors of the Internet routing table relative to Moore's Law]{Normalized growth factors (smoothed over a 2 year window) of the Internet routing table relative to Moore's Law and other desirable engineering objectives, semiconductor chip cost and routing protocol convergence time, from 1999-2007 \cite{Li:2006cr}.}
     \label{fig:li_router_scalability}
-\end{centering}
+\end{center}
 \end{figure}
 
 The specter of routing table scaling problems has been encountered once before in the history of the Internet. In the early 1990s, as the Internet was becoming more commercial and moving from a single hierarchical backbone to multiple backbone providers, the Internet routing table began to grow at a rate that would exceed the capabilities of routers available at this time \cite{Huston:2001bs} and in some cases actually did affect the operational behavior of the routers \cite{Li:2011vn}. The solution to this problem was fundamentally a technical one: updating the addressing and routing architecture of the Internet to allow networks to be aggregated, or advertised in larger blocks, consuming fewer entries in the routing table. However, the adoption of these technical protocol changes and improvements in operational behavior required to enjoy benefit from these changes was promoted at least in part by social forces within the operator community. 
@@ -63,42 +64,30 @@ As with any study of a single case, it is generally not possible to make general
 
 The unconstrained growth of the Internet routing table is often considered a commons problem: individuals derive private benefit from adding entries to the table, but each entry incurs a public cost---a negative externality---for all others that participate in the Internet routing system. The public cost is not necessarily trivial either, with one network operator roughly estimating the the marginal cost of a BGP prefix at \$6000-\$8000 per year \cite{Herrin:2008qa} and a researcher estimating the same figure at \$77,000 over the lifetime of the router \cite{Clayton:2010bh}. This cost is not borne by any one network, but is the estimated cost of the fraction of router resources consumed by one route across all BGP-speaking routers with a full (DFZ) routing table.
 
-Discussions of the problem \cite{Huston:2001bs,Clayton:2010bh,Bellovin:2001qf} often invoke Hardin's \cite{Hardin:1968uq} notion of the tragedy of the commons---that individually rational actors will attempt to maximize consumption of a resource because they privately enjoy the full benefit of this consumption but share the cost of its reduced capacity, making all actors worse off. Common solutions advocated for such problems are the establishment of a central regulator or private property rights. However, the Internet routing table and interdomain routing lacks both such features and has not yet been reduced to tragedy.
+Discussions of the problem \cite{Huston:2001bs,Clayton:2010bh,Bellovin:2001qf} often invoke Hardin's \cite{Hardin:1968uq} notion of the tragedy of the commons---that individually rational actors will attempt to maximize consumption of a resource because they privately enjoy the full benefit of this consumption but share the cost of its reduced capacity, making all actors worse off. Common solutions advocated for such problems are the establishment of a central regulator or private property rights. However, the Internet routing table and interdomain routing lacks both such features and has not yet been reduced to tragedy. This is arguably a result, at least in part, of the property rights and governance regime of the interdomain routing system. By understanding these characteristics, it may be helpful in understanding the CIDR Report and other approaches to enable more effective management of the routing table.
 
-In contrast to the broad notion of a ``commons problem'', Ostrom \cite{Ostrom:1990fv} presents the more nuanced concept of common pool resources (CPR) and CPR management problems. Her work has mostly focused on the management of natural resources such as fisheries, forests, and aquifers, but the general elements of the framework are applicable to other cases as well. In Ostrom's model of common pool resources, the \emph{resource system} (such as a fishery) is considered separately from the subtractable \emph{resource units} (in this example, fish) that can be extracted from the resource. The resource system produces some number of units that can be extracted sustainably, and beyond that point extraction causes harm to the system itself. Actors that extract resource units are referred to as \emph{appropriators} (fishers), and actors that take efforts to improve or sustain the resource (such as farming and stocking bodies of water with fish) are \emph{producers}. In all cases, the essential defining qualities of a CPR are that it is difficult to exclude others from using the resources (there are no private property rights), and that the resource is rivalrous (the use of the resource by one actor precludes its use by another).
+In contrast to the broad notion of a ``commons problem'', Ostrom \cite{Ostrom:1990fv} presents the more nuanced concept of common pool resources (CPR) and CPR management problems. Her work has mostly focused on the management of natural resources such as fisheries, forests, and aquifers, but the general elements of the framework are applicable to other cases as well. In Ostrom's model of common pool resources, the \emph{resource system} (such as a fishery) is considered separately from the subtractable \emph{resource units} (in this example, fish) that can be extracted from the resource. The resource system produces some number of units that can be extracted sustainably, and beyond that point extraction causes harm to the system itself. Actors that extract resource units are referred to as \emph{appropriators} (fishers), and actors that take efforts to improve or sustain the resource (such as farming and stocking bodies of water with fish) are \emph{producers}. If the resource system is not naturally occurring, then it must be created or organized by \emph{providers}. In all cases, the essential defining qualities of a CPR are that it is difficult to exclude others from using the resources (there are no private property rights), and that the resource is rivalrous (the use of the resource by one actor precludes its use by another).
 
-The CPR framework can also be mapped relatively cleanly to the case of the Internet routing table. The Internet and it's interdomain routing system is not a natural resource, but it can still be viewed as a CPR resource system, with routing table capacity (``slots'') being the resource units. The value of the system is in its existence and continued functionality in interconnecting networks, rather than in the ``extraction'' of routing table slots, but 
+The CPR framework can also be mapped relatively cleanly to the case of the Internet routing table. The Internet's interdomain routing system is a CPR resource system provided collectively by every network that maintains a router with a full table of BGP routes. 
+%Operators of more popular or higher-traffic networks ostensibly must buy more equipment and thus pay a higher cost for their part of the system in order to meet demand, but in the case of content provider or ISPs this is often compensated for by payments (though based on traffic, not on routing table prefixes). 
+There is not a single global routing table---each provider maintains their own version of the global routing table. However, the value in the routing table is its consistency and uniqueness across all Internet participants in order to allow global reachability. It is technically feasible for one network to exclude others's routes from the routing table, but the value of the interdomain routing system is in global reachability, and so it is difficult to exclude routes without potentially reducing the utility of the network's connectivity to the Internet. 
 
--- arguably large service providers play a larger/more notable provider role
+Routing table capacity (``slots'' or routes) are the resource units of the routing table CPR. Routing table entries are not intrinsically valuable in that they cannot be ``extracted'' and used elsewhere. However, they are valuable in that they permit interconnection and reachability to the rest of the Internet. It is necessary for each network connected to the Internet to occupy at least one slot in order to make a network available to the Internet, and its often desirable to consume multiple slots for engineering or routing policy reasons. Thus, networks must appropriate routing table slots to participate in the Internet. These slots are rivalrous in that each router has a limited capacity and slots used by one network's route announcements cannot be used by another. As a public system with rival resource units, the interdomain routing system has the hallmark characteristics of a CPR.
 
-Mueller \cite{Mueller:2010bh} argues that IP addresses are indeed  and that actors establish regional internet registries (RIRs) as the CPR governance institution to govern both IP addresses and their allocation to by proxy manage the routing table.
+Mueller \cite{Mueller:2010bh} supports a similar view of the routing table as a CPR, arging that while IP addresses and address blocks could be handled as private property, they are managed as common pool goods to protect the routing table. He suggests that RIR address allocation policy is used to conserve routing table slots by enforcing route aggregation and preventing IP address block fragmentation that might result from reselling address blocks.
 
-interdomain routing as the common resource, routing table slots as the resource units
+Under the CPR model, Ostrom's appropriators are rational individuals who make decisions based on four inputs: the costs of a particular strategy, the benefits of a particular strategy, their internal discount rate (the relative perceived value of future benefits versus present benefits), and their internal norms. What is notable about the appropriators in some CPR cases is that they have learned about the limits of their resource system through trial and error and, unlike the fictional rational grazers of Hardin's commons, communicate with other appropriators to establish institutions that govern the appropriation of units in an effort to ensure sustainability of the resource system. Such institutions work to affect the decision-making algorithm of appropriators by increasing the costs of a particular strategy through sanctions, or establishing norms that are then internalized by the appropriator, which in turn affect perceptions of costs and benefits.
 
-rational appropriators, various inputs
-governance institutions affect the inputs
+% trust, small communities, etc.
 
-Communication is what prevents the tragedy from occurring.
+CPR governance institutions---which usually include commitment to acceptable behavior as well as mutual monitoring and sanction mechanisms to limit opportunistic behavior---are not guaranteed to exist when a CPR is provided, or or to be effective even when they do exist. However, there is evidence that some form of community-based governance institution has had an effect on the routing table, such as Huston's observation of decreases in routing table size following IETF meetings in the mid-1990s \cite{Huston:2001bs,Clayton:2010bh}. In the case of the routing table, there are no explicitly obvious sanction mechanisms beyond shame, criticism, and peer pressure of the network operator community, which may affect the reputation of network providers and the individuals operating their networks. Internalization of community norms of cooperation and collegiality \cite{Abbate:2000ve} likely also contributed in the case of the routing table.
 
+In this context, the CIDR Report can be considered a mutual monitoring mechanism that provided information about adherence to norms for the loosely-defined, norm-based governance institution. It was not created or mutually agreed upon by the community, but instead offered to the community by a fiew individuals as part of the CIDR deploment effort, though its conclusions could be verified by anyone with a router. The information provided by the CIDR Report was embraced by some network operators as a basis for invoking sanctions of shame and peer pressure that are sometimes visible on the NANOG mailing list \cite{NANOG}, and it also affected operator behavior via internal norms\footnote{In \cite{Li:2011vn}, Li notes that Cisco clients sought advice and help to improve their aggregation after appearing on the CIDR Report.}. However, as many operators have observed or conceded, the CIDR Report appears to be less effective than it once was.
 
-the CIDR report was arguably a monitoring mechanism of whatever latent norm-based governance institution sort of existed, sort of offered to the community and taken up by some. not mutually agreed upon, but provides useful information that everyone who has a router can verify
-
-
-and CPR governance institutions 
-
-
-Hypothesis of method of action -- internalized norms and peer pressure -- Tony Li
-
-``Proof'' in Huston's observation of routing table following IETF meetings \cite{Huston:2001bs}, \cite{Clayton:2010bh}.
-
-social forces -- reputation and network standing \cite{Mathew:2010ly}
-
-No explicit sanctions
-
-If we accept the view of the routing table as a CPR and the CIDR report as part of the governance institution for the CPR, then we can use ostroms framework to look for variation that caused the report to change and perhaps for sources of inspiration for solving the problem.
+If we accept the view of the interdomain routing system and Internet routing table as a CPR, and the CIDR Report as part of the loosely-defined governance institution for the routing table, it may be helpful to apply Ostrom's frameworks and analysis to the problem of managing the routing table. The framework may be both instructive in seeking to understand the causes of variation in behavior change induced by the CIDR Report over time that have caused operators to perceive the report as less effective. Further, it may provide insights about other approaches to managing the Internet routing table.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Contributions}
+\section{Contributions of this thesis}
 
 This thesis makes a number of contributions to the space of Internet routing table analysis, including:
 \begin{itemize}
@@ -111,6 +100,16 @@ This thesis makes a number of contributions to the space of Internet routing tab
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Roadmap}
+\section{Roadmap for remaining chapters}
 
-The remainder of this thesis proceeds as follows. Chapter 2 presents a broad overview of relevant background information in this space, both for the reader who may be unfamiliar with interdomain routing on the Internet, as well as those who wish to understand some of the finer points that motivate Internet operations and routing table growth. This chapter also contains an overview CIDR Report and a brief history of the events that motivated its creation and evolution with time. Chapter 3 describes the analytical approach taken to determine whether the CIDR report was effective, as well as detailing the data sources and algorithms that were used to implement the analysis and generate results. Chapter 4 presents and discusses the results of this analysis: it considers both the overall characteristics of the CIDR report and the networks that appear on it, as well as a specific analysis of the behavior of networks that appear on the CIDR Report. Following the presentation of these analytical results, Chapter 5 discusses a number of reasons for why the efficacy of the CIDR Report may have changed over time by considering the situation through the lens of Ostrom's common pool resource framework. Chapter 6 presents a review of related work and literature. Finally, Chapter 7 offer a concluding discussion and recommendations regarding the management of the Internet routing table, as well as how these observations might be used to design institutions to solve other problems facing the Internet.
+The remainder of this thesis proceeds as follows. Chapter 2 presents a broad overview of relevant background information in this space, both for the reader who may be unfamiliar with interdomain routing on the Internet, as well as those who wish to understand some of the finer points that motivate Internet operations and routing table growth. This chapter also contains an overview CIDR Report and a brief history of the events that motivated its creation and evolution with time. 
+
+Chapter 3 describes the analytical approach taken to determine whether the CIDR Report was effective. It begins by describing the data sources that were used to conduct the analysis and the preprocessing steps taken against that data. Finally, the algorithms and methods used to generate the CIDR Report and analyze AS behavior over time are presented and described. 
+
+Chapter 4 presents and discusses the results of this analysis: it considers both the overall characteristics of the CIDR Report and the networks that appear on it, as well as a specific analysis of the behavior of networks that appear on the CIDR Report. 
+
+Following the presentation of these analytical results, Chapter 5 discusses a number of reasons for why the efficacy of the CIDR Report may have changed over time by considering the situation through the lens of Ostrom's common pool resource framework.
+
+Chapter 6 presents a review of related work from the literature and other sources on measurement and analysis of the growth of the Internet routing table, solutions to the scalability challenges facing interdomain routing, and characteristics of the Internet operations community.
+
+Finally, Chapter 7 offer a concluding discussion and recommendations regarding the management of the Internet routing table, as well as how these observations might be used to design institutions to solve other problems facing the Internet.
