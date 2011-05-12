@@ -29,6 +29,20 @@
 \usepackage[loose]{subfigure}
 \usepackage{color}
 \usepackage{footnote}
+\usepackage{fancyhdr}
+%\usepackage{git-info}
+
+\input{vc}
+
+
+
+\fancypagestyle{plain}{
+    \fancyhf{} % clear all header and footer fields
+    \fancyfoot[C]{\thepage} % except the center
+    \fancyfoot[RO,LE]{\footnotesize DRAFT: \GITAbrHash{}}%\gitinfo{@head}{commit}}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
+    }
 
 \pagestyle{plain}
 
@@ -43,9 +57,9 @@
 
 \begin{document}
 \raggedbottom
-
 \include{cover}
 \pagestyle{plain}
+
 \begin{singlespace}
     \include{contents}
 \end{singlespace}
@@ -59,7 +73,6 @@
 \appendix
 \include{apA-opensource}
 \include{apB-cidr_reports}
-%\include{appb}
 \include{biblio}
 \end{document}
 
