@@ -1,0 +1,16 @@
+.DS_Store
+vc.tex
+*.aux
+*.log
+*.toc
+*.make
+*.pdf
+*.ps
+*.bbl
+*.d
+*.blg
+*.fls
+*.lof
+*.lot
+*.out
+*.bak
