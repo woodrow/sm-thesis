@@ -4,8 +4,6 @@ vc.tex
 *.log
 *.toc
 *.make
-*.pdf
-*.ps
 *.bbl
 *.d
 *.blg
