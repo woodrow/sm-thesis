@@ -1,0 +1,10 @@
+strict graph {
+	graph [ordering=out, margin=0, nodesep=0.5, ranksep=0.5, size="2,1"];
+
+	"192.168.0.0/24" [label="192.168.0.0/24", shape=box, fontname=Arial, penwidth=2, style=dashed];
+	"192.168.1.0/24" [label="192.168.1.0/24", shape=box, fontname=Arial, penwidth=2, style=dashed];
+	"192.168.0.0/23" [label="192.168.0.0/23", shape=box, fontname=Arial, penwidth=2];
+
+	"192.168.0.0/23" -- "192.168.0.0/24" [penwidth=2, dir=back, arrowhead=normal];
+	"192.168.0.0/23" -- "192.168.1.0/24" [penwidth=2, dir=back, arrowhead=normal];
+}
