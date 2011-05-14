@@ -36,7 +36,7 @@
 \fancypagestyle{plain}{
     \fancyhf{} % clear all header and footer fields
     \fancyfoot[C]{\thepage} % except the center
-    \fancyfoot[RO,LE]{\footnotesize DRAFT: \GITAbrHash{}}%\gitinfo{@head}{commit}}
+    \fancyfoot[RO,LE]{\footnotesize DRAFT: \VCRevisionMod}%\gitinfo{@head}{commit}}
     \renewcommand{\headrulewidth}{0pt}
     \renewcommand{\footrulewidth}{0pt}
     }
@@ -71,5 +71,9 @@
 \include{apA-opensource}
 \include{apB-cidr_reports}
 \include{biblio}
+%\phantomsection
+%\addcontentsline{toc}{chapter}{Colophon}
+%\chapter*{Colophon}
+%Set in 12 point Times New Roman. Typeset with \LaTeX. Figures created with R, GraphViz, and Adobe Illustrator. Analyses conducted using Python, PostgreSQL, R, and libbgpdump and straightenRV.
 \end{document}
 

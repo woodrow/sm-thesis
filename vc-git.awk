@@ -69,7 +69,7 @@ END {
         print "\\gdef\\VCDateISO{" DateISO "}%"
         print "\\gdef\\VCDateTEX{" DateTEX "}%"
 				print "\\gdef\\VCTime{" Time "}%"
-				print "\\gdef\\VCModifiedText{\\textcolor{red}{with local modifications!}}%"
+				print "\\gdef\\VCModifiedText{\\textcolor{red}{\\textbf{with local modifications!}}}%"
 				print "%%% Assume clean working copy."
 				print "\\gdef\\VCModified{0}%"
 				print "\\gdef\\VCRevisionMod{\\VCRevision}%"
