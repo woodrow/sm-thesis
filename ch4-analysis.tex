@@ -1,28 +1,132 @@
 \chapter{\fbox{TODO:CIDR Report Analysis and Observations}}
 \label{chap:analysis}
 
-\section{Characteristics of the CIDR Report}
+The data available to conduct this analysis
 
-\begin{figure}
+\begin{figure}[H]
 \begin{centering}
-    \includegraphics[width=6in]{figures/cumulative_asn_counts.pdf}
+    \includegraphics[width=6in]{figures/data_avail.pdf}
     \vspace{-2em}\\
-    \caption{A cumulative count of the unique ASes that have appeared on the CIDR Report and compared to the unique ASes visible in the routing table at the same moment.}
+    \caption{Available data}
 \end{centering}
 \end{figure}
 
-\begin{figure}
+\section{Characteristics of the CIDR Report}
+
+\subsection{AS Appearances and relative measures}
+
+Visualizations---focused on rank (a relative measure).
+
+\begin{figure}[H]
 \begin{centering}
     \includegraphics[width=6in]{figures/viz_sample.jpg}
     \caption{Visualization sample.}
 \end{centering}
 \end{figure}
 
+These aren't very useful---let's move on to measures that are descriptive of the entire CIDR Report dataset. CDFs!
+
+\begin{figure}[H]
+\begin{centering}
+    \includegraphics[width=6in]{figures/cumulative_asn_counts.pdf}
+    \vspace{-2em}\\
+    \caption{A cumulative count of the unique ASes that have appeared on the CIDR Report and compared to the cumulative count of unique ASes visible in the routing table up to the same point.}
+\end{centering}
+\end{figure}
+
+\begin{figure}[H]
+\begin{centering}
+    \includegraphics[width=6in]{figures/acr_cdf_weeks.pdf}
+    \vspace{-2em}\\
+    \caption{A cumulative distribution function of the total number of weeks that each AS is visible on the CIDR Report.}
+\end{centering}
+\end{figure}
+
+\begin{figure}[H]
+\begin{centering}
+    \includegraphics[width=6in]{figures/acr_cdf_rankweeks.pdf}
+    \vspace{-2em}\\
+    \caption{A cumulative distribution function of the total number of rank-weeks that each AS is visible on the CIDR Report.}
+\end{centering}
+\end{figure}
+
+\begin{figure}[H]
+\begin{centering}
+    \includegraphics[width=6in]{figures/acr_cdf_ngweeks.pdf}
+    \vspace{-2em}\\
+    \caption{A cumulative distribution function of the total number of netgain-weeks that each AS is visible on the CIDR Report.}
+\end{centering}
+\end{figure}
+
+Ok. Now let's look at CDFs of individual ASes occupying various rank slots on the ACR.
+
+\begin{figure}[H]
+\begin{centering}
+    \includegraphics[width=6in]{figures/cr_rank_cdfs.pdf}
+    \vspace{-2em}\\
+    \caption{CDFs of the number of weeks that a given rank was occupied by a single AS. The x-axis is the number of weeks, and the y-axis is the fraction of the population. \fbox{this shows ossification/low volatility at the top}}
+\end{centering}
+\end{figure}
+
+\subsection{Netgain and absolute measures}
+
+\begin{figure}[H]
+\begin{centering}
+    \includegraphics[width=6in]{figures/acr_netgain_cdfs.pdf}
+    \vspace{-2em}\\
+    \caption{CDFs of the minimum and maximum netgain observed for each AS during its time on the CIDR Report.}
+\end{centering}
+\end{figure}
+
+\begin{figure}[H]
+\begin{centering}
+    \includegraphics[width=6in]{figures/acr_netgain_time.pdf}
+    \vspace{-2em}\\
+    \caption{Plots of the netgain required to achieve various ranks on the CIDR Report over time.}
+\end{centering}
+\end{figure}
+
+Another way of looking at the previous figure:
+
+\begin{figure}[H]
+\begin{centering}
+    \includegraphics[width=6in]{figures/netgain_cdf_acr.pdf}
+    \vspace{-2em}\\
+    \caption{Plots of CDFs of the netgain of the ASes visible on the ACR in the first week of each year 1998-2011. Notice that the top of the population spreads more in later years. In other words, this is the dynamic range of the CIDR Report. \fbox{Also, don't forget about netgain\_cdf\_gcr.pdf}}
+\end{centering}
+\end{figure}
+
+\begin{figure}[H]
+\begin{centering}
+    \includegraphics[width=6in]{figures/acr_netgain_time_min.pdf}
+    \vspace{-2em}\\
+    \caption{A plot of the minimum netgain required to appear on the CIDR Report over time.}
+\end{centering}
+\end{figure}
+
+\begin{figure}[H]
+\begin{centering}
+    \includegraphics[width=6in]{figures/acr_gcr_netcompare.pdf}
+    \vspace{-2em}\\
+    \caption{Plots of the fractions of total prefixes and total aggregable prefixes in the routing table that are advertised by ASes appearing on the CIDR Report. \emph{Clarify methodological differences between ACR and GCR that should be noted in considering the validity of these plots.}}
+\end{centering}
+\end{figure}
+
+\begin{figure}[H]
+\begin{centering}
+    \includegraphics[width=6in]{figures/netgain_netsnow_cdf_gcr.pdf}
+    \vspace{-2em}\\
+    \caption{This one isn't particularly useful \fbox{and should probably be removed}, but it illustrates the movement after 2000 to more networks announcing fewer prefixes.}
+\end{centering}
+\end{figure}
+
+
+
 \section{Analysis of AS behavior after appearing on the CIDR Report}
 
 blah blah blah blah
 
-\begin{figure}
+\begin{figure}[H]
 \begin{centering}
     \includegraphics[width=6in]{figures/single_as.pdf}
     \vspace{-2em}\\
@@ -35,15 +139,7 @@ blah blah blah blah
 
 blah blah blah blah
 
-\begin{figure}
-\begin{centering}
-    \includegraphics[width=6in]{figures/data_avail.pdf}
-    \vspace{-2em}\\
-    \caption{Available data}
-\end{centering}
-\end{figure}
-
-\begin{figure}
+\begin{figure}[H]
 \begin{centering}
     \includegraphics[width=6in]{figures/cidr_report_validity_prefix_error.pdf}
     \vspace{-2em}\\
@@ -51,7 +147,7 @@ blah blah blah blah
 \end{centering}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 \begin{centering}
     \includegraphics[width=6in]{figures/cidr_report_validity_rank_error.pdf}
     \vspace{-2em}\\
@@ -59,7 +155,7 @@ blah blah blah blah
 \end{centering}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 \begin{centering}
     \includegraphics[width=6in]{figures/cidr_report_validity_top30_error.pdf}
     \vspace{-2em}\\
