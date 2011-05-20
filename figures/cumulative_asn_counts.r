@@ -44,6 +44,7 @@ plot_cumulative_counts <- function() {
         ,xlab=""
         ,ylab="Cumulative number of unique ASes on ACR"
     )
+    grid(nx=NA, ny=NULL, col='grey40')
     axis.Date(1, at=seq(min(xlims), max(xlims), "1 years"))
     par(mar=c(5,5,0,2))
     par(cex=cex)
@@ -73,14 +74,15 @@ plot_cumulative_counts <- function() {
         ,xlab="Date"
         ,ylab=""
     )
+    grid(nx=NA, ny=NULL, col='grey40')
     axis.Date(1, at=seq(min(xlims), max(xlims), "1 years"))
 
     mtext("Number of ASes", side=2, line=3, cex=cex)
 
     legend(
     'topleft',
-    c("Number of ASes visible in routing table",
-        "Cumulative number of unique ASes on ACR (same as above)"),
+    c("Cumulative number of unique ASes visible in the routing table",
+        "Cumulative number of unique ASes on ACR"),
     col=c("black","red"),
     lty=c(1,1),
     lwd=1:1,
