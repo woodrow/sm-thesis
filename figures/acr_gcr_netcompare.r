@@ -56,7 +56,28 @@ plot_acr_gcr_netcompare <- function() {
 }
 
 pdf_acr_gcr_netcompare <- function() {
+    agnc <- read.csv("acr_gcr_netcompare.csv")
+    agnc$date = as.Date(agnc$date)
+    agnc <<- agnc
     pdf("acr_gcr_netcompare.pdf", width=6, height=3)
+    plot_acr_gcr_netcompare()
+    dev.off()
+}
+
+pdf_acr_gcr_netcompare2 <- function() {
+    agnc <- read.csv("acr_gcr_netcompare2.csv")
+    agnc$date = as.Date(agnc$date)
+    agnc <<- agnc
+    pdf("acr_gcr_netcompare2.pdf", width=6, height=3)
+    plot_acr_gcr_netcompare()
+    dev.off()
+}
+
+pdf_acr_gcr_netcompare3 <- function() {
+    agnc <- read.csv("acr_gcr_netcompare3.csv")
+    agnc$date = as.Date(agnc$date)
+    agnc <<- agnc
+    pdf("acr_gcr_netcompare3.pdf", width=6, height=3)
     plot_acr_gcr_netcompare()
     dev.off()
 }
