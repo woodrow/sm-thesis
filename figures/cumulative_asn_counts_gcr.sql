@@ -1,0 +1,1 @@
+﻿select * from get_cumulative_gcr_asns();

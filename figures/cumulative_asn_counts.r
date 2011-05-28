@@ -1,9 +1,12 @@
-asn_counts = read.csv("cumulative_asn_counts.csv",
-    colClasses=c("integer", "character", "integer", "character"))
-asn_counts$acr_date[asn_counts$acr_date == ""] = NA
-asn_counts$acr_date = as.Date(asn_counts$acr_date)
-asn_counts$gcr_date[asn_counts$gcr_date == ""] = NA
-asn_counts$gcr_date = as.Date(asn_counts$gcr_date)
+acr_counts = read.csv("cumulative_asn_counts_acr.csv",
+    colClasses=c("integer", "character"))
+gcr_counts = read.csv("cumulative_asn_counts_gcr.csv",
+    colClasses=c("integer", "character"))
+asn_counts = list()
+asn_counts$acr_count = acr_counts$asn_count
+asn_counts$acr_date = as.Date(acr_counts$on_or_before_date)
+asn_counts$gcr_count = gcr_counts$asn_count
+asn_counts$gcr_date = as.Date(gcr_counts$on_or_before_date)
 
 cex = 0.75
 
