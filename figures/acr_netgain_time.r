@@ -175,7 +175,7 @@ plot_netgain_time_min <- function() {
 }
 
 pdf_netgain_time <- function() {
-    pdf("acr_netgain_time.pdf", width=6, height=6)
+    pdf("acr_netgain_time.pdf", width=6, height=4)
     plot_netgain_time()
     dev.off()
 }
