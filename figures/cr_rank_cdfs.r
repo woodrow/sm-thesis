@@ -29,6 +29,20 @@ for(e in data_sets) {
             "GROUP BY rank, origin_as",
             "ORDER BY rank;"))
         as_rank_durations = fetch(res, n=-1)
+
+        #####
+        # TODO: this is the start of a query for looking at behavior by year...
+        # plot as x/y with z as color
+        # X = num ases in rank y for year z
+        # Y = rank
+        # Z = year
+        res = dbSendQuery(conn, paste(
+            "SELECT rank, extract(year from date) as year, COUNT(origin_as) as as_count",
+            "FROM email_cidr_reports",
+            "WHERE rank < 30",
+            "GROUP BY rank, year, origin_as",
+            "ORDER BY year, rank;"))
+        as_rank_durations_by_year = fetch(res, n=-1)
         ########################################################################
         dbDisconnect(conn)
         break
