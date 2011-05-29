@@ -1,58 +1,280 @@
 \chapter{Related Work}
 \label{chap:relwork}
 
-The important central role played by interdomain routing in the Internet, along with the problems that many have seen emerge in this space over time, has caused this topic to be a focus of much work on the part of academic researchers, network equipment vendors, and network operators. This work can be classified as that which is specifically focused on the problem of growth of the routing table due to network operations, as well as work more broadly focused on the problems of our current interdomain routing architecture. Both of these topics are discussed in more detail in following sections. A section on the limited literature and other information about the Internet operations community and its norms, ethos, and characteristics is also included because of the importance of this community in producing the social forces that could make the CIDR Report effective.
+The important central role played by interdomain routing in the Internet, along
+with the problems that many have seen emerge in this space over time, has
+caused this topic to be a focus of much work on the part of academic
+researchers, network equipment vendors, and network operators. This work can be
+classified as that which is specifically focused on the problem of growth of
+the routing table due to network operations, as well as work more broadly
+focused on the problems of our current interdomain routing architecture. Both
+of these topics are discussed in more detail in following sections. A section
+on the limited literature and other information about the Internet operations
+community and its norms, ethos, and characteristics is also included because of
+the importance of this community in producing the social forces that could make
+the CIDR Report effective.
 
-Note that sources from the Internet operations community, while perhaps less academically credible because they are typically not published in traditional peer-reviewed forums, are included here and elsewhere in this thesis because they are extremely valuable for gaining a more thorough and comprehensive understanding of this topic.
+Note that sources from the Internet operations community, while perhaps less
+academically credible because they are typically not published in traditional
+peer-reviewed forums, are included here and elsewhere in this thesis because
+they are extremely valuable for gaining a more thorough and comprehensive
+understanding of this topic.
 
 % major hole -- methodological literature
 
 \section{Analyses of routing table growth \& deaggregation}
 
-Some of the work in this space has been devoted specifically to the topic of the Internet routing table, arguably because it's both the immediate source of scaling problems and because it's something that researchers, vendors, and operators all think about. This work has generally focused on characterizing the growth of the routing table over time and attempting to understand the sources of or reasons for the growth. These works often mention the CIDR Report as a source of information but do not discuss its efficacy.
+Some of the work in this space has been devoted specifically to the topic of
+the Internet routing table, arguably because it's both the immediate source of
+scaling problems and because it's something that researchers, vendors, and
+operators all think about. This work has generally focused on characterizing
+the growth of the routing table over time and attempting to understand the
+sources of or reasons for the growth. These works often mention the CIDR Report
+as a source of information but do not discuss its efficacy.
 
-Beyond some of the ad-hoc analysis that took place during the supernetting \cite{rfc1338} and ultimately CIDR \cite{rfc1519} design and deployment, \cite{Huston:2001bs} is one of the first works analyzing the Internet routing table. In this paper, Huston analyzes the size and growth of the BGP routing table from 1988-2001 and identifies four phases of growth surrounding the deployment of CIDR. He finds that while CIDR deployment did reduce the size of the routing table and limit the exponential growth preceding its deployment to linear growth shortly after, growth did ultimately return to exponential again as the Internet grew in commercial importance starting in the late 1990s. While not specifically determining the contributions of various factors to the observed growth, he does note that traffic engineering and multihoming are increasing over time. Huston concludes by casting the problem as a ``tragedy of the commons'', lamenting that the usual solution of a central regulator is not obviously available to a globally distributed system like the Internet. Interestingly, or perhaps tellingly, Huston does not acknowledge the CIDR Report as a regulatory mechanism for this role.
+Beyond some of the ad-hoc analysis that took place during the supernetting
+\cite{rfc1338} and ultimately CIDR \cite{rfc1519} design and deployment,
+\cite{Huston:2001bs} is one of the first works analyzing the Internet routing
+table. In this paper, Huston analyzes the size and growth of the BGP routing
+table from 1988-2001 and identifies four phases of growth surrounding the
+deployment of CIDR. He finds that while CIDR deployment did reduce the size of
+the routing table and limit the exponential growth preceding its deployment to
+linear growth shortly after, growth did ultimately return to exponential again
+as the Internet grew in commercial importance starting in the late 1990s. While
+not specifically determining the contributions of various factors to the
+observed growth, he does note that traffic engineering and multihoming are
+increasing over time. Huston concludes by casting the problem as a ``tragedy of
+the commons'', lamenting that the usual solution of a central regulator is not
+obviously available to a globally distributed system like the Internet.
+Interestingly, or perhaps tellingly, Huston does not acknowledge the CIDR
+Report as a regulatory mechanism for this role.
 
-Bu et al. \cite{Bu:2004fk} go on to analyze the routing table with a focus on determining the contributions that a number of operational behaviors have on routing table growth: load balancing (traffic engineering), multi-homing, RIR address fragmentation, and failure to aggregate. Like this thesis, they also use Route Views as their data source, verifying that it provides a sufficiently comprehensive view of the Internet routing table. They perform an analysis of aggregation potential similar to both the CIDR Report and the analysis of this thesis, though they perform aggregation solely based on routing policy, rather than prefix hierarchy as well. The authors of this paper conclude that address fragmentation caused by RIR allocation policy was the greatest source of prefixes in the routing table as of 2002, with multi-homing, traffic engineering and failure to aggregate contributing 30\%, 25\%, and 20\% additional prefixes respectively. They also find that traffic engineering was the fastest-growing cause of routing table growth.
+Bu et al. \cite{Bu:2004fk} go on to analyze the routing table with a focus on
+determining the contributions that a number of operational behaviors have on
+routing table growth: load balancing (traffic engineering), multi-homing, RIR
+address fragmentation, and failure to aggregate. Like this thesis, they also
+use Route Views as their data source, verifying that it provides a sufficiently
+comprehensive view of the Internet routing table. They perform an analysis of
+aggregation potential similar to both the CIDR Report and the analysis of this
+thesis, though they perform aggregation solely based on routing policy, rather
+than prefix hierarchy as well. The authors of this paper conclude that address
+fragmentation caused by RIR allocation policy was the greatest source of
+prefixes in the routing table as of 2002, with multi-homing, traffic
+engineering and failure to aggregate contributing 30\%, 25\%, and 20\%
+additional prefixes respectively. They also find that traffic engineering was
+the fastest-growing cause of routing table growth.
 
-A more recent study by Cittadini et al. \cite{Cittadini:2010pi} provides an update about the state of routing table deaggregation and update dynamics, and also dispels some myths about where the blame lies for deaggregation in the DFZ. This is a useful and welcome update given changes in the Internet since the previous works. In spite of the Internet's evolution, they find that neither the fraction of the routing table that is deaggregated nor the fraction of ASes performing traffic engineering has changed noticeably since 2001, but instead has remained proportional to the size of the routing table. They also go on to analyze the distribution of deaggregation in different populations (i.e. ISPs, enterprises, etc.) and find that while a disproportionately small number of ASes advertise most of the routes in the DFZ, the proportion of these ``bad guys'' has not changed over time. These conclusions are interesting and present a more reasonable perspective on the data analyzed by Bu and Huston in that they consider the results relative to the routing table. %The observation that the small proportion of ``bad guys'' has remained suggests that community forces might still possibly be valuable.
+A more recent study by Cittadini et al. \cite{Cittadini:2010pi} provides an
+update about the state of routing table deaggregation and update dynamics, and
+also dispels some myths about where the blame lies for deaggregation in the
+DFZ. This is a useful and welcome update given changes in the Internet since
+the previous works. In spite of the Internet's evolution, they find that
+neither the fraction of the routing table that is deaggregated nor the fraction
+of ASes performing traffic engineering has changed noticeably since 2001, but
+instead has remained proportional to the size of the routing table. They also
+go on to analyze the distribution of deaggregation in different populations
+(i.e. ISPs, enterprises, etc.) and find that while a disproportionately small
+number of ASes advertise most of the routes in the DFZ, the proportion of these
+``bad guys'' has not changed over time. These conclusions are interesting and
+present a more reasonable perspective on the data analyzed by Bu and Huston in
+that they consider the results relative to the routing table.
+%The observation that the small proportion of ``bad guys'' has remained
+%suggests that community forces might still possibly be valuable.
 
-In good contrast to the more academically-oriented work in this space, \cite{Zhao:2001ly} is written by a trio of experienced network operators and describes the operational concerns regarding routing table growth, as well as the challenges in implementing any proposed solution in a production service provider environment, such as the business case for upgrades and the typical 5-7 year depreciation cycle for routers and other equipment. In \cite{Steenbergen:2010nx}, Steenbergen presents another operator's perspective, taking up a number of similar hypothesis regarding the cause of table growth as in \cite{Bu:2004fk} and \cite{Cittadini:2010pi}, illustrating how these factors are indeed present in the table, and discussing operational solutions to minimize these problems. Finally, \cite{Smith:2006vn} presents the conclusions of a more qualitative study by a European network operators group, which did mention the CIDR Report and the ``CIDR Police'' (discussed below) as mechanisms to mitigate routing table growth.
+In good contrast to the more academically-oriented work in this space,
+\cite{Zhao:2001ly} is written by a trio of experienced network operators and
+describes the operational concerns regarding routing table growth, as well as
+the challenges in implementing any proposed solution in a production service
+provider environment, such as the business case for upgrades and the typical
+5-7 year depreciation cycle for routers and other equipment. In
+\cite{Steenbergen:2010nx}, Steenbergen presents another operator's perspective,
+taking up a number of similar hypothesis regarding the cause of table growth as
+in \cite{Bu:2004fk} and \cite{Cittadini:2010pi}, illustrating how these factors
+are indeed present in the table, and discussing operational solutions to
+minimize these problems. Finally, \cite{Smith:2006vn} presents the conclusions
+of a more qualitative study by a European network operators group, which did
+mention the CIDR Report and the ``CIDR Police'' (discussed below) as mechanisms
+to mitigate routing table growth.
 
-%Some other analyses of note include a a small study of deaggregation behavior in \cite{Gagliano:2009zr} where, like this thesis, the aggregation behavior is analyzed at the granularity of ASes rather than the routing table as a whole. Game theoretic modelling: \cite{Kalogiros:2009ly}
+%Some other analyses of note include a a small study of deaggregation behavior
+%in \cite{Gagliano:2009zr} where, like this thesis, the aggregation behavior is
+%analyzed at the granularity of ASes rather than the routing table as a whole.
+%Game theoretic modelling: \cite{Kalogiros:2009ly}
 
 \section{Improving Interdomain Routing Scalability}
 
-Much more of the work in this space, mainly by academics and researchers, has been focused on the broader problems with our current architecture for interdomain routing. Along with problem statements, a number of technical solutions have been proposed, both incremental and radical (involving full protocol changes or clean-slate redesigns), but most have yet to gain any traction within vendor and operator communities. A few non-technical solutions based on economic incentives or operational practices have been proposed or attempted to resolve the more specific routing table growth problem. These appear to be far less popular than technical solutions to the problem, and while these ideas are often articulated in operator forums, they also have not gained any traction.
+Much more of the work in this space, mainly by academics and researchers, has
+been focused on the broader problems with our current architecture for
+interdomain routing. Along with problem statements, a number of technical
+solutions have been proposed, both incremental and radical (involving full
+protocol changes or clean-slate redesigns), but most have yet to gain any
+traction within vendor and operator communities. A few non-technical solutions
+based on economic incentives or operational practices have been proposed or
+attempted to resolve the more specific routing table growth problem. These
+appear to be far less popular than technical solutions to the problem, and
+while these ideas are often articulated in operator forums, they also have not
+gained any traction.
 
-At high level, \cite{Yannuzzi:2005hc} captures a number of challenges and proposed improvements to interdomain routing within the context of arbitrary AS topologies and a BGP-like routing algorithm. \cite{Handley:2006kx}, in the context of describing a number of broader issues facing the Internet architecture, discusses the scaling and reliability challenges of interdomain routing and the even larger challenges of deploying a replacement until the incentives are sufficient to do so. In \cite{Feamster:2004nx}, Feamster et al. discuss a number of specific problems in BGP introduced by the design goals of policy routing and scalability, with the intent to direct research towards designing more robust interdomain routing protocols. The IETF and IAB have also studied the problem of routing scalability more broadly in \cite{rfc4984}, with the understanding that some of the scaling issues may come from our current architecture and instead produced broader problem statements and criteria that proposed solutions to the routing scalability problem must meet.
+At high level, \cite{Yannuzzi:2005hc} captures a number of challenges and
+proposed improvements to interdomain routing within the context of arbitrary AS
+topologies and a BGP-like routing algorithm. \cite{Handley:2006kx}, in the
+context of describing a number of broader issues facing the Internet
+architecture, discusses the scaling and reliability challenges of interdomain
+routing and the even larger challenges of deploying a replacement until the
+incentives are sufficient to do so. In \cite{Feamster:2004nx}, Feamster et al.
+discuss a number of specific problems in BGP introduced by the design goals of
+policy routing and scalability, with the intent to direct research towards
+designing more robust interdomain routing protocols. The IETF and IAB have also
+studied the problem of routing scalability more broadly in \cite{rfc4984}, with
+the understanding that some of the scaling issues may come from our current
+architecture and instead produced broader problem statements and criteria that
+proposed solutions to the routing scalability problem must meet.
 
-A number of small proposals to incrementally alter BGP-speaking routers have emerged, such as routers that discard information and retrieve it later if necessary \cite{Karpilovsky:2006ys}, and routers that aggregate their FIB internally, similar to the aggregation performed by the CIDR Report, to conserve memory without altering routing policy \cite{Zhao:2010vn}. Operational techniques are also available to operators, including route filtering based on RIR policies to limit more specific routes used for traffic engineering, etc. \cite{Bellovin:2001qf}, although this technique is likely not to be effective any more as RIRs have continued reducing their minimum allocation size with the exhaustion of IPv4 addresses. Finally, routers can also be configured to perform virtual aggregation, such as in \cite{Ballani:2009tg}, where a routing table is effectively spread across multiple routers, thus performing full lookups in two or more hops instead of one. All of these options are attractive for individual providers as immediate benefit in terms of routing table reduction can be realized without requiring coordination with others or a protocol change, and are likely to be easily implemented with a software or configuration update. However, while all of these approaches reduce the routing table size and growth rate pragmatically, they do not alter BGP's fundamental scaling characteristics, particularly with regard to update messages.
+A number of small proposals to incrementally alter BGP-speaking routers have
+emerged, such as routers that discard information and retrieve it later if
+necessary \cite{Karpilovsky:2006ys}, and routers that aggregate their FIB
+internally, similar to the aggregation performed by the CIDR Report, to
+conserve memory without altering routing policy \cite{Zhao:2010vn}. Operational
+techniques are also available to operators, including route filtering based on
+RIR policies to limit more specific routes used for traffic engineering, etc.
+\cite{Bellovin:2001qf}, although this technique is likely not to be effective
+any more as RIRs have continued reducing their minimum allocation size with the
+exhaustion of IPv4 addresses. Finally, routers can also be configured to
+perform virtual aggregation, such as in \cite{Ballani:2009tg}, where a routing
+table is effectively spread across multiple routers, thus performing full
+lookups in two or more hops instead of one. All of these options are attractive
+for individual providers as immediate benefit in terms of routing table
+reduction can be realized without requiring coordination with others or a
+protocol change, and are likely to be easily implemented with a software or
+configuration update. However, while all of these approaches reduce the
+routing table size and growth rate pragmatically, they do not alter BGP's
+fundamental scaling characteristics, particularly with regard to update
+messages.
 
-In terms of architecture-level proposals, many solutions to the problem propose to overcome the overloaded use of IP addresses as both topological locators and endpoint identifiers. It is argued that eliminating this overload would allow traffic engineering, multi-homing, and other behaviors to still occur while reducing the size of routing table, as aggressive hierarchical aggregation would be possible \cite{Quoitin:2007uq}. There have been a number of proposals in this space, but one of the more well known efforts oriented at real deployment is the Locator/ID Separation Protocol (LISP) \cite{lisp-id}, which maintains two separate (IP) address spaces for identifiers and locators, defines mappings between them for interdomain routing (i.e. which locator is the destination for a given identifier), and encapsulates packets with this appropriate mapping for interdomain routing. A more recent alternative that appears more favorable for incremental deployment is the Identifier-Locator Network Protocol (ILNP) \cite{Atkinson:2010zr}, utilizes the current IPv6 routing architecture along with DNS to provide locator-identity separation. More radical proposals such as HLP \cite{Subramanian:2005ve} and NIRA \cite{Yang:2007cr} are not incrementally deployable but offer new architectures and models that are free from the warts of BGP and its implementation and operation. 
+In terms of architecture-level proposals, many solutions to the problem propose
+to overcome the overloaded use of IP addresses as both topological locators and
+endpoint identifiers. It is argued that eliminating this overload would allow
+traffic engineering, multi-homing, and other behaviors to still occur while
+reducing the size of routing table, as aggressive hierarchical aggregation
+would be possible \cite{Quoitin:2007uq}. There have been a number of proposals
+in this space, but one of the more well known efforts oriented at real
+deployment is the Locator/ID Separation Protocol (LISP) \cite{lisp-id}, which
+maintains two separate (IP) address spaces for identifiers and locators,
+defines mappings between them for interdomain routing (i.e. which locator is
+the destination for a given identifier), and encapsulates packets with this
+appropriate mapping for interdomain routing. A more recent alternative that
+appears more favorable for incremental deployment is the Identifier-Locator
+Network Protocol (ILNP) \cite{Atkinson:2010zr}, utilizes the current IPv6
+routing architecture along with DNS to provide locator-identity separation.
+More radical proposals such as HLP \cite{Subramanian:2005ve} and NIRA
+\cite{Yang:2007cr} are not incrementally deployable but offer new architectures
+and models that are free from the warts of BGP and its implementation and
+operation.
 
-In contrast to CIDR and many of these other proposed schemes, including locator-identifier separation, that rely on the aggregation properties of hierarchical routing, \cite{Krioukov:2007fk} claim that we need a fundamentally different approach to routing on the Internet as any hierarchical routing algorithm will not scale well when applied to scale-free ``Internet-like'' topologies. They argue instead for \emph{compact routing} that by design scales sub-linearly in the worst case, at the cost of selecting paths longer than the shortest path between any two nodes. They make their argument from a mainly theoretical standpoint, rather than one of engineering for scaling the Internet up to the next order of magnitude or within the bounds that are likely to be provided by Moore's Law and advancing router architectures. Also, they mainly consider shortest path routing rather than policy routing, which is of less interest in the context of interdomain routing on the Internet.
+In contrast to CIDR and many of these other proposed schemes, including
+locator-identifier separation, that rely on the aggregation properties of
+hierarchical routing, \cite{Krioukov:2007fk} claim that we need a fundamentally
+different approach to routing on the Internet as any hierarchical routing
+algorithm will not scale well when applied to scale-free ``Internet-like''
+topologies. They argue instead for \emph{compact routing} that by design scales
+sub-linearly in the worst case, at the cost of selecting paths longer than the
+shortest path between any two nodes. They make their argument from a mainly
+theoretical standpoint, rather than one of engineering for scaling the Internet
+up to the next order of magnitude or within the bounds that are likely to be
+provided by Moore's Law and advancing router architectures. Also, they mainly
+consider shortest path routing rather than policy routing, which is of less
+interest in the context of interdomain routing on the Internet.
 
 \section{Non-technical solutions to routing table growth \& deaggregation}
 
-Most efforts dedicated to the problems of routing table growth and deaggregation have focused on technical improvements to single aspects of BGP routers or full-scale, clean slate shifts to interdomain routing architectures with more favorable scaling properties. However, a few efforts have considered non-technical means to manage the growth of the routing table, including routing economies (effectively internalizing the negative externality) and encouraging more effective network operations.
+Most efforts dedicated to the problems of routing table growth and
+deaggregation have focused on technical improvements to single aspects of BGP
+routers or full-scale, clean slate shifts to interdomain routing architectures
+with more favorable scaling properties. However, a few efforts have considered
+non-technical means to manage the growth of the routing table, including
+routing economies (effectively internalizing the negative externality) and
+encouraging more effective network operations.
 
-In the face of routing table growth, Rekhter et al. \cite{Rekhter:1997mi} argue for charging neighbors for use of slots in the routing table by establishing bilateral contracts for carrying route advertisements. They discuss the success of what they term the ``spirit of cooperation'' in operating the Internet thus far, but claim that it will not scale as the Internet grows and becomes more commercial, and also claim that it will become more difficult to come to agreement about policy governing appropriate behavior. In place of norms, they assert that the use of financial settlement allows for flexibility in route selection and advertisement based on the value of selecting non-default routes. As discussed previously, there are varying degrees of private benefit that are derived from route deaggregation, and financial settlement creates incentives to reduce non-valuable uses and allow for valuable uses to be compensated appropriately. Rekhter's proposal is complex, requiring bilateral contracts to be negotiated and executed between each pair of ASes that exchange routes between each other. Such complexity would likely hinder adoption, and especially incremental adoption, by ISPs. However, if successful such a contracting system should indeed incentivize route aggregation and efficient route announcements. Ideally, in a competitive market, the price would begin to reflect the full cost of advertising a prefix into the global routing table.
+In the face of routing table growth, Rekhter et al. \cite{Rekhter:1997mi} argue
+for charging neighbors for use of slots in the routing table by establishing
+bilateral contracts for carrying route advertisements. They discuss the
+success of what they term the ``spirit of cooperation'' in operating the
+Internet thus far, but claim that it will not scale as the Internet grows
+and becomes more commercial, and also claim that it will become more
+difficult to come to agreement about policy governing appropriate behavior.
+In place of norms, they assert that the use of financial settlement allows
+for flexibility in route selection and advertisement based on the value of
+selecting non-default routes. As discussed previously, there are
+varying degrees of private benefit that are derived from route
+deaggregation, and financial settlement creates incentives to reduce
+non-valuable uses and allow for valuable uses to be compensated
+appropriately. Rekhter's proposal is complex, requiring bilateral
+contracts to be negotiated and executed between each pair of ASes that
+exchange routes between each other. Such complexity would likely hinder
+adoption, and especially incremental adoption, by ISPs. However, if
+successful such a contracting system should indeed incentivize route
+aggregation and efficient route announcements. Ideally, in a
+competitive market, the price would begin to reflect the full cost of
+advertising a prefix into the global routing table.
 
-A more recent consideration of use of economic disincentives to discourage routing table growth is found in \cite{Clayton:2010bh}. In this paper, Clayton describes the challenges in appropriately charging for routing table slots, as well as the realization that to fairly apportion his estimated marginal cost of \$77,000 per route, some kind of mechanism to appropriately share fees with all networks burdened by the route is required---something that would likely amount to Rekhter et al.'s solution. 
+A more recent consideration of use of economic disincentives to discourage
+routing table growth is found in \cite{Clayton:2010bh}. In this paper, Clayton
+describes the challenges in appropriately charging for routing table slots, as
+well as the realization that to fairly apportion his estimated marginal cost of
+\$77,000 per route, some kind of mechanism to appropriately share fees with all
+networks burdened by the route is required---something that would likely amount
+to Rekhter et al.'s solution.
 
-Others, such as Zhao et al. \cite{Zhao:2001ly}, briefly discuss potential alternative business models for ISPs where cost settlements would be paid to advertise prefixes to DFZ providers, creating an economy for routing prefixes in addition to traffic. However, this proposal is dismissed relatively quickly for reasons of complexity and political feasibility with the Internet community.
+Others, such as Zhao et al. \cite{Zhao:2001ly}, briefly discuss potential
+alternative business models for ISPs where cost settlements would be paid to
+advertise prefixes to DFZ providers, creating an economy for routing prefixes
+in addition to traffic. However, this proposal is dismissed relatively quickly
+for reasons of complexity and political feasibility with the Internet
+community.
 
-Like the CIDR Report emerged from the community to inform network operators about how to better operate their networks, other efforts have also come from the community. First, in terms of education, presentations such as \cite{Steenbergen:2010nx} are relatively common at NANOG meetings, and reiterate to the community the problems associated with routing table growth while also providing operational solutions to reduce the impact of one's network on the routing table, such as advertising traffic engineering routes with a NO\_EXPORT community attribute to keep TE routes out of the routing table.  More interestingly, a volunteer effort called the CIDR Police \cite{Nussbacher:2003ys} that emerged from the NANOG community acted both in an educational role and as a more direct or explicit sanction for operators to improve their behavior. The instigators of the project claim to have had a material impact on the growth of the routing table in the 2000-2002 period.
+Like the CIDR Report emerged from the community to inform network operators
+about how to better operate their networks, other efforts have also come from
+the community. First, in terms of education, presentations such as
+\cite{Steenbergen:2010nx} are relatively common at NANOG meetings, and
+reiterate to the community the problems associated with routing table growth
+while also providing operational solutions to reduce the impact of one's
+network on the routing table, such as advertising traffic engineering
+routes with a NO\_EXPORT community attribute to keep TE routes out of the
+routing table.  More interestingly, a volunteer effort called the CIDR
+Police \cite{Nussbacher:2003ys} that emerged from the NANOG community acted
+both in an educational role and as a more direct or explicit sanction for
+operators to improve their behavior. The instigators of the project claim
+to have had a material impact on the growth of the routing table in the
+2000-2002 period.
 
 \section{The Internet operations community and the social forces within}
 
-There is unfortunately a dearth of work available discussing the community of Internet creators and operators, and its norms and characteristics or the makeup of its membership, in spite of the arguable importance of this group in the realization and continued functioning of the Internet. Some insights can be gathered from a thesis \cite{Mathew:2009dz} and a follow-on paper \cite{Mathew:2010ly} that studies the social interactions between network operators in the context of BGP operations. In these works, Mathew finds that operators organize loosely based on reputation and network stature in the Internet topology, and have traditionally expected other ``clueful'' operators to operate their networks competently.
+There is unfortunately a dearth of work available discussing the community of
+Internet creators and operators, and its norms and characteristics or the
+makeup of its membership, in spite of the arguable importance of this group in
+the realization and continued functioning of the Internet. Some insights can be
+gathered from a thesis \cite{Mathew:2009dz} and a follow-on paper
+\cite{Mathew:2010ly} that studies the social interactions between network
+operators in the context of BGP operations. In these works, Mathew finds that
+operators organize loosely based on reputation and network stature in the
+Internet topology, and have traditionally expected other ``clueful'' operators
+to operate their networks competently.
 
-Broader discussions of the Internet ethos and the nature of the (academically-oriented) community that was involved in the founding and growth of the ARPANET and NSFNET, the networks that later became the Internet as we know it today, can be found in some of the historic and ethnographic accounts of the Internet's origins. First among the work in this area is Abbate's \emph{Inventing the Internet} \cite{Abbate:2000ve}, and Hafner's slightly less formal \emph{Where Wizards Stay up Late} \cite{Hafner:1996qf} was also helpful.
+Broader discussions of the Internet ethos and the nature of the
+(academically-oriented) community that was involved in the founding and growth
+of the ARPANET and NSFNET, the networks that later became the Internet as we
+know it today, can be found in some of the historic and ethnographic accounts
+of the Internet's origins. First among the work in this area is Abbate's
+\emph{Inventing the Internet} \cite{Abbate:2000ve}, and Hafner's slightly less
+formal \emph{Where Wizards Stay up Late} \cite{Hafner:1996qf} was also helpful.
 
-Finally, the nature of the Internet operations community can be gleaned to some extent by reading the mailing lists that the members of the community participate in, such as \cite{NANOG}.
+Finally, the nature of the Internet operations community can be gleaned to some
+extent by reading the mailing lists that the members of the community
+participate in, such as \cite{NANOG}.
 
 \section{\fbox{TODO:Collective action in protocol adoption}}
 
-\fbox{\parbox{6in}{it seems like this the discussions of incentives for incremental adoption of protocols and ``going first'', especially with security protocols, might be useful for this discussion, but I'm leaving this here for now and may not return to it...}}
+\fbox{\parbox{6in}{it seems like this the discussions of incentives for
+incremental adoption of protocols and ``going first'', especially with security
+protocols, might be useful for this discussion, but I'm leaving this here for
+now and may not return to it...}}
