@@ -588,33 +588,58 @@ and $k$ is one of the measurement time periods from 30-730 days):
     - \textrm{netgain}_{t+0}$}
 \item{Relative change in netgain: $\frac{\Delta\textrm{netgain}_{t+k}}
     {\textrm{netgain}_{t+0}}$}
-\item{Change in netsnow: $\Delta\textrm{netsnow}_{t+k} = \textrm{netgain}_{t+k}
-    - \textrm{netsnow}_{t+0}$}
-\item{Relative change in netsnow: $\frac{\Delta\textrm{netsnow}_{t+k}}
-    {\textrm{netsnow}_{t+0}}$}
-\item{Fraction of prefixes that are aggregable (``fraction aggregable''):
-    $\frac{\textrm{netgain}_{t+k}} {\textrm{netsnow}_{t+k}}$}
-% \item{Deaggregation factor: $\frac{\textrm{netsnow}_{t+k}}
-%     {\textrm{netsnow}_{t+k} - \textrm{netgain}_{t+k}}$}
+% \item{Change in netsnow: $\Delta\textrm{netsnow}_{t+k} =
+%     \textrm{netgain}_{t+k} - \textrm{netsnow}_{t+0}$}
+% \item{Relative change in netsnow: $\frac{\Delta\textrm{netsnow}_{t+k}}
+%     {\textrm{netsnow}_{t+0}}$}
+% \item{Fraction of prefixes that are aggregable
+%     (``fraction aggregable''): 
+%v    $\frac{\textrm{netgain}_{t+k}} {\textrm{netsnow}_{t+k}}$}
+\item{Deaggregation factor (DF)\footnote{In this case, netsaggr is the minimum
+number of prefixes an AS would need to advertise if they aggregated their route
+announcements perfectly. Thus, $\textrm{netsaggr} = \textrm{netsnow} -
+\textrm{netgain}$. This configuration is preferable to a ratio of netgain to
+netsnow or vice versa, as netsnow is not independent of netgain.}:
+$\frac{\textrm{netsnow}_{t+k}}{\textrm{netsaggr}_{t+k}} = 
+\frac{\textrm{netsaggr}_{t+k} +
+\textrm{netgain}_{t+k}}{\textrm{netsaggr}_{t+k}}$}
 \end{itemize}
 
 Note that the final quantity above, while a useful measure of deaggregation,
 is not measured relative to the original appearance point, and so must be
-viewed together with the fraction aggregable measure at the original point of
+viewed together with the deaggregation factor measure at the original point of
 appearance ($t+0$) in order to observe change in behavior.
 
 With this initial explanation, we are ready to present the results of our
-analysis, beginning with netsnow and netgain, and followed with fraction
-aggregable, which demonstrates the greatest observed behavior change. Unless
-otherwise noted in captions of the figures or the associated text, all of the
-following figures utilize all appearances on the CIDR Report from 1997-2011.
-Figures of these quantities utilizing appearances from only a portion of the
-date range, to discern changes in behavior over time, are included in Appendix
+analysis, beginning with netgain and followed with deaggregation factor, which
+demonstrates the greatest observed behavior change. Unless otherwise noted in
+captions of the figures or the associated text, all of the following figures
+utilize all appearances on the CIDR Report from 1997-2011.  Figures of these
+quantities utilizing appearances from only a portion of the date range, to
+discern changes in behavior over time, are included in Appendix
 \ref{chap:additional_figs}.
+
+All of the figures that will be presented next are a series of cumulative
+distribution functions (CDFs) of the quantity specified at different periods
+after an AS' initial appearance on the CIDR Report. In general, they can be
+interpreted as that the ASes in the group improved their aggregation posture if
+the curve appears to move upwards or towards the left of the $x=0$ axis over
+time. This indicates a greater fraction of the population has reduced its
+advertised prefixes. While specific issues of interpretation for each plot will
+be discussed as appropriate in the relevant sections below, this is a very
+rough rule of thumb for thinking about the figures that will now follow.
 
 \subsection{Change in netgain in response to CIDR Report appearance}
 
-\begin{figure}[H]
+Netgain, the number of aggregable prefixes advertised by an AS, was the first
+measure we examined for behavior change in response to appearing on the CIDR
+Report. This seemed to be a reasonable first measure as this is the quantity
+most clearly of interest with regard to routing table size. Cumulative
+distribution functions of changes in netgain following appearance on the CIDR
+Report, and a corresponding untreated control group is shown below in Figure
+\ref{fig:delta_netgain_cdf}.
+
+\begin{figure}[h!]
 \begin{centering}
 \begin{singlespace}
     \includegraphics[width=6in]{figures/behavior-netgain-1997_2011-corr.pdf}
@@ -622,11 +647,36 @@ date range, to discern changes in behavior over time, are included in Appendix
     \caption{Cumulative distribution function of change in number of aggregable
     prefixes (netgain) advertised by treated and untreated (control) ASes, for
     the period 1997-2011.}
+    \label{fig:delta_netgain_cdf}
 \end{singlespace}
 \end{centering}
 \end{figure}
 
-\begin{figure}[H]
+From the top plot in this figure, we can observe that slightly more than half
+(60\%) of the AS appearances on the CIDR Report were followed by a decrease in
+aggregation, or at least no further deaggregation/announcement of aggregable
+routes. It also shows that, in an absolute sense, there is a greater reduction
+in aggregable routes than advertisement of new aggregable routes (i.e. the
+most-reducing 10\% reduce by approximately 200 prefixes or more, whereas the
+most-increasing 10\% increase by approximatley 50 prefixes or more). There are
+still significant outliers on both sides, and this plot is trimmed to exclude
+them.
+
+In contrast to the treatment group, the control group shown in the bottom
+figure exhibits different behavior, with approximately half of the population
+exhibiting increased announcement of aggregable prefixes, while only 20\% of
+the population decreased announcement of aggregable prefixes. Further, the
+absolute degree of increased deaggregation is more significant than the degree
+of deaggregation.
+
+While absolute measures are ultimately the metric of interest with regard to
+our concern about the size of the routing table, they are less useful to
+determine the significance of increased or decreased aggregation relative to
+an AS' initial presence. Thus, we show CDFs of the relative change in
+netgain---essentially a normalized version of Figure
+\ref{fig:delta_netgain_cdf}---in Figure \ref{fig:delta_rel_netgain_cdf}.
+
+\begin{figure}[h!]
 \begin{centering}
 \begin{singlespace}
 \includegraphics[width=6in]{figures/behavior-rel_netgain-1997_2011-corr.pdf}
@@ -634,98 +684,253 @@ date range, to discern changes in behavior over time, are included in Appendix
     \caption{Cumulative distribution function of relative change in number of
     aggregable prefixes (netgain) advertised by treated and untreated (control)
     ASes, for the period 1997-2011.}
+    \label{fig:delta_rel_netgain_cdf}
 \end{singlespace}
 \end{centering}
 \end{figure}
 
-\subsection{Change in netsnow in response to CIDR Report appearance}
+We do not learn a great deal more from this figure, though it makes it easier
+to relatively quantify the change in netgain over time. By 730 days,
+approximately 20\% of the population have nearly fully aggregated, another 20\%
+have reduced deaggregation by 50\% or more, and a third 20\% have held steady
+or reduced aggregable routes by less than 50\%. In contrast, another 20\% have
+approximately increased deaggregation by up to 50\%, and the top 10\% increased
+deaggregation by 100\% or more. As noted in the previous figure, improvements
+in deaggregation are much less pronounced in the control group.
 
-\begin{figure}[H]
+Interestingly, there appears to be a small amount of significant movement in
+the first measurement period after the CIDR Report appearance, and can be seen
+by looking at the $t+30$ curve on the treatment plot above. Thirty days after
+appearing on the report, approximately 10\% of ASes improved aggregation by at
+least 50\%. While there was also some movement towards further deaggregation at
+the top of the plot, perhaps approximately 5\% of the population deaggregated
+by at least 50\%, with much more of the population remaining near the $x=0$
+line, indicating little change in behavior.
+% Perhaps more interesting is that changes leading to reduction in
+% deaggregation initially occur more quickly than changes leading to increased
+% deaggreation.  This can be seen by looking at the shape of the CDF plot over
+% time, noting that 
+
+% \subsection{Change in netsnow in response to CIDR Report appearance}
+% 
+% \fbox{NOTE TO Karen and Dave:}
+% I decided to leave this section and corresponding figures out, as I don't
+% think they add much.
+% 
+% \begin{figure}[H]
+% \begin{centering}
+% \begin{singlespace}
+%     \includegraphics[width=6in]{figures/behavior-netsnow-1997_2011-corr.pdf}
+%     \vspace{-2em}\\
+%     \caption{Cumulative distribution function of change in total number of
+%     prefixes (netsnow) advertised by treated and untreated (control) ASes, for
+%     the period 1997-2011.}
+%     \label{fig:delta_netsnow_cdf}
+% \end{singlespace}
+% \end{centering}
+% \end{figure}
+% 
+% \begin{figure}[H]
+% \begin{centering}
+% \begin{singlespace}
+%     \includegraphics[width=6in]
+%         {figures/behavior-rel_netsnow-1997_2011-corr.pdf}
+%     \vspace{-2em}\\
+%     \caption{Cumulative distribution function of relative change in total
+%     number of prefixes (netsnow) advertised by treated and untreated (control)
+%     ASes, for the period 1997-2011.}
+%     \label{fig:delta_rel_netsnow_cdf}
+% \end{singlespace}
+% \end{centering}
+% \end{figure}
+
+\subsection{Change in deaggregation factor in response to CIDR Report
+appearance}
+% \subsection{Change in fraction aggregable in response to CIDR Report
+% appearance}
+
+While netgain provides a direct measure of unnecessary prefixes occupying the
+routing table, it does not take into account the total size of an ASes
+operations or networks, and so an AS announcing 101 prefixes which could be
+aggregated into one would receive the same netgain score (100) as an AS
+announcing 2000 prefixes that could be aggregated into 1900 prefixes. While it
+is true that in an absolute sense, both of these configurations contribute the
+same number of unnecessary prefixes to the Internet routing table, the
+announcement of a large number of aggregable prefixes relative to one's total
+network is arguably less defensible or justifiable than a network that
+introduces a small amount of deaggregation as a result of operating its large
+network. 
+
+To investigate this relative degree of deaggreation, we also measure the
+deaggregation factor (DF), the ratio of the current number of prefixes
+advertised by an AS to the perfectly-aggregated minimum number of
+prefixes advertised by the same AS, or more precisely:
+$\textrm{netsnow}_{t+k}/(\textrm{netsnow}_{t+k} - \textrm{netgain}_{t+k})$.
+In the above example, the first network would have a DF of
+$\textrm{100}/\textrm{1} = \textrm{100}$, and the second would have a DF of
+$\textrm{2000}/\textrm{1900} = \textrm{1.05}$.  Cumulative distribution
+functions of the deaggregation factor for the treatment and control groups is
+shown below in Figure \ref{fig:deagg_factor_cdf}. Unlike the other CDFs shown
+thus far, this plot also includes and additional series for the initial (t+0)
+deaggregation factor.
+
+% \begin{figure}[h!]
+% \begin{centering}
+% \begin{singlespace}
+%     \includegraphics[width=6in]
+%         {figures/behavior-frac_deagg-1997_2011-corr.pdf}
+%     \vspace{-2em}\\
+%     \caption{Cumulative distribution function of change in the fraction of
+%     prefixes advertised by treated and untreated (control) ASes that can be
+%     aggregated without affecting routing policy, for the period 1997-2011.}
+%     \label{fig:frac_agg_cdf}
+% \end{singlespace}
+% \end{centering}
+% \end{figure}
+
+\begin{figure}[h!]
 \begin{centering}
 \begin{singlespace}
-    \includegraphics[width=6in]{figures/behavior-netsnow-1997_2011-corr.pdf}
+    \includegraphics[width=6in]
+        {figures/behavior-deagg_factor-1997_2011-corr.pdf}
     \vspace{-2em}\\
-    \caption{Cumulative distribution function of change in total number of
-    prefixes (netsnow) advertised by treated and untreated (control) ASes, for
-    the period 1997-2011.}
+    \caption{Cumulative distribution function of the deaggregation factor for
+    periods of time after an AS appears on the CIDR Report (treatment) and for
+    untreated ASes (control), for the period 1997-2011.}
+    \label{fig:deagg_factor_cdf}
 \end{singlespace}
 \end{centering}
 \end{figure}
 
-\begin{figure}[H]
-\begin{centering}
-\begin{singlespace}
-    \includegraphics[width=6in]{figures/behavior-rel_netsnow-1997_2011-corr.pdf}
-    \vspace{-2em}\\
-    \caption{Cumulative distribution function of relative change in total
-    number of prefixes (netsnow) advertised by treated and untreated (control)
-    ASes, for the period 1997-2011.}
-\end{singlespace}
-\end{centering}
-\end{figure}
+This figure suggests a reduction in aggregation factor following appearance on
+the CIDR Report, as indicated by upward movement of the CDF curve along
+vertical lines, meaning that a greater fraction of the population has a DF less
+or equal to the value at the vertical line than it previously did. In contrast
+to the treatment group, the control group exhibits little change, and in fact
+the change is slightly towards increased deaggregation factor over time.
 
-\subsection{Change in fraction aggregable in response to CIDR Report appearance}
-
-\begin{figure}[H]
-\begin{centering}
-\begin{singlespace}
-    \includegraphics[width=6in]{figures/behavior-frac_deagg-1997_2011-corr.pdf}
-    \vspace{-2em}\\
-    \caption{Cumulative distribution function of change in the fraction of
-    prefixes advertised by treated and untreated (control) ASes that can be
-    aggregated without affecting routing policy, for the period 1997-2011.}
-\end{singlespace}
-\end{centering}
-\end{figure}
+A simplified version of the previous plot, extracting only the first (t+0) and
+last (t+730) measurement, and presenting the curves for the treatment and
+control groups together is shown in Figure \ref{fig:deagg_factor_cdf_simple}. In
+both cases, the initial measurement is the lighter color, and the latest
+measurement is the darker color. This figure clearly illustrates the difference
+in the deaggregation factor of the ASes that appear on the CIDR Report and
+those that do not. It also makes it easier to observe the nature of the change
+over betwen initial appearance and the end of the post-appearance measurement
+period (two years following the appearance).
 
 \begin{figure}[H]
 \begin{centering}
 \begin{singlespace}
     \includegraphics[width=6in]
-        {figures/behavior-frac_deagg-1997_2011-special_tc.pdf}
+        {figures/behavior-deagg_factor-1997_2011-special_tc.pdf}
     \vspace{-2em}\\
     \caption{Simplification of previous figure, showing the first (t+0) and
-    last (t+730) CDF of the fraction aggregable for both the treatment and
-    untreated groups.}
+    last (t+730) CDF of the deaggregation factor for both the treatment and
+    control groups.}
+    \label{fig:deagg_factor_cdf_simple}
 \end{singlespace}
 \end{centering}
 \end{figure}
 
+While this will be discussed more later in the following chapter, there is a
+question here about what exactly this change means, as a reduction in the
+deaggregation factor can be caused by one of two changes in an AS' behavior: a
+decrease in netgain or increased advertisement of non-aggregable prefixes
+(presumably from new address blocks).
 
+%TODO: in an ideal world, plot delta netaggr over time
 
-
+Because deaggregation factor appears to be a reasonable measure that clearly
+indicates some behavior change, we will use this measure to further investigate
+the treatment effect of appearing on the CIDR Report over time. To do so, we
+will consider the behavior of this measure over a number of smaller time
+periods throughout the overall period for which we have data. This will allow
+the observation of any changes in behavior over the course of the available
+data. A window of three years was selected and the data set was divided into
+four three-year blocks starting at the beginning of the first year and ending
+at the end of the last year: 1998-2000, 2001-2003, 2004-2006, and 2007-2009.
+Any appearances on the CIDR Report occuring in these three-year windows were
+analyzed and suitable untreated ASes were selected as controls, exactly as
+before. The plots for the time periods are shown in Figure
+\ref{fig:deagg_factor_cdf_time}.
 
 \begin{figure}[H]
 \begin{centering}
 \begin{singlespace}
     \includegraphics[width=6in]
-        {figures/behavior-frac_deagg-vseries-special_tc.pdf}
+        {figures/behavior-deagg_factor-vseries-special_tc.pdf}
     \vspace{-2em}\\
-    \caption{}
+    \caption{Simplified deaggregation factor CDFs for four three-year time
+    periods over the full data availability period. In all cases, the the data
+    ranges from the first CIDR Report of the ending year until the last CIDR
+    Report of the ending year.}
+    \label{fig:deagg_factor_cdf_time}
 \end{singlespace}
 \end{centering}
 \end{figure}
 
+In this figure, the light-colored curve represents the deaggregation factor at
+the initial measurement time (t+0) and the darker curve of the same color
+represents the deaggregation factor at the last measurement time (t+730 days).
+As we look at the way the deaggregation factor for treatment and control ASes
+changes over time, we can see changes in the apparent response to appearing on
+the CIDR Report. The treatment effect (vertical distance between dark and light
+lines) was most pronounced in the earliest time period, 1998-2000. The effect
+was rougly the same in the 2001-2003 and 2004-2006 periods, with the effect
+perhaps even being slightly more pronounced in the later period, especially for
+larger DF values \fbox{unexpected}. The treatment effect of appearing on the
+CIDR Report decreased significantly in the final time period of 2007-2009, with
+very little change visible over the various sampling points in the 730 day
+measurement window. These results would suggest that the CIDR Report may have
+been effective earlier in its life, but has become less effective more
+recently. The question of whether the CIDR Report was effective will be
+discussed more in the following chapter.
 
-
-
+Finally, one last view of these data presents a slightly different perspective
+by organizing the treatment and control data from the various time periods
+together. Figure \ref{fig:deagg_factor_cdf_control} shows the simplified plots
+for the control groups for each of the four time periods together in one
+figure. While congested and complicated, this suggests visually that the
+control groups from each of the periods are in generally good agreement with
+eachother and do not change greatly with time, except after the first period
+where the tendecy to deaggregate decreases. 
 
 \begin{figure}[H]
 \begin{centering}
 \begin{singlespace}
-    \includegraphics[width=6in]{figures/behavior-frac_deagg-all-special_c.pdf}
+    \includegraphics[width=6in]{figures/behavior-deagg_factor-all-special_c.pdf}
     \vspace{-2em}\\
-    \caption{}
+    \caption{Superposition of simplified deaggregation factor CDFs for the
+    untreated control ASes for the four time periods, showing generally similar
+    behavior of untreated ASes throughout time.}
+    \label{fig:deagg_factor_cdf_control}
 \end{singlespace}
 \end{centering}
 \end{figure}
 
+Figure \ref{fig:deagg_factor_cdf_treatment} shows the simplified plots for the
+treatment groups for each of the four time periods together in one figure.
+Unlike the control groups, this figure shows changes across time periods as
+well as changes in the apparent response to appearing on the CIDR Report over
+time. Each of the time periods is represented by a color, with the initial
+(t+0) measurement being in a lighter color and the last (t+730 days)
+measurement being in a darker color. First, in terms of the trend between the
+four time periods, we can see the trend of increasing deaggregation factor over
+time: 80\% of ASes had a DF $\le$ 2 in 1998-2000 after 730 days, and this
+steadily decreased across the time periods to just 20\% after 730 days in
+2007-2009. We can also observe the change in the treatment effect, though it is
+more clearly visible in Figure \ref{fig:deagg_factor_cdf_time}.
+
 \begin{figure}[H]
 \begin{centering}
 \begin{singlespace}
-    \includegraphics[width=6in]{figures/behavior-frac_deagg-all-special_t.pdf}
+    \includegraphics[width=6in]{figures/behavior-deagg_factor-all-special_t.pdf}
     \vspace{-2em}\\
-    \caption{}
+    \caption{Superposition of simplified deaggregation factor CDFs for the
+    treated ASes for the four time periods, showing a notable change in
+    behavior of ASes appearing on the CIDR Report over time.}
+    \label{fig:deagg_factor_cdf_treatment}
 \end{singlespace}
 \end{centering}
 \end{figure}
@@ -737,6 +942,10 @@ do we know we are not measuring something else coincident with the CIDR Report?
 This is difficult to address... Look at large-netsnow with low-netgain
 population??? Future work.
 
+What else could this be measuring that's not improvement in aggregation?
+-ISPs moving prefixes to different ASes
+
+
 It was an oversight that I did not measure behavior of ASes before their
 appearance on the CIDR Report. However, because appearance is determined based
 on netgain behavior means this is likely as not as huge a challenge to validity
@@ -745,12 +954,16 @@ because someone else got less bad, but in such a case ones aggregation
 fraction would be at best flat, not decreasing to start (or they should have
 appeared earlier).
 
+Other design assumptions and sensitivity to those assumptions -- 3 year slices,
+control with at least 10 prefixes, etc.
+
 % valdiity notes
 % - look at CDF of population elligible to be control
 % CIDR Report overall behavior notes
 % -> SELECT * FROM get_cumulative_ecr_asns();
 % -> SELECT * FROM cumulative_gcr_as_counts;
 
+\subsection{\fbox{TODO: Conclusions}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %ANALYSIS
