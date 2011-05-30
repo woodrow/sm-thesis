@@ -4,9 +4,9 @@ library(digest)
 cex=0.75
 
 do_setup <- function() {
-    if(exists('correlation_figures_setup_done')) {
-        return()
-    }
+#     if(exists('correlation_figures_setup_done')) {
+#         return()
+#     }
 
     for (colname in paste("delta_", row_delta_days, sep="")) {
         delta_dists[[colname]][['deagg_factor']] = rep(NA,
@@ -147,9 +147,9 @@ plot_corr <- function(
     legend_pre_text['deagg_factor'] = 'expression(factor[~t+'
     legend_post_text=character()
     legend_post_text['netgain'] = '])'
-    legend_post_text['rel_netgain'] = ']/prefixes[~t==0])'
+    legend_post_text['rel_netgain'] = ']/prefixes[~t+0])'
     legend_post_text['netsnow'] =  '])'
-    legend_post_text['rel_netsnow'] = ']/prefixes[~t==0])'
+    legend_post_text['rel_netsnow'] = ']/prefixes[~t+0])'
     legend_post_text['frac_deagg']  = '])'
     legend_post_text['deagg_factor'] = '])'
 
@@ -233,7 +233,7 @@ plot_corr <- function(
         }
         index = index + 1
     }
-    mtext(ifelse(control, "(Untreated)", "(Treatment)"),
+    mtext(ifelse(control, "(Control)", "(Treatment)"),
         side=1, line=4, cex=cex)
     grid(col='grey40')
     legend(
@@ -285,9 +285,7 @@ plot_special <- function(
             function(x){return(as.integer(
             substr(path, x, x+3)))})
         dates[[path]][1] = dates[[path]][1] + 1
-        if(dates[[path]][2] < 2011) {
-            dates[[path]][2] = dates[[path]][2] + 1
-        }
+        #dates[[path]][2] = dates[[path]][2] + 1
 
         if(is.na(explicit_xlims)) {
             xlims = c(0,0)
@@ -363,7 +361,7 @@ plot_special <- function(
                 if(is.na(explicit_xlims)) {
                     xlims = c(min(xlims, knots(cdf)), max(xlims, knots(cdf)))
                 }
-                legend_components[[lcix]] = c('untreated', 0,
+                legend_components[[lcix]] = c('control', 0,
                     paste(dates[[path]], collapse='-'))
                 lcix = lcix + 1
             } else {
@@ -379,7 +377,7 @@ plot_special <- function(
                 if(is.na(explicit_xlims)) {
                     xlims = c(min(xlims, knots(cdf)), max(xlims, knots(cdf)))
                 }
-                legend_components[[lcix]] = c('untreated', 30,
+                legend_components[[lcix]] = c('control', 30,
                     paste(dates[[path]], collapse='-'))
                 lcix = lcix + 1
             }
@@ -395,7 +393,7 @@ plot_special <- function(
             if(is.na(explicit_xlims)) {
                 xlims = c(min(xlims, knots(cdf)), max(xlims, knots(cdf)))
             }
-            legend_components[[lcix]] = c('untreated', 730,
+            legend_components[[lcix]] = c('control', 730,
                 paste(dates[[path]], collapse='-'))
             lcix = lcix + 1
         }
@@ -404,10 +402,10 @@ plot_special <- function(
         rm(delta_dists, inherits=T)
         rm(con_delta_dists, inherits=T)
     }
-    plot_special_cdfs <<- cdfs
-    plot_special_lcs <<- legend_components
-    plot_special_index <<- index
-    plot_special_xlims <<- xlims
+    # plot_special_cdfs <<- cdfs
+    # plot_special_lcs <<- legend_components
+    # plot_special_index <<- index
+    # plot_special_xlims <<- xlims
 
     # legend_components = plot_special_lcs
     # cdfs = plot_special_cdfs
