@@ -27,11 +27,12 @@
 \usepackage{listings}
 \usepackage{fix-cm}
 \usepackage[loose]{subfigure}
-\usepackage{color}
-\usepackage{footnote}
+\usepackage{color} % create color boxes
+\usepackage{footnote} % allow footnotes inside tabulars
 \usepackage{fancyhdr}
 \usepackage{float}
-\usepackage{caption}
+\usepackage{caption} % control appearance of figure captions in LoF
+\usepackage{tocvsec2} % control level of detail in ToC
 %\usepackage{git-info}
 
 \input{vc}
@@ -55,6 +56,7 @@
 %\ifx\files\all \typeout{Including all files.} \else \typeout{Including only \files.} \includeonly{\files} \fi
 
 \begin{document}
+\maxtocdepth{section}
 \raggedbottom
 \include{cover}
 \pagestyle{plain}
@@ -70,10 +72,11 @@
 \include{ch6-relwork}
 \include{ch7-conclusion}
 \appendix
+\settocdepth{chapter}
 \include{apA-opensource}
 \include{apB-cidr_reports}
 \include{apC-extra_figures}
 \include{biblio}
-\include{colophon}
+%\include{colophon}
 \end{document}
 
