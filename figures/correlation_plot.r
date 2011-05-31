@@ -373,7 +373,7 @@ plot_special <- function(
                 }
                 cdf = ecdf(con_delta_dists[['delta_30']][[series]][
                     !is.na(con_delta_dists[['delta_30']][[series]])])
-                cdfs[[paste(index, 'delta_30', sep='')]] = cdf
+                cdfs[[paste(index, 'con_delta_30', sep='')]] = cdf
                 if(is.na(explicit_xlims)) {
                     xlims = c(min(xlims, knots(cdf)), max(xlims, knots(cdf)))
                 }
