@@ -102,6 +102,16 @@ make_plots <- function() {
     plot_special(fnames, series='deagg_factor', tcb='C', xlog=T)
     dev.off()
 
+    pdf('behavior-rel_netgain-all-special_t.pdf', width=6, height=3)
+    par(mar=c(5,5,2,2))
+    plot_special(fnames, series='rel_netgain', tcb='T', explicit_xlims=c(-1,3))
+    dev.off()
+
+    pdf('behavior-rel_netgain-all-special_c.pdf', width=6, height=3)
+    par(mar=c(5,5,2,2))
+    plot_special(fnames, series='rel_netgain', tcb='C', explicit_xlims=c(-1,3))
+    dev.off()
+
     # APPENDIX FIGURES
     ###############################################################################
     rm(list=ls(), inherits=T)
@@ -272,6 +282,83 @@ pdf_deagg_factor_series <- function() {
     }
     dev.off()
 }
+
+
+pdf_rel_netgain_series <- function() {
+    rm(list=ls(), inherits=T)
+
+    fnames=paste('correlation_data/_complete_',
+        c('1997-11-09_2000-12-31', '2000-12-31_2003-12-28',
+          '2003-12-28_2006-12-31', '2006-12-31_2009-12-27'),
+        '_0_29_FALSE__correlation.RData', sep='')
+
+    pdf(paste('behavior-rel_netgain-vseries-special_tc.pdf', sep=''),
+        width=6, height=8)
+    par(mar=c(2,5,1,2))
+
+    layout(matrix(c(1,2,3,4), 4, 1, byrow = TRUE), heights=c(1, 1, 1, 1.2))
+
+    for(filename in fnames) {
+        rm(list=ls()[!ls() %in% c('fnames', 'filename')], inherits=T)
+        print(filename)
+        load(filename, envir=globalenv())
+        source('correlation_plot.r')
+        dates = sapply(gregexpr('\\d{4}', filename, perl=T)[[1]],
+            function(x){return(as.integer(
+            substr(filename, x, x+3)))})
+        dates[1] = dates[1] + 1
+#         if(dates[2] < 2011) {
+#             dates[2] = dates[2] + 1
+#         }
+        datestr = paste(dates, collapse='_')
+
+        if(dates[1] > 2006) {
+            par(mar=c(5,5,1,2))
+        }
+        plot_special(filename, series='rel_netgain', tcb='B',
+            legend_loc='bottomright', explicit_xlims=c(-1,5))
+    }
+    dev.off()
+}
+
+
+pdf_netgain_series <- function() {
+    rm(list=ls(), inherits=T)
+
+    fnames=paste('correlation_data/_complete_',
+        c('1997-11-09_2000-12-31', '2000-12-31_2003-12-28',
+          '2003-12-28_2006-12-31', '2006-12-31_2009-12-27'),
+        '_0_29_FALSE__correlation.RData', sep='')
+
+    pdf(paste('behavior-netgain-vseries-special_tc.pdf', sep=''),
+        width=6, height=8)
+    par(mar=c(2,5,1,2))
+
+    layout(matrix(c(1,2,3,4), 4, 1, byrow = TRUE), heights=c(1, 1, 1, 1.2))
+
+    for(filename in fnames) {
+        rm(list=ls()[!ls() %in% c('fnames', 'filename')], inherits=T)
+        print(filename)
+        load(filename, envir=globalenv())
+        source('correlation_plot.r')
+        dates = sapply(gregexpr('\\d{4}', filename, perl=T)[[1]],
+            function(x){return(as.integer(
+            substr(filename, x, x+3)))})
+        dates[1] = dates[1] + 1
+#         if(dates[2] < 2011) {
+#             dates[2] = dates[2] + 1
+#         }
+        datestr = paste(dates, collapse='_')
+
+        if(dates[1] > 2006) {
+            par(mar=c(5,5,1,2))
+        }
+        plot_special(filename, series='netgain', tcb='B',
+            legend_loc='bottomright', explicit_xlims=c(-400,400))
+    }
+    dev.off()
+}
+
 
 make_absolutely_everything <- function() {
     make_plots()
