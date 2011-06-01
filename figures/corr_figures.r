@@ -149,9 +149,9 @@ make_plots <- function() {
             width=6, height=6)
         layout(matrix(c(1,2), 2, 1, byrow = TRUE), widths=c(1), heights=c(1,1))
         par(mar=c(5,5,2,2))
-        plot_corr(series='rel_netgain', control=F)
+        plot_corr(series='rel_netgain', control=F, explicit_xlims=c(-1,3))
         par(mar=c(6,5,1,2))
-        plot_corr(series='rel_netgain', control=T)
+        plot_corr(series='rel_netgain', control=T, explicit_xlims=c(-1,3))
         dev.off()
 
     #### netsnow, 1998-2001
@@ -169,9 +169,9 @@ make_plots <- function() {
             width=6, height=6)
         layout(matrix(c(1,2), 2, 1, byrow = TRUE), widths=c(1), heights=c(1,1))
         par(mar=c(5,5,2,2))
-        plot_corr(series='rel_netsnow', control=F)
+        plot_corr(series='rel_netsnow', control=F, explicit_xlims=c(-1,3))
         par(mar=c(6,5,1,2))
-        plot_corr(series='rel_netsnow', control=T)
+        plot_corr(series='rel_netsnow', control=T, explicit_xlims=c(-1,3))
         dev.off()
 
     #### frac_deagg, 1998-2001
