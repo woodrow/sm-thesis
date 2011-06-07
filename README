@@ -1,0 +1,34 @@
+Latex and figure source files for:
+
+    Tragedy of the routing table: An analysis of collective action amongst
+                          Internet network operators
+                                      by
+                            Stephen Robert Woodrow
+           B.Sc. Computer Engineering, University of Manitoba (2007)
+                 Submitted to the Engineering Systems Division
+                                      and
+           Department of Electrical Engineering and Computer Science
+         in partial fulfillment of the requirements for the degrees of
+                  Master of Science in Technology and Policy
+                                      and
+       Master of Science in Electrical Engineering and Computer Science
+                                    at the
+                     MASSACHUSETTS INSTITUTE OF TECHNOLOGY
+                                September 2011
+     (c) Massachusetts Institute of Technology 2011. All rights reserved.
+
+This thesis is copyrighted as noted above.
+
+FILES OF NOTE
+-------------
+
+    main.tex        the entry point for the rest of the thesis
+    figures/        the source data, R/Graphviz files, and PDFs of the figures
+                    in the thesis
+    static_figures/ figures that were not generated programatically
+
+MAKING
+------
+
+Run `make` in this directory. Chris Monson's LaTeX Makefile will take care of
+the rest.
