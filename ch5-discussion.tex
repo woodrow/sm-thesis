@@ -12,12 +12,14 @@ The figures and analysis presented thus far have provided some insight about
 the behavior of ASes appearing on the CIDR Report and general characteristics
 about the CIDR Report itself. However, the process of re-implementing the
 aggregation report and analyzing and observing AS behavior changes has also
-raised a number of broader and more qualitiative questions about the report
+raised a number of broader and more qualitative questions about the report
 that we address in this chapter. We first discuss whether the CIDR Report was
 accurate and whether it was effective using broader definitions of these terms
 than were used in the analysis proper, and then discuss potential hypotheses
 for why the response to appearing on the CIDR Report changed over time, both as
 observed during the analysis and as claimed qualitatively by network operators.
+Finally, we consider the CIDR Report and Internet routing table CPR in the
+context of Ostrom's design principles for CPR governance institutions.
 
 \section{Is the CIDR Report accurate?}
 While part of the first section of the previous chapter was dedicated to the
@@ -28,7 +30,7 @@ observed by operators regarding deaggregation and routing table growth. These
 issues are important to the CIDR Report's efficacy and trustworthiness as a
 monitoring tool in support of the social forces influencing Internet routing
 and aggregation, and yet are not definitively addressed; there is simply a lack
-of obvious complaints or criticicims from network operators in public channels.
+of obvious complaints or criticisms from network operators in public channels.
 
 \paragraph{Is the CIDR Report's vantage point representative?}
 The first observation we make is with regard to representativeness of the
@@ -50,7 +52,7 @@ operators must theoretically maintain the fullest routing tables in order to
 achieve full Internet reachability, and versions of these routing tables are
 shared with DFZ customers. In cases of interactions between large
 non-DFZ networks, such as major content provider or ``eyeball'' networks,
-routes may be observed that are not globally visible, but it is reasonble to
+routes may be observed that are not globally visible, but it is reasonable to
 expect problems related to excessive routes advertised between peers to be
 resolved via normal peering dispute resolution approaches.
 
@@ -95,7 +97,7 @@ to a non-representative CIDR Report.
 All route announcements that consume slots in the routing table incur the same
 cost in that they consume a fraction of the router's resources that cannot be
 utilized by another route. However, as the Internet has changed in purpose and
-structure over tiem, the need to perform certain tasks (multihoming, TE) in BGP
+structure over time, the need to perform certain tasks (multihoming, TE) in BGP
 that result in route deaggregation and increased numbers of prefixes in the
 routing table have been motivated by network management and engineering. The
 norms of the Internet operations community appear to have recalibrated
@@ -121,7 +123,7 @@ because it is based on routing parameters such as NEXT\_HOP that are not
 visible from adjacent ASes \cite{Steenbergen:2010nx}.
 
 Regardless of the measurability of these various phenomena, the CIDR Report
-does not attempt to measure or distingush between any of the causes or
+does not attempt to measure or distinguish between any of the causes or
 underlying intentions of deaggregation, instead simply reporting the number of
 prefixes announced by each AS that appear aggregable from the CIDR Report's
 vantage point. While this is a true representation of each AS' contributions to
@@ -148,7 +150,7 @@ strong, causal conclusions, it does appear that the CIDR report had some effect
 on the aggregation behavior of individual ASes, especially early on in the
 study period. Further, in the very early days of CIDR, there is evidence of the
 total number of prefixes in the routing table actually decreasing over time as
-aggregation occured. However, during the period studied in this thesis, the
+aggregation occurred. However, during the period studied in this thesis, the
 routing table generally grows continuously over time, as was shown in Figure
 \ref{fig:huston_table_plot}.
 
@@ -180,8 +182,8 @@ construction of this counterfactual is far from methodologically perfect, it
 provides further evidence that the CIDR Report or some other aspect of the
 network operations community had some effect on route aggregation behavior. The
 deviation between this counterfactual plot and the actual size of the routing
-table could alternately be interepreted as evidence that there is a tendency
-for aggregation or route withdrawl to occur naturally without appearing (or
+table could alternately be interpreted as evidence that there is a tendency
+for aggregation or route withdrawal to occur naturally without appearing (or
 fear of appearing) by the CIDR Report, though this is disputed by the behavior
 of the control group in the previous chapter.
 
@@ -232,11 +234,11 @@ on the report, then as we see the diminishing difference in behavior change
 over time in the previous chapter, we conclude that the governance system
 influenced by the CIDR Report became less effective over time. This agrees with
 operator observations about the decline of the CIDR Report. However, these
-observations do not offer any insight about what may have occured within the
+observations do not offer any insight about what may have occurred within the
 interdomain routing system and the Internet operations community surrounding it
 to cause these changes.
 
-Ostrom's model of rational appropriators, introuduced in Chapter
+Ostrom's model of rational appropriators, introduced in Chapter
 \ref{chap:intro}, sets out four factors that influence the behaviors and
 decision-making of appropriators. These are:
 \begin{itemize}
@@ -252,7 +254,7 @@ By considering external changes and events over the course of the study period
 that may have influenced these factors, we may be able to develop hypotheses
 for the observed behavior change. While we cannot conclusively attribute the
 observed behavior change to any or all of these hypotheses, they are certainly
-potential causes that could be investigated furtehr in future.
+potential causes that could be investigated further in future.
 
 In Ostrom's work, the discount rate is typically used to describe the ease by
 which an appropriator may make their livelihood from another resource system,
@@ -286,7 +288,7 @@ surrounding and supporting it has also grown and changed. First, as the
 Internet has grown in importance and deployment outside of the United States,
 the community of operators that participate in BGP operations has grown to
 include a much more diverse group of people that no longer meet together or
-participate on the same mailing lists, or who even speak the same langauge or
+participate on the same mailing lists, or who even speak the same language or
 hold the same cultural norms and values. While there are still strong and
 vibrant operator communities such as NANOG, RIPE, etc. these are all generally
 regional rather than global. Further, and perhaps more important is that with
@@ -351,9 +353,9 @@ action to encourage others to aggregate their routes has likely decreased over
 time as slots have become less scarce.
 
 In addition to the decreased cost of routing table slots, it appears that the
-community reponse to announcing aggregable routes has decreased over time,
+community response to announcing aggregable routes has decreased over time,
 making it less costly in terms of reputation and criticism to announce
-deaggregated prefixes. It is not possible to observe a meausure of all
+deaggregated prefixes. It is not possible to observe a measure of all
 criticism in response to the CIDR Report, but we can consider a reasonable
 proxy---the public discussion of the CIDR Report on the NANOG mailing list. A
 figure of the frequency of mail messages containing ``CIDR R'' in the subject
@@ -375,3 +377,202 @@ for getting worse), these comments and conversations have essentially stopped
 completely as of late. While this is probably coupled to the changes in
 community norms discussed above, it also suggests that the criticism and thus
 reputational ``cost'' of appearing on the CIDR Report has decreased over time.
+
+\section{Learning from the CIDR Report and the routing table CPR system}
+
+In spite of our discussion of governance institutions and Ostrom's CPR
+framework at a number of points throughout this thesis, it is important to note
+that the CIDR Report itself is not a CPR governance institution as Ostrom's
+framework defines them. As noted in the introduction, such institutions require
+participants to agree to make commitments to certain behavior, and typically
+offer graduated sanctions to prevent opportunism in the event that monitoring
+activities show deviation from commitment. In this context, the CIDR Report
+fills a monitoring role that feeds into the loosely defined governance
+customs that have been developed by network operators participating in the
+Internet.
+
+Ostrom \cite{Ostrom:1990fv} identifies five design principles\footnote{
+The five identified for credible commitment are: clearly defined boundaries,
+congruence between CPR rules and conditions, collective choice arrangements,
+monitoring, and graduated sanctions. Ostrom also identifies three other
+principles that, when absent, have caused failures in other CPR governance
+institutions: dispute resolution mechanisms, recognition and non-interference of
+the right to organize, and the use of nested enterprises in large-scale
+systems}
+necessary for participants in a CPR to make credible commitments to
+follow agreed-upon rules. We discuss principles particularly relevant to the
+CIDR Report and routing table governance institution below, while only touching
+on principles that are less relevant or already satisfied.
+
+% learning from the CIDR Report
+% - not actually a governance institution -- just something some people created
+%       -- maybe part of one, but AFAWK, it is completely norm-based -- there was
+%       no collective action to supply an institution in the first place
+
+\paragraph{Collective choice}
+Perhaps the biggest challenge facing both the CIDR Report and the community
+norm-based approach as a method of managing routing table growth is that none
+of these mechanisms or the rules or principles that underlie them were ever
+explicitly agreed upon or developed through a process by participants in the
+interdomain routing system. Thus, when the community shared a collective set
+of norms and principles regarding maintaining reputation, minimizing
+deaggregation, etc., the CIDR Report provided a monitoring service according to
+these norms and identified ASes that deviated from them most significantly.
+With this information, community members who shared these norms could then
+apply social pressure or assist the deviating ASes in improving their
+aggregation behavior.
+
+However, as these norms changed and the community also changed, there was no
+precedent or process by which to achieve collective action to adjust the rules
+to meet these changes and the interests of network operators accordingly. Thus,
+the CIDR Report could not necessarily evolve to meet the interests of all, and
+there was no obvious venue for network operators to participate in order to
+change the CIDR Report or the rules and expectations of the community. Ostrom
+would suggest that these reasons lessen the incentive for individuals to commit
+to the rules of the routing table CPR, and ostensibly also played a role in the
+apparent reduced efficacy and relevance of the report over time.
+
+\paragraph{Monitoring}
+The design principle most relevant to the CIDR Report is that of monitoring, as
+it is the primary role of the CIDR Report. Monitoring, along with sanctions,
+are essential to maintaining cooperation and limiting opportunistic behavior in
+the long-running CPR institutions that Ostrom observes opportunistic behavior,
+even in communities with shared norms and interest in reputation maintenance.
+Internal monitoring and sanctioning provide assurances to participants making
+commitments to abide by the rules that their trust will not be taken advantage
+of---that opportunists will be detected and punished.
+
+In consideration of Ostrom's principles, the CIDR Report is a reasonable
+monitoring mechanism: it is provided by and can be verified by participants,
+and is of low cost relative to sanction mechanisms. However, it is not ideal,
+especially as it has remained static while the Internet has evolved.  In
+addition to the specific issues of vantage points, accuracy, and interpretation
+mentioned earlier, the CIDR Report only identifies the thirty most extreme
+deaggregators in the network each week. While a limit on the number of networks
+identified each week is arguably necessary because the social response to the
+CIDR Report is a necessarily a human process that can only cope with a limited
+amount of information, it has not scaled as the Internet has grown. Instead, as
+illustrated in Figures \ref{fig:netcompare} and \ref{fig:netgain_cdf}, it now
+focuses on significantly deaggregated outliers---0.1\% of the routing system
+participants with 20\% of the prefixes.
+
+This group of outliers may indeed be deserving of community attention, but the
+limit of 30 ASes also ignores the next 20\% of the population that is
+collectively responsible for the remaining 80\% of the aggregable prefixes.
+These participants may be significantly deaggregated in relative terms and may
+be in positions to easily improve their aggregation behavior but, because of
+their relative size, never appear above the threshold of thirty. With the
+current and historic trend of a constantly increasing minimum threshold to
+appear on the CIDR Report, an AS just below this threshold could easily avoid
+social pressure and criticism while not committing to the broader norms that
+the CIDR Report embodies.
+
+\paragraph{Graduated sanctions}
+Given that the CPR governance institutions observed by Ostrom typically
+involved communities with frequent and repeated interaction, her studies found
+that graduated sanctions---small sanctions for first or infrequent offences and
+larger sanctions for later or more frequent deviations---were important for
+achieving a stable, cooperative appropriation institution. Sanctions, while
+more expensive than norms in establishing order, help to ``backstop'' norms in
+cases where the benefits of opportunism exceed the costs of contravening norms.
+The CIDR Report and routing table CPR system has two significant shortcomings
+with regard to sanctions.
+
+First, there are no strong, guaranteed sanctions in response to appearing on the
+CIDR Report. Beyond the shame or fear of reputation loss motivated by internal
+norms in response to appearing on the report, there is only the explicit
+criticism of others to motivate changes in aggregation behavior in order to
+reduce ones ranking on the report. This is not coordinated in any way, and
+instead relies on other participants to respond to the CIDR Report mail message
+by apply pressure or criticism via public email response, private
+communication, or in-person discussion at the next operator meeting (i.e.
+NANOG). It is possible that operators could use existing business relationships
+and contracts to apply leverage to other networks to improve their aggregation
+behavior in a way that is private, but this was not encountered in our study of
+mailing list archives or discussion with operators.
+
+In addition, these social sanctions are not particularly graduated. They are
+not applied consistently across all ASes, nor are they applied in an organized
+fashion, but again rely on other operators to apply pressure as they choose to
+or are able. Further, while it is doubtful that an AS ranked in the 30th
+position on the CIDR Report receives the same attention as the first-ranked AS,
+their identification is at least publicized, compared to the AS ranked 31st who
+may have very similar behavior but not appear at all on the report.
+
+% This suggests that automated sanctions or pricing might be more effective.
+%
+% The challenge of agreeing to supply an institution that does anything more
+% than provide information (i.e. sanctions) multilaterally is potentially
+% problematic in looking beyond the CIDR Report.
+%
+% Interconnection is voluntary -- libertarian vs. collectivist thought
+
+\paragraph{Other design principles}
+The CIDR Report and associated norms of the Internet routing table also do not
+incorporate a number of Ostrom's other design principles:
+
+\begin{itemize}
+\item{Clear boundaries: while the interdomain routing system is limited to BGP
+speakers, there is no boundary that limits routing slot appropriation to those
+that adhere to the community norms only.}
+\item{Rules suited to actual conditions: as alluded to earlier with regard to
+collective choice, the norms embodied in the CIDR Report have not evolved as
+routing table slots have become less scarce and deaggregation-causing
+activities are common BGP operations, and so probably no longer represent the
+norms and concerns of the community.}
+\item{Nested enterprises: this technique is used to achieve scalability in CPR
+governance institutions by organizing local institutions that then participate
+in a larger regional/etc. institutions. Such nesting may occur informally via
+regional operator groups and RIRs, but the CIDR Report is a global activity.}
+\end{itemize}
+
+\paragraph{Conclusion}
+Given these observations that the CIDR Report and the loose, norms-based
+governance approach used by participants in the interdomain routing system do
+not realize most of Ostrom's empirically-derived design principles for
+long-standing CPR governance institutions, it should probably not be a surprise
+that the report has become less effective over time. It is difficult to compare
+the CIDR Report to other CPR situations, but perhaps it should even be
+considered remarkable that it was effective for as long as it was without a
+solid foundation as Ostrom would have prescribed. Regardless, it seems apparent
+that the lack of some of these principles, such as collective choice and
+sanction mechanisms, would have been important in allowing the CIDR Report to
+remain effective.
+
+% \paragraph{Other design principles}
+%
+% followed principles, in addition to monitoring
+% - right to organize (i guess so -- no antitrust/etc issues it seems)
+%
+% missing principles, in addition to sanctions
+% - clear boundaries -- while it takes a modicum of clue to particiapte in
+%   interdomain routing, participating requries no agreement to norms to
+%   participate
+% - well-tailored rules; no -- essentially no shame if you're below the CR
+%   threshold
+% - conflict resolution? never really an issue yet -- probably more essential if
+%   sanctions were serious or otherwise there was concern over interpretation or
+%   behavior
+% - nested enterprise -- no, currently this is global, even though there are
+%   regional network operator conferences
+%     -- shared values and different problems for different
+%       appropriators
+%
+% - regional rescaling to achieve nested enterprises -- bringing people who can
+%     easily communicate and affect eachother and be aware of local conditions
+%     together. how does this scale to the internet? sort of would work with
+%     regional operator communities, but what about the organizations that
+%     transcend regions -- do they have an obligation to attend all of these
+%     things?
+%
+% - related to the above -- shared values/norms
+%     erosion of traditional ones -- ostrom sez this is important
+%         While the norms and values embedded in the Internet community may have
+%         been helpful in past, it's not clear that these are or will continue to
+%         hold (cite Tussle in Cyberspace) and so we probably shouldn't expect
+%         the CIDR report to work in the same way, especially with expansion into
+%         other regions where the culture/Internet ethos isn't the same, or where
+%         people aren't aware of the history, or loosely/not-at-all connected to
+%         the community that does still exist.
+
+
