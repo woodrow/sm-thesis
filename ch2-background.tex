@@ -230,7 +230,7 @@ connectivity and topology can be gathered.
         }
         \label{fig:bgp_announcement:update}
         }
-    \caption{A simplified BGP topology and correspoding route announcement.}
+    \caption{A simplified BGP topology and corresponding route announcement.}
     \label{fig:bgp_announcement}
 \end{centering}
 \end{figure}
@@ -464,7 +464,7 @@ traffic engineering sometimes, the ultimate tool for finely-grained TE is the
 announcement of more specific prefixes. Because the BGP path selection
 algorithm always prefers more specific prefixes, a network operator can
 distribute high-traffic destinations within their network across multiple
-prefixes or subnets within their prefix and announce these more-specifc
+prefixes or subnets within their prefix and announce these more-specific
 prefixes separately to their various peers and upstream providers in order to
 spread incoming traffic across multiple incoming links. Each of these
 more-specific prefixes generally cannot be aggregated with the less
@@ -493,7 +493,7 @@ announce parts of their address blocks with the most specific prefix
 possible that they expect will be successfully pass global route filtering
 policy. This typically leads to the advertisement of /24 blocks for
 critical infrastructure\footnote{As a current example that is accurate as
-of the date of sumbmission of this thesis, Google.com locates its
+of the date of submission of this thesis, Google.com locates its
 authoritative DNS nameservers (e.g. ns1.google.com, which resolves to
 216.239.32.10) in 216.239.32.0/24 and other /24 blocks, advertised
 separately in addition to the covering 216.239.32.0/19 block allocated by
@@ -648,7 +648,7 @@ prefixes announced. An example of each of these approaches is shown in Figure
 
 \begin{figure}
 \begin{centering}
-    \subfigure[Aggregation by synthesizing adjacent blocks into a less-specifc
+    \subfigure[Aggregation by synthesizing adjacent blocks into a less-specific
     covering block and withdrawing the more-specific prefixes (dashed boxes).]
     {\raisebox{0.5in}{\includegraphics{figures/cidr_agg_adj.pdf}}
     \label{fig:cidr_agg:adj}}
@@ -909,36 +909,80 @@ the later discussion chapter.
 NOTE: Geoff's policy of aggregating holes should prevent gaming (if only people
 cared enough to game the system) by advertising non-adjacent blocks
 
-\section{\fbox{TODO: Coordinating Internet Operations}}
+\section{Coordinating Internet Operations}
 
-Organizing and coordinating the Internet
-\begin{itemize}
-    \item{historical note: originally some central coordination as an ARPA
-    project, but still meritocratic and flat}
-    \item{ultimately little regulation, which means that ``code is law'' and
-    people who control infrastructure can vote with their feet to varying
-    extents}
-    \item{actors at play/with interests in the Internet space: vendors,
-    operators, business users, consumer users, academics/researchers,
-    governments, etc.}
-    \item{evolution of formal coordination of unique and high-value resources:
-    ICANN, RIRs, etc.}
-    \item{evolution of information coordination of technical standards and best
-    practices: IAB/IETF/IRTF, vendors roles in this, etc.}
-    \item{least formal coordination at the operations level — can even get to
-    the point of ``backdoor'' communications (IRC, etc.) between ISPs to keep
-    things running or to solve major problems}
-    \item{these are somewhat gathered in Internet operations community}
-\end{itemize}
+A hallmark of the Internet, especially in contrast to comparable telephony
+networks, is its lack of regulation or centralized management. The very name of
+the fundamental entities in interdomain routing---\emph{autonomous}
+systems---suggest that networks are independent and free to do as they please.
+Indeed, the Internet is a system where network operators, the individuals and
+organizations that control infrastructure, can ``vote with their feet'' without
+external intervention. Despite this autonomy, however, there is also a need for
+coordination in key areas in order to facilitate interoperability and globally
+unique identifiers---collective benefits that make the Internet better for
+all.
 
-Internet operator communities
-\begin{itemize}
-    \item{NANOG is the canonical example, formed out of the NSFNET's regional
-    techs mailing list}
-    \item{Other communities exist in various geographic regions — shared
-    language, culture, and ability to meet is important, ad while Internet
-    transcends geography to some degree these still can't be ignored}
-    \item{Typically provide a mailing list that carries a sizable contingent
-    even though many more read than post, as well as meetings and other ways to
-    share clue and communicate, network, make business deals/connections, etc.}
-\end{itemize}
+Internet coordination was performed relatively casually in the early days of
+the Internet as a DARPA project, and a number of these roles have evolved into
+more formal organizations. Formal coordination of unique and high-value
+resources, the Internet address space and the domain name system, has been
+institutionalized in IANA and the Regional Internet Registries, and the
+Internet Corporation for Assigned Names and Numbers (ICANN), respectively.
+These organizations have established policy processes and engage stakeholders
+in an effort to govern the resources they are responsible for in an effective
+and legitimate way. Stakeholders in this space include governments,
+domain registry/registrar operators, trademark owners, Internet businesses and
+service providers, policy advocates, and consumers.
+
+Slightly less formal are the organizations responsible for technical
+coordination of the Internet. The organizations involved in this space, which
+include the Internet Architecture Board (IAB) and the Internet Engineering Task
+Force (IETF), are charged with developing technical standards for the Internet
+in a fair and open way, in order to improve interoperability and technical
+coordination amongst network operators and equipment vendors. The IETF is
+responsible for the well known ``Request for Comment'' (RFC) series of Internet
+drafts and standards. While once the domain of researchers and network
+operators, the IETF participants have grown to include representatives from
+network hardware and software vendors who now play a large role in the IETF
+\cite{Li:2011vn}.
+
+The least formal level of Internet coordination occurs at the operations level.
+This refers to the coordination between interconnecting service providers that
+is necessary in order to implement that interconnection, as well as to solve
+other problems or work towards developments that are only manifest in
+operational Internet infrastructure. Most interconnection and bilateral dealing
+between ISPs is organized through contracts and business relationships (though
+some activities also take place through more informal channels mediated by
+personal identity and reputation), whereas collective coordination and
+operational problem solving typically occurs within Internet operator
+communities.
+
+\subsection{Internet Operator Communities}
+
+The North American Network Operators' Group (NANOG) is the canonical example of
+an Internet operator community. Emerging out of a previous group of NSFNET
+operators called ``Regional Techs'', the group holds large (400-600 person)
+meetings three times a year in cities across the United States and Canada for
+operators to meet and share knowledge (``clue'') while also building business
+and personal relationships. In addition, and perhaps more significant, is the
+NANOG mailing list, which is composed of approximately 10,000
+participants\footnote{The most recent statistics are from December 2009:
+\url{http://nanog.org/mailinglist/liststats/2009stats.php?mon=dec}} and is
+commonly used for making contact with other operators about operational issues,
+or discussing technical problems. While not all North American networks
+participate in this community, it is popular and common amongst medium and large
+Internet networks. The norms and attitudes of NANOG and the individuals that
+participate in it are generally cooperative and meritocratic
+\cite{Mathew:2010ly}.
+
+NANOG is nominally limited to the North American continent, but it is also the
+preeminent operator mailing list and community worldwide, and so attracts
+participation from major operators and clueful individuals from organizations
+in other regions. There are also other geographically bounded communities that
+serve a similar role to NANOG in other regions. Many of these are coupled
+together with the RIR role in each locale. This suggests that shared language
+or culture, and the ability to meet in person are important for
+the activities of network operator groups, even if most participate only via
+mailing lists.
+
+
