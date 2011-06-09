@@ -17,20 +17,18 @@ of community amongst its network operators---arguably a historical artifact
 behaviors through social forces such as peer pressure and adherence to norms.
 This has arguably been successful in achieving economically non-rational
 behavior on the Internet\footnote{Cases of note include Stanford University
-returning their /8 block to IANA (``[A]s members of the network community, we
-need to think about this issue and do the right thing.... It's important for
-people that have large address space like ours to be good network neighbors.'',
-\url{http://www.networkworld.com/news/2000/0124ipv4.html}) and more recently,
-Interop returning their /8 to ARIN
-\url{https://www.arin.net/announcements/2010/20101020.html}, as well as
-organizing and participating in the Conficker Working Group
-\url{http://www.confickerworkinggroup.org/} to combat the Conficker worm.
-\fbox{more/better examples?}}.
+returning their /8 address block to IANA (``[A]s members of the network
+community, we need to think about this issue and do the right thing.... It's
+important for people that have large address space like ours to be good network
+neighbors.'' \cite{Marsan:2000cr}), and more recently, Interop returning their
+/8 address block to ARIN \cite{ARIN:2010nx}, as well as
+organizing and participating in mutual aid efforts such as the Conficker
+Working Group, DDoS mitigation, etc.}.
 %, and perhaps even cases of collective action.
-While these social forces are probably less strong than they once were, and
-must now compete with commercial forces stemming from providing Internet
-service as a business, they are still present as any participant in a network
-operator community can attest to.
+While these social forces are probably less strong than they once were when the
+Internet was more homogeneous, and must now compete with commercial forces
+stemming from providing Internet service as a business, they are still present
+as any participant in a network operator community can attest to.
 
 The purpose of this thesis is to investigate the effectiveness of one case
 where social forces in the Internet operations community may have played a role
@@ -49,7 +47,7 @@ efficacy.
 %the Internet.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Context and Motivation}
+\section{Context and motivation}
 
 While invisible to most Internet users, interdomain routing is one of the
 fundamental architectural elements of the Internet. Essentially the defining
@@ -71,8 +69,8 @@ super-linear, sometimes exponential, rate over time \cite{Huston:2001bs}.
 
 \begin{figure}[h]
 \begin{center}
-    \includegraphics[width=5in]{static_figures/huston_table_plot.png}
-    \caption[Growth of the Internet (DFZ) routing table, 1994-present]
+    \includegraphics[width=4.5in]{static_figures/huston_table_plot.png}
+    \caption[Size of the Internet (DFZ) routing table, 1994-present]
     {Growth of the Internet (DFZ) routing table, 1994-present
     \cite{6447-table-report}.}
     \label{fig:huston_table_plot}
@@ -80,8 +78,8 @@ super-linear, sometimes exponential, rate over time \cite{Huston:2001bs}.
 \end{figure}
 
 While the size of the routing table was once a serious concern of network
-operators \fbox{cite}, engineering efforts have allowed the capabilities of
-modern Internet routers to scale more quickly than the growth of the routing
+operators \cite{Li:2011vn}, engineering efforts have allowed the capabilities
+of modern Internet routers to scale more quickly than the growth of the routing
 table for the most part, allowing the Internet to continue to grow organically
 without concern. Between evolutionary architectural improvements in succeeding
 generations of Internet routers \cite{McKeown:2006kx} and the near-guaranteed
@@ -95,24 +93,24 @@ lack of any mechanism to control or disincentivize routing table growth means
 that there is no guarantee that routing table growth will not outpace
 engineering developments in the future.
 
-Table growth causes router vendors to make engineering trade-offs
+At present, table growth causes router vendors to make engineering trade-offs
 \cite{Li:2011vn, Fall:2009fk} and requires planning and investment
-consideration by network operators \cite{Zhao:2010fu} at present. While the
-actual size and growth rate of the routing table has not exceeded the advances
-provided by Moore's Law, it is exceeding Li's estimate of the constant cost
-sustainability as shown in Figure \ref{fig:li_router_scalability}. Further, the
-related challenges of IPv4 exhaustion, which will likely result in
-advertisement of more, smaller address blocks due to address repurposing and
-transfers, and IPv6 adoption, which will drive growth of the IPv6
-table\footnote{The IPv6 routing table is still small (approximately 6000
-prefixes), but currently appears to be growing exponentially:
-\url{http://bgp.potaroo.net/v6/as6447/}} on dual-stacked routers, may
-potentially cause routing table growth to accelerate towards a point where
-routing becomes more expensive or even unsustainable (i.e. outpacing Moore's
-Law). In the long term, unchecked growth could potentially curtail the
-decentralized, laissez-faire growth and operation that has been a hallmark of
-the Internet up to this point, or at the very least cause Internet routing, and
-thus Internet service, to become more expensive than it presently is.
+consideration by network operators \cite{Zhao:2010fu}. While the actual size
+and growth rate of the routing table has not exceeded the advances provided by
+Moore's Law, it is exceeding Li's estimate of the constant cost sustainability
+as shown in Figure \ref{fig:li_router_scalability}. Further, the related
+challenges of IPv4 exhaustion, which will likely result in advertisement of
+more, smaller address blocks due to address repurposing and transfers, and IPv6
+adoption, which will drive growth of the IPv6 table\footnote{The IPv6 routing
+table is still small (approximately 6000 prefixes), but currently appears to be
+growing exponentially: \url{http://bgp.potaroo.net/v6/as6447/}} on dual-stacked
+routers, may potentially cause routing table growth to accelerate towards a
+point where routing becomes more expensive or even unsustainable (i.e.
+outpacing Moore's Law). In the long term, unchecked growth could potentially
+curtail the decentralized, laissez-faire growth and operation that has been a
+hallmark of the Internet up to this point, or at the very least cause Internet
+routing, and thus Internet service, to become more expensive than it presently
+is.
 
 % the theoretical\footnote{or even the more reasonable upper bound of
 % $O(k\,2^{24})$ prefixes based on current RIR and operator policies} upper
@@ -123,8 +121,8 @@ thus Internet service, to become more expensive than it presently is.
 \begin{center}
     \includegraphics[width=6in]{static_figures/li_relgrowth.pdf}
     \vspace{-2em}\\
-    \caption[Normalized growth factors of the Internet routing table relative
-    to Moore's Law]{Normalized growth factors (smoothed over a 2 year window)
+    \caption[Normalized growth factor of the Internet routing table relative
+    to Moore's Law]{Normalized growth factor (smoothed over a 2 year window)
     of the Internet routing table relative to Moore's Law and other desirable
     engineering objectives, semiconductor chip cost and routing protocol
     convergence time, from 1999-2007 \cite{Li:2006cr}.}
@@ -165,7 +163,7 @@ collective action problem related to technology adoption and efficient route
 announcement.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{The Case of the CIDR Report}
+\section{The case of the CIDR Report}
 
 This thesis asks the question of whether the social forces in the Internet
 operations community are capable of inducing collective action. This question
@@ -192,11 +190,12 @@ should be a suitable case for assessing the effects of social forces within
 the Internet operator community.
 
 Other potential cases involving the social forces within the operator
-community, such as the backchannel communications mentioned in
+community, such as the back-channel communications mentioned in
 \cite{Mathew:2010ly}, are difficult to study as there is typically a lack of
 data, a lack of publicity of the events that occur that motivate social
 pressure, and the events of potential interest for analysis are somewhat ad-hoc
-and randomly distributed (e.g. the YouTube hijacking \cite{Brown:2008hc}).
+and randomly distributed (e.g. the hijacking of YouTube by Pakistan Telecom
+\cite{Brown:2008hc}).
 
 % sentence here????
 
@@ -209,7 +208,7 @@ cases. However, any interesting insights about this case may be starting points
 for further study and exploration in other cases.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{The Routing Table as a Common Pool Resource}
+\section{The routing table as a Common Pool Resource}
 
 The unconstrained growth of the Internet routing table is often considered a
 commons problem: individuals derive private benefit from adding entries to the
@@ -271,17 +270,17 @@ There is not a single global routing table---each provider maintains its own
 version of the global routing table. However, the value in the routing table is
 its consistency and uniqueness across all Internet participants in order to
 allow global reachability. It is technically feasible for one network to
-exclude others' routes from the routing table, but the value of the interdomain
-routing system is in global reachability, and so it is difficult to exclude
-routes without potentially reducing the utility of the network's connectivity
-to the Internet.
+exclude others' routes from the routing table, but the utility of the
+interdomain routing system comes from global reachability, and so it is
+difficult to exclude routes without potentially reducing the utility of the
+network's connectivity to the Internet.
 
 Routing table capacity (``slots'' or routes) are the resource units of the
 routing table CPR. Routing table entries are not intrinsically valuable in that
 they cannot be ``extracted'' and used elsewhere. However, they are valuable in
 that they permit interconnection and reachability to the rest of the Internet.
 It is necessary for each network connected to the Internet to occupy at least
-one slot in order to make a network available to the Internet, and its often
+one slot in order to make the network available to the Internet, and its often
 desirable to consume multiple slots for engineering or routing policy reasons.
 Thus, networks must appropriate routing table slots to participate in the
 Internet. These slots are rivalrous in that each router has a limited capacity
@@ -315,9 +314,9 @@ appropriator, which in turn affect perceptions of costs and benefits.
 CPR governance institutions---which usually include commitment to acceptable
 behavior as well as mutual monitoring and sanction mechanisms to limit
 opportunistic behavior---are not guaranteed to exist when a CPR is provided, or
-or to be effective even when they do exist. However, there is evidence that
-some form of community-based governance institution has had an effect on the
-routing table, such as Huston's observation of decreases in routing table size
+to be effective even when they do exist. However, there is evidence that some
+form of community-based governance institution has had an effect on the routing
+table, such as Huston's observation of decreases in routing table size
 following IETF meetings in the mid-1990s \cite{Huston:2001bs,Clayton:2010bh},
 or the view of operators that the CIDR Report was effective in its early days.
 In the case of the routing table, there are no explicitly obvious sanction
@@ -337,18 +336,19 @@ by the CIDR Report was embraced by some network operators as a basis for
 invoking sanctions of shame and peer pressure that are sometimes visible on the
 NANOG mailing list \cite{NANOG}, and it also affected operator behavior via
 internal norms\footnote{In \cite{Li:2011vn}, Li notes that Cisco clients sought
-advice and help to improve their aggregation after appearing on the CIDR
-Report.}. However, as many operators have observed or conceded, the CIDR Report
-appears to be less effective than it once was.
+advice and help to improve their route aggregation behavior after appearing on
+the CIDR Report.}. However, as many operators have observed or conceded, the
+CIDR Report appears to be less effective than it once was.
 
 If we accept the view of the interdomain routing system and Internet routing
-table as a CPR, and the CIDR Report as part of the loosely-defined governance
-institution for the routing table, it may be helpful to apply Ostrom's
-framework and analysis to the problem of managing the routing table. The
-framework may be instructive in seeking to understand the causes of variation
-in behavior change induced by the CIDR Report over time that have caused
-operators to perceive the report as less effective. Further, it may provide
-insights about other approaches to managing the Internet routing table.
+table as a CPR, and the CIDR Report as a monitoring mechanism for the
+loosely-defined norms-based governance institution for the routing table, it
+may be helpful to apply Ostrom's framework and analysis to the problem of
+managing the routing table. The framework may be instructive in seeking to
+understand the causes of variation in behavior change induced by the CIDR
+Report over time that have caused operators to perceive the report as less
+effective. Further, it may provide insights about other approaches to managing
+the Internet routing table.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Contributions of this thesis}
@@ -363,15 +363,15 @@ table analysis, including:
     aggregation report algorithm that utilizes multiple vantage points, as
     described in Chapter \ref{chap:method} and Appendix \ref{chap:opensource}.}
     \item{An analysis of the characteristics of the CIDR Report, including the
-    distribution of networks that appear on it, etc., as presented in Chapter
-    \ref{chap:analysis}.}
+    distribution of appearances of networks on the report and the fraction of
+    networks it treats, as presented in Chapter \ref{chap:analysis}.}
     \item{An analysis of the effects of appearing on the CIDR Report on the
     route announcement behavior of individual networks, also presented in
     Chapter \ref{chap:analysis}.}
     %\item{An analysis of network deaggregation behavior on a per-AS basis,
     %unlike other table-wide analyses.}
-    \item{Consideration of the CIDR Report as CPR governance institution for
-    the Internet routing table.}
+    \item{Consideration of the Internet routing table as a CPR and the CIDR
+    Report as a monitoring mechanism for the CPR governance institution.}
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -379,7 +379,7 @@ table analysis, including:
 
 The remainder of this thesis proceeds as follows. Chapter 2 presents a broad
 overview of relevant background information in this space, both for the reader
-who may be unfamiliar with interdomain routing on the Internet, as well as
+who may be unfamiliar with interdomain routing or the Internet, as well as
 those who wish to understand some of the finer points that motivate Internet
 operations and routing table growth. This chapter also contains an overview
 CIDR Report and a brief history of the events that motivated its creation and
@@ -392,22 +392,23 @@ Next, the algorithms and methods used to generate the CIDR Report and its
 aggregation report are described. Finally, the approach taken to analyze AS
 behavior over time is presented and described.
 
-Chapter 4 presents and discusses the results of this analysis: it considers
-both the overall characteristics of the CIDR Report and the networks that
-appear on it, as well as a specific analysis of the behavior of networks that
-appear on the CIDR Report.
+Chapter 4 presents the results of this analysis: it first considers both the
+overall characteristics of the CIDR Report and the networks that appear on it.
+It then proceeds to a specific analysis of the route announcement behavior of
+networks following an appearance on the CIDR Report, to determine if the CIDR
+Report had an effect.
 
-Following the presentation of these analytical results, Chapter 5 discusses a
-number of reasons for why the efficacy of the CIDR Report may have changed over
-time by considering the routing table growth situation through the lens of
-Ostrom's common pool resource framework.
+Following the presentation of these analytical results, Chapter 5 discusses the
+meaning and implications of the results, as well reasons for why the efficacy
+of the CIDR Report may have changed over time, by considering the routing table
+growth situation through the lens of Ostrom's common pool resource framework.
 
 Chapter 6 presents a review of related work from the literature and other
 sources on measurement and analysis of the growth of the Internet routing
 table, solutions to the scalability challenges facing interdomain routing, and
 characteristics of the Internet operations community.
 
-Finally, Chapter 7 offer a concluding discussion and recommendations regarding
+Finally, Chapter 7 offers a concluding discussion and recommendations regarding
 the management of the Internet routing table, as well as how these observations
 might be used to design institutions to solve other problems facing the
-Internet.
+Internet, and suggestions for future research directions in this space.
