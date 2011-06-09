@@ -1,4 +1,4 @@
-\chapter{Conclusions and Future Work}
+\chapter{Managing future routing table growth}
 \label{chap:conclusion}
 
 This thesis set out to investigate whether the CIDR Report was effective in
@@ -40,9 +40,10 @@ hasten IPv6 adoption, it will also likely incentivize the more efficient use of
 IPv4 addresses in order to extend the useful lifetime of IPv4 before IPv6
 adoption is deemed complete. This more efficient use will likely be
 accomplished through partitioning larger address blocks for trading, as well as
-the deaggregation of larger blocks into smaller announced prefixes to faciliate
+the deaggregation of larger blocks into smaller announced prefixes to facilitate
 expression of routing policy for larger blocks of machines behind NATs and
-other transition technologies.
+other transition technologies. Both of these strategies will result in
+increased numbers of IPv4 prefixes in the routing table.
 
 At the same time, as the IPv6 routing system moves from experimental and
 prototype implementations to production-ready networks that more closely mirror
@@ -74,13 +75,13 @@ growth scenarios, the next question is: what should be done about this problem?
 Assuming we believe the Internet is too valuable to leave to become unreliable,
 then some action must be taken. A solutions space is outlined below, focusing
 on uncoordinated solutions (solutions that can be implemented unilaterally) and
-coordinated solutions (solutions that require collecive action). Both technical
+coordinated solutions (solutions that require collective action). Both technical
 and non-technical solutions are discussed.
 
 \section{Uncoordinated solutions}
 The first set of solutions that we can consider to this problem are
 uncoordinated solutions---measures that require only individual action to
-achieve individual benefit in terms of mitigating the effects of routing table
+enjoy individual benefit in terms of mitigating the effects of routing table
 growth. Solutions in this class are easy to deploy because they do not require
 the collective action that a protocol transition would entail. However, they
 are also somewhat limited in that they must work within the existing technical,
@@ -96,9 +97,9 @@ spreading the routing table across multiple routers (virtual aggregation)
 processing latency, or performing aggregation of the RIB inside the router. The
 latter approach, which is similar to the aggregation performed by the CIDR
 Report (though almost certainly uses a different criteria for the ``same
-routing policy'' invariant, such as next-hop IP address
+routing policy'' invariant, such as next-hop IP address),
 % also, ACLs will affect aggregability -- whooops
-), is a solution preferred by network operators \cite{Zhao:2010fu}, and could
+is a solution preferred by network operators \cite{Zhao:2010fu}, and could
 certainly improve the longevity of the more expensive FIB routing table slots
 for individual networks that deploy this solution. Further, it is likely that
 the operators affected by the size of the routing table growth would implement
@@ -113,22 +114,23 @@ typically be aggregable, but this approach could make more room for these new
 sources of prefixes by reducing the size of the routing table due to traffic
 engineering, etc.
 
-Also in this class are non-technical solutions. Unlike the technical solutions
-which mitigate the effects of routing table growth, these are proposed to work
-by creating incentives for announcing fewer or more aggregated routes. One
-option in tthis space is to continue using the status quo CIDR Report. This is
-included here because of the acknowledgement that the CIDR Report is not a CPR
-governance institution on its own, and so without a strong institution using
-the information it provides, it can at best inspire individual action to
-persuade or induce others to reduce their impact on the routing table. Given
-that the CIDR Report appears to be ineffective now, both from operators'
-perspectives and from our analysis, it could possibly be improved based on the
-observations in the previous section in hopes that it might better activate the
-latent norms-based behaviors that seemed to make the CIDR Report effective in
-the past. However, this does not appear to be an extremely promising option
-given its recent history, operator attitudes towards the report, the problems
-identified in Chapter \ref{chap:discussion}, and the fact that the technical
-solution above would likely be more effective.
+Also in this class of uncoordinated solutions are non-technical solutions.
+Unlike the technical solutions which mitigate the effects of routing table
+growth, these are proposed to work by creating incentives for announcing fewer
+or more aggregated routes. One option in this space is to continue using the
+status quo CIDR Report. The CIDR Report is included here, instead of the
+following coordinated solutions section, because of the acknowledgment that it
+is not a CPR governance institution on its own, and so without a strong
+institution using the information it provides, it can at best inspire
+individual action to persuade others or induce oneself to reduce their impact
+on the routing table. Given that the CIDR Report appears to be ineffective now,
+both from operators' perspectives and from our analysis, it could possibly be
+improved based on the observations in the previous section in hopes that it
+might better activate the latent norms-based behaviors that seemed to make the
+CIDR Report effective in the past. However, this does not appear to be an
+extremely promising option given its recent history, operator attitudes towards
+the report, the problems identified in Chapter \ref{chap:discussion}, and the
+fact that the technical solution above would likely be more effective.
 
 Bilateral economic solutions may also be possible. For example, a Tier-1
 provider could begin to charge its peers and customers for the number of routes
@@ -151,28 +153,28 @@ will require the cooperation of most of the participants in the Internet's
 routing system in order to be effective and realize benefit from the solution.
 
 Regardless of the solution or approach, there are general challenges in
-achieving collective action. First, as Olson\footnote{Rise and Decline of
-Nations or Logic of Collective Action} and others point out, achieving
-collective action can be difficult when benefits are not concentrated, or are
-not selective, creating an incentive for opportunistic free riding. Also, while
-not uncommon in other spheres of life, the notion that the Internet is no
-longer composed of actors with homogeneous interests is relatively novel, as
-identified by \cite{Clark:2005rt}. Instead of a cadre of similarly-minded
-technologists, there are now a much more diverse and potentially conflicted set
-of interests at play in shaping the architectural evolution of the Internet, as
-well as achieving their objectives through the architecture. Even CPR
-governance instituions are not guaranteed to form in otherwise beneficial
-situations, as Ostrom \cite{Ostrom:1990fv} identifies, because there is a
-constitutional collective action problem (a meta-problem) in agreeing to
-develop an institution in the first place before the institution can then be
-used to resolve operational collective action problems. Acknowledging that
-collective action will be required, and may be difficult, we now sketch out
-some potential approaches in this space.
+achieving collective action. First, as Olson \cite{Olson:1982ly} and others
+point out, achieving collective action can be difficult when the benefits from
+are not concentrated, or are not selective, creating an incentive for
+opportunistic free riding. Also, while not uncommon in other spheres of life,
+the notion that the Internet is no longer composed of actors with homogeneous
+interests is relatively novel, as identified by \cite{Clark:2005rt}. Instead of
+a cadre of similarly-minded technologists, there are now a much more diverse
+and potentially conflicted set of interests at play in shaping the
+architectural evolution of the Internet, as well as achieving their objectives
+through the architecture. Even CPR governance institutions are not guaranteed to
+form in otherwise beneficial situations, as Ostrom \cite{Ostrom:1990fv}
+identifies, because there is a constitutional collective action problem (a
+meta-problem) in agreeing to develop an institution in the first place before
+the institution can then be used to resolve operational collective action
+problems. Acknowledging that collective action will be required, and may be
+difficult, we now sketch out some potential approaches in this space and ways
+in which the collective action towards these ends might be achieved.
 
 \paragraph{A new interdomain routing architecture}
 
 The most common approach taken thus far when approaching the limits of an
-Internet protocol or architecture is to replace the protocol with a new, more
+Internet protocol or architecture is to replace the system with a new, more
 scalable version (e.g.  NCP to IP(v4), IPv4 to IPv6, EGP to BGP, etc.). The
 adoption of new protocols is challenging; this challenge increases when a
 protocol is not backwards compatible with its predecessor, and even more at the
@@ -181,30 +183,146 @@ along the entire end-to-end path between hosts, rather than just on the hosts
 themselves. This dilemma often means that there is no benefit from or incentive
 for incremental protocol adoption, thus making adoption difficult to justify
 for rational, commercially-motivated actors. This, at least at a high
-level, is plainly visible in the slow-moving adoption of IPv6 that has
-theoretically been ongoing for the past 16 years \cite{rfc1883} and has only
-recently started to gain traction with the depletion of unallocated IPv4
-address blocks.
+level, is plainly visible in the slow-moving adoption of IPv6
+\cite{Cowie:2010vn} that has theoretically been ongoing for the past 16 years
+\cite{rfc1883} and has only recently started to gain traction with the
+depletion of unallocated IPv4 address blocks.
 
 In this context, we can consider the adoption of a new interdomain routing
-architecture and protocol
+architecture and protocol such as one of the potential candidates described in
+Chapter \ref{chap:relwork}. The move to a new routing architecture and protocol
+involves many actors that are responsible for various components of the
+Internet and the devices and software that connect to it: router and network
+equipment vendors, operating system and application software developers, and
+Internet service providers, as well as the organizations that purchase and
+operate this hardware and software and purchase Internet service from ISPs. All
+of these parties must coordinate together in order to realize the transition to
+a new architecture. Without clear incentives, such as has been claimed to be
+the case with IPv6, the transition moves slowly until there is motivation
+(address exhaustion in the IPv6 case, table growth scaling issues in the
+routing table case).
 
-ILNP \cite{Atkinson:2010zr} may have killer apps, but ipv6 and routing table
-growth are not them, at least until it becomes painful
+In the case of a new interdomain routing architecture, the situation may not be
+as discouraging as with IPv6. Not all routing architectures designed to replace
+BGP are equally difficult to transition, and there may be other motivations and
+incentives that would promote the adoption of of these replacement protocols
+even without immediate and real routing table scaling issues. With regard to
+transition difficulty, protocol designers have arguably learned lessons from
+the difficult IPv4 transition and have put more effort into considering
+backwards compatibility and transition strategies. One interesting candidate in
+this light is the Identifier-Locator Network Protocol (ILNP)
+\cite{Atkinson:2010zr}.  It provides locator-identity separation utilizing
+existing Internet technologies---DNS, BGP, and IPv6---in a backwards-compatible
+way, while allowing for aggressive hierarchical aggregation following protocol
+adoption. Further, there may be ``killer apps'' and new markets that provide
+commercial incentives for deployment of new routing architectures that were not
+similarly present with IPv6 \cite{Li:2011vn}, which has only recently been
+motivated by the coming end of readily available IPv4 address space. For
+example, the growing popularity of mobile devices and applications may motivate
+the adoption of a routing architecture that splits locator and identity to
+allow mobility as though each device had a static IP address without the added
+overhead of Mobile IP \cite{rfc3344}.
+
 
 \paragraph{Economic solutions}
-- economic/market/contractual solutions
 
-- maybe not "pricing" but just a mechansism where route advertisement is
-  compensated through contracts like those discussed in the literature
+Economic solutions to the problem of managing the size and growth of the
+routing table generally deal with imposing a cost on users of routing table
+slots to provide an incentive for networks to aggregate and otherwise reduce
+and manage their route announcements carefully to avoid incurring unnecessary
+costs. These costs could be based on the scarcity of routing table slots and
+market-based pricing to determine the value of each slot, or it could be
+imposed arbitrarily by individual network operators. Regardless, the intent
+would be to internalize the externality that ASes impose on other networks
+through route announcement and especially deaggregation.
+
+Economic approaches to managing the size of the routing table are orthogonal to
+other approaches such as protocol changes. However, such solutions would likely
+be most favorable in cases where routing slots are scarce, such as might be the
+case if a routing architecture transition failed and BGP remained. Economic
+solutions have the advantage that they treat all participants equally, rather
+than the unequal quasi-sanction for only the top 30 of the CIDR Report.
+However, there are potential equity issues in an economic approach compared to
+the current Internet. Depending on pricing of routing table slots, less wealthy
+participants could be disadvantaged in participating in the interdomain routing
+system. Further, a market-based pricing mechanism could allow the price of
+routing table slots to be manipulated by concentrated interests for strategic
+purposes.
+
+There have been proposals made for establishing bilateral contracts between
+providers to carry routes upstream in exchange for compensation
+\cite{Rekhter:1997mi}. The approach of bilateral dealing is probably best with
+the interest of maintaining a decentralized Internet of autonomous networks.
+However, for such contracting mechanisms to be generally adopted, ISPs would
+need to collectively agree or accept a change to the current settlement model
+used by ISPs. Such a move would likely need to be coordinated amongst the DFZ
+service providers, which some fear may raise antitrust concerns
+\cite{Li:2011vn}. Further, it is not clear that network operators currently
+have an appetite for the complexity introduced by route carriage contracts
+\cite{Zhao:2010fu}, though this could potentially change if faced with the
+alternative of an overloaded interdomain routing system.
+
+% - collective action required: need to change settlement approach in the market
+%   collectively (antitrust?) or need to create a market -- cap and trade
+% - added complexity of bilateral contracts in Internet operations
+% - not clear that this is interesting to operators
+
+% - maybe not "pricing" but just a mechansism where route advertisement is
+%   compensated through contracts like those discussed in the literature
+%
+% - Assuming a loosely hierarchical structure (where you pay others to reach
+%   prefixes and networks you can't reach on your own) customers would pay
+%   providers to carry their prefixes to the greater Internet. Peers would pay
+%   on the differences of prefixes exchanged between them.
+%
+% - these just provide a disincentive (is the gain from doing so bad?) -- they
+%   don't actually prevent the routign table from growing excessively
+%
+% - if we absolutely need to control it -- cap and trade -- equity issues,
+%
+% - these treat everyone equally -- no disparity as shown in the CIDR Report
 
 \paragraph{Governance institutions}
-- more structured CPR governance institution for the routing table
 
-- who would lead this?
-    - people who suffer -- Tier-1s/DFZ/etc?
-    - perhaps these people could come together for a partial
-      solution?
+Much of this thesis has been spent discussing CPR governance institutions, and
+indeed governance institutions are not often considered explicitly on the
+Internet, though norms and community cooperation often play roles in operating
+the Internet. More broadly there is the option of developing an institution to
+manage the Internet routing table. A central regulator of the interdomain
+routing system would almost surely not be selected voluntarily by network
+operators, and so ignoring the issue of governmental intervention, we are left
+with the CPR governance institution option. Again, like economic approaches,
+the governance institution approach is orthogonal to the routing architecture
+in place, but would likely be favorable only if interdomain routing remained a
+problem because a protocol or architecture transition was infeasible or had
+failed.
+
+To develop a CPR governance institution, network operators would need to
+collectively devise and commit to a set of rules governing use of the routing
+table, as well as sanctions and monitoring mechanism (potentially like the
+CIDR Report) to provide assurances of commitment. Having discussed many of
+these issues in the context of the CIDR Report in Chapter
+\ref{chap:discussion}, a routing table governance institution would need to be
+more structured than the CIDR Report, and utilize collective choice and
+sanctions, while also considering the need for multiple scales of operator
+communities to enable better communication and social enforcement.
+
+Further, there is the constitutional collective action problem (the
+meta-problem) that Ostrom alludes to about how organizations come to agree upon
+the rules and other characteristics of the governance institution that they
+will then commit to. Ultimately, rational participants in the Interdomain
+routing system would need to believe that they would be better off under some
+institutional arrangement than the status quo. This would again mean that such
+a solution would only be likely in the case where the robustness of the
+interdomain routing system was at stake. However, in spite of the norms of the
+Internet community, there is also sometimes libertarian sentiment amongst
+operators in support of the belief that interconnection is voluntary between
+autonomous networks. Establishing some form of collective order amongst
+Internet operators may thus be more challenging than establishing norms of the
+same nature.
+
+% Interconnection is voluntary -- libertarian vs. collectivist thought
+
 %- improve social/CPR governance?
 %  - need to be able to answer questions about what is "fair"? ("know it when
 %  you see it?") - would something like a routing table governance council
@@ -228,50 +346,97 @@ growth are not them, at least until it becomes painful
 %
 % Interconnection is voluntary -- libertarian vs. collectivist thought
 
-\section{Concluding thoughts}
-The CIDR Report is a historic artifact that has ceased to be useful on today's
-internet -- it was designed for a different purpose and focused on different
-behavior than might otherwise be desired. However, it seems it was indeed
-effective, and this is a useful lesson in considering solutions to problems and
-designing new institutions for the Internet.
+% * WHO ARE THE STAKEHOLDERS
+% * WHAT ARE THE INTERESTS AT STAKE IN ACHIEVING THIS?
+\section{Conclusions}
+While the CIDR Report was once effective in encouraging aggregation of routing
+announcements to manage the growth of the Internet routing table, it now
+appears to mainly be a historic artifact of the previous scalability challenge
+facing the interdomain routing system that led to the the adoption of CIDR. As
+such it served a different purpose and focused on different behavior than is
+perhaps problematic in the interdomain routing system. However, it is
+noteworthy that it appeared to influence operator route aggregation behavior
+for some time even after the CIDR transition, as both claimed by operators and
+shown by the analysis in this thesis.
 
-\begin{itemize}
+If interdomain routing does face growth-based scaling concerns again, is it
+likely that uncoordinated action in the form of in-router aggregation will be
+adopted to provide a short-term solution, while a longer-term solution is
+developed in the form of a new, evolved routing architecture. Indeed, this is
+the approach recently recommended by the IETF \cite{rfc6115}, with the
+recommendation of the incrementally adoptable ILNP as the protocol for future
+study and development as BGP's successor. While ILNP is likely more easily
+deployed than IPv6, the coordination necessary to transition to a new
+interdomain routing architecture will still be difficult and incentives should
+be considered in hopes of avoiding the delayed transition currently being
+experienced by IPv6.
 
-\item{technical solutions in the short term -- driven by short-term pain or
-forward thinking}
+Given that a routing architecture transition that changes the scaling
+properties of interdomain routing will ideally eliminate the need for economic
+or institutional approaches to managing the Internet routing table, a technical
+solution is arguably preferable in this specific case.  However, governance
+institutions in the style of Ostrom's CPR institutions should not be ignored or
+disregarded generally as a solution to other collective action problems facing
+the Internet, especially those that do not have obvious technical solutions
+like the interdomain routing system does.
 
-\item{protocol replacement in the long term -- likely driven by other benefits
-or pain (as with CIDR deployment), though more difficult to coordinate}
+For all of the critiques leveled against the CIDR Report as a governance
+institution, its partial efficacy is a testament to the strength of the norms
+and importance of reputation---the social forces---in the Internet operations
+community. As network operators and others who rely on them work to solve the
+difficult problems facing the Internet that are not purely
+technical\footnote{Problems that may be susceptible to social mediation include
+spam email, interactions with malicious or untrustworthy actors, or intentional
+``cyberattacks'', etc.}, the leverage of inter-ISP relationships and the forces
+within the social network of the Internet operations community should be
+considered. Whether through the development of CPR-like institutions, or as a
+part of larger and more comprehensive solutions, the social component of the
+Internet operations community may be effective in cases where purely technical
+solutions have previously failed.
 
-\item{coordination will be difficult regardless -- CIDR is relatively
-miraculous by comparison and so the IETF/IAB, router vendors, and operator
-communities will need to think about how to execute our next transition
-effectively and with the proper incentives, hopefully learning lessons from teh
-difficulties of IPv6.}
+% - who would lead this?
+%     - people who suffer -- Tier-1s/DFZ/etc?
+%     - perhaps these people could come together for a partial
+%       solution?
 
-\item{governance institutions would be useful in solving a number of the
-problems of the Internet, and perhaps more efficiently, but may be difficult to
-scale and coordinate Internet wide, and possibly also ideologically difficult}
+% \begin{itemize}
+%
+% \item{technical solutions in the short term -- driven by short-term pain or
+% forward thinking}
+%
+% \item{protocol replacement in the long term -- likely driven by other benefits
+% or pain (as with CIDR deployment), though more difficult to coordinate}
+%
+% \item{coordination will be difficult regardless -- CIDR is relatively
+% miraculous by comparison and so the IETF/IAB, router vendors, and operator
+% communities will need to think about how to execute our next transition
+% effectively and with the proper incentives, hopefully learning lessons from
+% the difficulties of IPv6.}
+%
+% \item{governance institutions would be useful in solving a number of the
+% problems of the Internet, and perhaps more efficiently, but may be difficult
+% to scale and coordinate Internet wide, and possibly also ideologically
+% difficult}
+%
+% \item{CPR institutions still hold promise -- a call to action for these people
+% to consider that or allow it to function within}
+%
+% \item{RIRs serve a good ``nucleation point'' as a forum where providers can
+% organize into regionally-scaled CPRs}
+%
+% \end{itemize}
 
-\item{CPR institutions still hold promise -- a call to action for these people
-to consider that or allow it to function within}
-
-\item{RIRs serve a good ``nucleation point'' as a forum where providers can
-organize into regionally-scaled CPRs}
-
-\end{itemize}
-
-\section{Future work}
-This work on the CIDR Report and social forces at play in the Internet
+\section{Directions for future research}
+This thesis on the CIDR Report and social forces at play in the Internet
 operations community have exposed a rich areas for further study in
 understanding the effects of the CIDR Report and the nebulous underlying
-governance mechansism that enabled these effects. In terms of routing table
+governance mechanism that enabled these effects. In terms of routing table
 growth more broadly and Internet collective action and governance institutions
 more broadly still, the use of governance institutions as an alternative to
 other proposed solutions for collective problems facing the Internet could use
 more study and exploration about potential opportunities therein.
 
-With regard to this work, there are several methodological improvments that
+With regard to this work, there are several methodological improvements that
 should appear in future iterations of this work that would greatly improve the
 quality of the analytic process and hopefully reduce a number of the
 confounding factors identified previously. First, measurement of the
@@ -288,7 +453,7 @@ significantly.
 % Finally, performing a sensitivity analysis on some of the assumptions and
 % design decisions built into our analysis would expose the
 
-Beyond these methdological improvements, there are also a number of further
+Beyond these methodological improvements, there are also a number of further
 analyses and new directions to explore regarding the CIDR Report. Improving our
 analytical tools to allow more fine-grained analysis of CIDR Report response
 over time and amongst classes of ASes (i.e. ISPs vs. others) could expose other
@@ -298,7 +463,7 @@ point may also merit further study to estimate the degree to which outlier
 prefixes have contributed to inflated rankings on the CIDR Report.  Finally,
 given our observations about attitudes towards deaggregation and potential
 causes of the diminished response to the CIDR Report, it would be interesting
-to explore alterante constructions of a report, such as a report ranked by
+to explore alternate constructions of a report, such as a report ranked by
 deaggregation factor or a report that highlighted recent increases in
 deaggregation.
 
@@ -306,7 +471,7 @@ deaggregation.
 
 Finally, there are potentially interesting opportunities in considering the
 role that CPR governance institutions could play in helping to solve some of
-the collective action problems facing the Interent and Internet operators. This
+the collective action problems facing the Internet and Internet operators. This
 is not so much an extension of this work as suggestions for future directions
 based on this work. First, as Ostrom observed in her list of empirical design
 patterns for long-standing CPR governance institutions, there is a need for
@@ -325,7 +490,7 @@ and the IETF exist today, these may not be the correct forums, both because of
 their existing focus and history, and because of participants fear of the
 appearance of collusion and the resulting consequences from antitrust law.
 Such work could be a valuable contribution to thinking about improvements to
-and altogether new Internet architetures.
+and altogether new Internet architectures.
 
 % TODO in terms of mechanism and complexity, are CPR institutions + sanctions
 % more efficient than markets for things that aren't necessary truly valuable
