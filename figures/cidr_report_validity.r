@@ -100,18 +100,18 @@ plot_rank_error <- function() {
     ylims=c(1, max(cidr.compare$min_missing_delta_ranks, cidr.compare$max_missing_delta_ranks))
     ylims=c(0,200)
     par(mar=c(5,5,2,2))
-    plot(
-        cidr.compare$date,
-        rep(1,length(cidr.compare$date)),
-        type="h",
-        col="grey95",
-        xlim=xlims,
-        ylim=c(0,1),
-        xaxt="n",
-        yaxt="n",
-        xlab="",
-        ylab="")
-    par(new=TRUE)
+#    plot(
+#        cidr.compare$date,
+#        rep(1,length(cidr.compare$date)),
+#        type="h",
+#        col="grey95",
+#        xlim=xlims,
+#        ylim=c(0,1),
+#        xaxt="n",
+#        yaxt="n",
+#        xlab="",
+#        ylab="")
+#    par(new=TRUE)
     plot(
         cidr.compare$date,
         cidr.compare$min_missing_delta_ranks,
@@ -137,6 +137,7 @@ plot_rank_error <- function() {
         ylab=""
         #,log='y'
     )
+    grid(nx=NA, ny=NULL, col='grey40')
     axis.Date(1, at=seq(min(xlims), max(xlims), "1 years"))
     legend(
         'topright',
@@ -174,19 +175,19 @@ plot_prefix_error <- function() {
     #par(mar=c(3,6,2,6))
     par(mar=c(5,5,2,5))
     # PLOT data available; light grey
-    plot(
-        cidr.compare$date,
-        rep(1,length(cidr.compare$date)),
-        type="h",
-        col="grey95",
-        xlim=xlims,
-        ylim=c(0,1),
-        xaxt="n",
-        yaxt="n",
-        xlab="Date",
-        ylab="")
-    # PLOT delta netsnow prefixes for ASes where GCR > ECR; blue
-    par(new=TRUE)
+#    plot(
+#        cidr.compare$date,
+#        rep(1,length(cidr.compare$date)),
+#        type="h",
+#        col="grey95",
+#        xlim=xlims,
+#        ylim=c(0,1),
+#        xaxt="n",
+#        yaxt="n",
+#        xlab="Date",
+#        ylab="")
+#    # PLOT delta netsnow prefixes for ASes where GCR > ECR; blue
+#    par(new=TRUE)
     plot(
         cidr.compare$date,
         cidr.compare$gcr_greater_netsnow,
@@ -222,7 +223,7 @@ plot_prefix_error <- function() {
         cidr.compare$date,
         -1*cidr.compare$ecr_greater_netsnow,
         type='l',
-        col='blue',
+        col='green',
         xlim=xlims,
         ylim=ylims,
         xlab="",
@@ -248,7 +249,7 @@ plot_prefix_error <- function() {
         cidr.compare$date,
         -1*cidr.compare$ecr_greater_netgain,
         type='l',
-        col='red',
+        col='orange',
         xlim=xlims,
         ylim=ylims,
         xaxt="n",
@@ -286,17 +287,22 @@ plot_prefix_error <- function() {
 #        xlab="",
 #        ylab="")
 #
+    #grid(nx=NA, ny=NULL, col='grey40')
     legend(
         'topright',
         c(
-            expression(total~observed~prefixes),
-            expression(aggregable~prefixes)
+            "total observed prefixes, GCR > ACR",
+            "aggregable prefixes, GCR > ACR",
+            "total observed prefixes, ACR > GCR",
+            "aggregable prefixes, ACR > GCR"
 #            expression(Delta~netgain/netsnow[top30]),
 #            expression(netsnow[top30]/netsnow[total])
             ),
         col=c(
             "blue",
-            "red"
+            "red",
+            "green",
+            "orange"
 #            "red",
 #            "green"
             ),

@@ -2,7 +2,7 @@ library(RColorBrewer)
 
 FIRST_WEEK_INDEX=1
 WEEKS=c(4,12,25,50,100,150,200,250,300)
-NUM_WEEKS=5 #length(WEEKS)
+NUM_WEEKS=3 #length(WEEKS)
 d = read.csv('counterfactual-4_12_25_50_100_150_200_250_300-hole_2.csv',
     colClasses=c("Date", rep('numeric', length(WEEKS))))
 t = read.csv('acr_gcr_netcompare2.csv', colClasses=c('Date', rep('numeric', 4)))
