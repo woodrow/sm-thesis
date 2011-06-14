@@ -20,7 +20,7 @@ Latex and figure source files for:
 This thesis is copyrighted as noted above.
 
 FILES OF NOTE
--------------
+=============
 
     main.tex        the entry point for the rest of the thesis
     figures/        the source data, R/Graphviz files, and PDFs of the figures
@@ -28,7 +28,7 @@ FILES OF NOTE
     static_figures/ figures that were not generated programatically
 
 MAKING
-------
+======
 
 Run `make` in this directory. Chris Monson's LaTeX Makefile will take care of
 the rest.
