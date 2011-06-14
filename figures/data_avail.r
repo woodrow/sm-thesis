@@ -1,13 +1,15 @@
+source('database_credentials.r')
+
 cex = 0.75
 
 get_cr_data <- function() {
     library(RPostgreSQL)
     conn <- dbConnect(
         PostgreSQL(),
-        host="mitas-2.csail.mit.edu",
-        dbname="woodrow",
-        user="woodrow",
-        password="woodrow$mitas-2@2011"
+        host=db_host,
+        dbname=db_name,
+        user=db_user,
+        password=db_password
     )
     res = dbSendQuery(conn, paste(
         "SELECT date",

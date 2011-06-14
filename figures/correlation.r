@@ -1,3 +1,5 @@
+source('database_credentials.r')
+
 UNIX_EPOCH = as.Date('1970-01-01')
 DATA_IMAGE_NAME = "_correlation.RData"
 CONTROL_MIN_PREFIX_THRESHOLD = 10
@@ -20,10 +22,10 @@ get.ecr <- function(
     library(RPostgreSQL)
     conn <- dbConnect(
         PostgreSQL(),
-        host="mitas-2.csail.mit.edu",
-        dbname="woodrow",
-        user="woodrow",
-        password="woodrow$mitas-2@2011"
+        host=db_host,
+        dbname=db_name,
+        user=db_user,
+        password=db_password
     )
     res = dbSendQuery(conn, paste(
         "SELECT date, origin_as, rank",
@@ -157,10 +159,10 @@ get.control.gcr <- function(ecr_ases, min_date=EPOCH, max_date=END_EPOCH)
     library(RPostgreSQL)
     conn <- dbConnect(
         PostgreSQL(),
-        host="mitas-2.csail.mit.edu",
-        dbname="woodrow",
-        user="woodrow",
-        password="woodrow$mitas-2@2011"
+        host=db_host,
+        dbname=db_name,
+        user=db_user,
+        password=db_password
     )
 
 #    print(paste(
@@ -270,10 +272,10 @@ get.gcr <- function(origin_ases, min_date=EPOCH, max_date=END_EPOCH)
     library(RPostgreSQL)
     conn <- dbConnect(
         PostgreSQL(),
-        host="mitas-2.csail.mit.edu",
-        dbname="woodrow",
-        user="woodrow",
-        password="woodrow$mitas-2@2011"
+        host=db_host,
+        dbname=db_name,
+        user=db_user,
+        password=db_password
     )
     res = dbSendQuery(conn, paste(
         "SELECT date, origin_as, rank_netgain, rank_netsnow,",
